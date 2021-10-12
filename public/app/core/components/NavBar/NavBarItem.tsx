@@ -235,8 +235,8 @@ const getStyles = (theme: GrafanaTheme2, isActive: Props['isActive']) => ({
 
     img {
       border-radius: 50%;
-      height: 28px;
-      width: 28px;
+      height: 24px;
+      width: 24px;
     }
   `,
 });

@@ -3,16 +3,19 @@ package notifier
 import (
 	"bytes"
 	"context"
+	"errors"
+	"io/fs"
 	"io/ioutil"
 	"os"
+	"path/filepath"
 	"testing"
 	"time"
 
 	"github.com/grafana/grafana/pkg/infra/log"
+	"github.com/grafana/grafana/pkg/services/encryption/ossencryption"
 	"github.com/grafana/grafana/pkg/services/ngalert/metrics"
 	"github.com/grafana/grafana/pkg/services/ngalert/models"
 	"github.com/grafana/grafana/pkg/setting"
-
 	"github.com/prometheus/client_golang/prometheus"
 	"github.com/prometheus/client_golang/prometheus/testutil"
 	"github.com/stretchr/testify/require"
@@ -29,6 +32,7 @@ func TestMultiOrgAlertmanager_SyncAlertmanagersForOrgs(t *testing.T) {
 	tmpDir, err := ioutil.TempDir("", "test")
 	require.NoError(t, err)
 	kvStore := newFakeKVStore(t)
+	decryptFn := ossencryption.ProvideService().GetDecryptedValue
 	reg := prometheus.NewPedanticRegistry()
 	m := metrics.NewNGAlert(reg)
 	cfg := &setting.Cfg{
@@ -39,7 +43,7 @@ func TestMultiOrgAlertmanager_SyncAlertmanagersForOrgs(t *testing.T) {
 			DisabledOrgs:                   map[int64]struct{}{5: {}},
 		}, // do not poll in tests.
 	}
-	mam, err := NewMultiOrgAlertmanager(cfg, configStore, orgStore, kvStore, m.GetMultiOrgAlertmanagerMetrics(), log.New("testlogger"))
+	mam, err := NewMultiOrgAlertmanager(cfg, configStore, orgStore, kvStore, decryptFn, m.GetMultiOrgAlertmanagerMetrics(), log.New("testlogger"))
 	require.NoError(t, err)
 	ctx := context.Background()
 
@@ -92,6 +96,38 @@ grafana_alerting_discovered_configurations 4
 		require.NoError(t, mam.LoadAndSyncAlertmanagersForOrgs(ctx))
 		require.Len(t, mam.alertmanagers, 4)
 	}
+
+	// Orphaned local state should be removed.
+	{
+		// First we create a directory and two files for an ograniztation that
+		// is not existing in the current state.
+		orphanDir := filepath.Join(tmpDir, "alerting", "6")
+		err := os.Mkdir(orphanDir, 0750)
+		require.NoError(t, err)
+
+		silencesPath := filepath.Join(orphanDir, silencesFilename)
+		err = os.WriteFile(silencesPath, []byte("file_1"), 0644)
+		require.NoError(t, err)
+
+		notificationPath := filepath.Join(orphanDir, notificationLogFilename)
+		err = os.WriteFile(notificationPath, []byte("file_2"), 0644)
+		require.NoError(t, err)
+
+		// We make sure that both files are on disk.
+		info, err := os.Stat(silencesPath)
+		require.NoError(t, err)
+		require.Equal(t, info.Name(), silencesFilename)
+		info, err = os.Stat(notificationPath)
+		require.NoError(t, err)
+		require.Equal(t, info.Name(), notificationLogFilename)
+
+		// Now re run the sync job once.
+		require.NoError(t, mam.LoadAndSyncAlertmanagersForOrgs(ctx))
+
+		// The organization directory should be gone by now.
+		_, err = os.Stat(orphanDir)
+		require.True(t, errors.Is(err, fs.ErrNotExist))
+	}
 }
 
 func TestMultiOrgAlertmanager_AlertmanagerFor(t *testing.T) {
@@ -108,9 +144,10 @@ func TestMultiOrgAlertmanager_AlertmanagerFor(t *testing.T) {
 		UnifiedAlerting: setting.UnifiedAlertingSettings{AlertmanagerConfigPollInterval: 3 * time.Minute, DefaultConfiguration: setting.GetAlertmanagerDefaultConfiguration()}, // do not poll in tests.
 	}
 	kvStore := newFakeKVStore(t)
+	decryptFn := ossencryption.ProvideService().GetDecryptedValue
 	reg := prometheus.NewPedanticRegistry()
 	m := metrics.NewNGAlert(reg)
-	mam, err := NewMultiOrgAlertmanager(cfg, configStore, orgStore, kvStore, m.GetMultiOrgAlertmanagerMetrics(), log.New("testlogger"))
+	mam, err := NewMultiOrgAlertmanager(cfg, configStore, orgStore, kvStore, decryptFn, m.GetMultiOrgAlertmanagerMetrics(), log.New("testlogger"))
 	require.NoError(t, err)
 	ctx := context.Background()
 
