@@ -18,7 +18,7 @@ func Middleware(ac accesscontrol.AccessControl) func(web.Handler, accesscontrol.
 		}
 
 		return func(c *models.ReqContext) {
-			injected, err := evaluator.Inject(buildScopeParams(c))
+			injected, err := evaluator.MutateScopes(c.Req.Context(), accesscontrol.ScopeInjector(buildScopeParams(c)))
 			if err != nil {
 				c.JsonApiErr(http.StatusInternalServerError, "Internal server error", err)
 				return
