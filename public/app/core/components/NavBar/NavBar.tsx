@@ -9,6 +9,7 @@ import config from 'app/core/config';
 import { CoreEvents, KioskMode } from 'app/types';
 import TopSection from './TopSection';
 import BottomSection from './BottomSection';
+import { useFocus } from '@react-aria/interactions';
 
 const homeUrl = config.appSubUrl || '/';
 
@@ -23,15 +24,29 @@ export const NavBar: FC = React.memo(() => {
     appEvents.emit(CoreEvents.toggleSidemenuMobile);
   }, []);
 
+  //a11y
+
+  let { focusProps } = useFocus({
+    onFocus: (e) => {
+      console.log('focus');
+    },
+    onBlur: (e) => {
+      console.log('blur');
+    },
+    onFocusChange: (isFocused) => {
+      console.log(`focus change: ${isFocused}`);
+    },
+  });
+
   if (kiosk !== null) {
     return null;
   }
 
   return (
     <nav className={cx(styles.sidemenu, 'sidemenu')} data-testid="sidemenu" aria-label="Main menu">
-      <ul>
-        <li>
-          <a href={homeUrl} className={styles.homeLogo}>
+      <ul role="menu">
+        <li role="menuitem">
+          <a href={homeUrl} className={styles.homeLogo} {...focusProps}>
             <Branding.MenuLogo />
           </a>
         </li>

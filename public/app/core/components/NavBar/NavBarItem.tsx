@@ -1,8 +1,9 @@
-import React, { ReactNode, useRef, useEffect, useState } from 'react';
+import React, { ReactNode } from 'react';
 import { css, cx } from '@emotion/css';
 import { GrafanaTheme2, NavModelItem } from '@grafana/data';
 import { Link, useTheme2 } from '@grafana/ui';
 import NavBarDropdown from './NavBarDropdown';
+import { useFocus } from '@react-aria/interactions';
 
 export interface Props {
   isActive?: boolean;
@@ -14,11 +15,7 @@ export interface Props {
   reverseMenuDirection?: boolean;
   target?: HTMLAnchorElement['target'];
   url?: string;
-  shouldOpen?: boolean;
 }
-
-const modulo = (a: number, n: number) => ((a % n) + n) % n;
-const UNFOCUSED = -1;
 
 const NavBarItem = ({
   isActive = false,
@@ -30,7 +27,6 @@ const NavBarItem = ({
   reverseMenuDirection = false,
   target,
   url,
-  shouldOpen = false,
 }: Props) => {
   const theme = useTheme2();
   const styles = getStyles(theme, isActive);
@@ -39,92 +35,46 @@ const NavBarItem = ({
       <span className={styles.icon}>{children}</span>
     </button>
   );
-  const navItemRef = useRef<HTMLLIElement>(null);
-  const [focusedSubNavItem, setFocusedSubNavItem] = useState(UNFOCUSED);
 
-  useEffect(() => {
-    if (navItemRef.current !== null) {
-      const navSubItems = navItemRef?.current?.querySelectorAll<HTMLLIElement>(':scope > ul > li');
-      navSubItems[focusedSubNavItem]?.focus();
+  //a11y
 
-      navSubItems?.forEach((subItem, index) => {
-        if (shouldOpen && index === focusedSubNavItem) {
-          subItem.tabIndex = 0;
-        } else {
-          subItem.tabIndex = -1;
-        }
-      });
-    }
-  }, [navItemRef, shouldOpen, focusedSubNavItem]);
+  let { focusProps } = useFocus({
+    onFocus: (e) => {
+      console.log('focus');
+    },
+    onBlur: (e) => {
+      console.log('blur');
+    },
+    onFocusChange: (isFocused) => {
+      console.log(`focus change: ${isFocused}`);
+    },
+  });
 
   if (url) {
     element =
       !target && url.startsWith('/') ? (
-        <Link className={styles.element} href={url} target={target} aria-label={label} onClick={onClick}>
+        <Link
+          className={styles.element}
+          href={url}
+          target={target}
+          aria-label={label}
+          onClick={onClick}
+          {...focusProps}
+        >
           <span className={styles.icon}>{children}</span>
         </Link>
       ) : (
-        <a href={url} target={target} className={styles.element} onClick={onClick} aria-label={label}>
+        <a href={url} target={target} className={styles.element} onClick={onClick} aria-label={label} {...focusProps}>
           <span className={styles.icon}>{children}</span>
         </a>
       );
   }
-
-  const handleKeys = (event: React.KeyboardEvent) => {
-    const navSubItemsCount = navItemRef?.current?.querySelectorAll<HTMLLIElement>(':scope > ul > li').length ?? 0;
-    switch (event.key) {
-      case 'ArrowRight': {
-        const nextFocusSubItem = modulo(focusedSubNavItem + 1, navSubItemsCount);
-        setFocusedSubNavItem(nextFocusSubItem);
-        break;
-      }
-      case 'ArrowDown': {
-        const nextFocusSubItem = modulo(focusedSubNavItem + 1, navSubItemsCount);
-        setFocusedSubNavItem(nextFocusSubItem);
-        if (shouldOpen) {
-          event.stopPropagation();
-        }
-        break;
-      }
-
-      case 'ArrowUp': {
-        const nextFocusSubItem = modulo(focusedSubNavItem - 1, navSubItemsCount);
-        setFocusedSubNavItem(nextFocusSubItem);
-        if (shouldOpen) {
-          event.stopPropagation();
-        }
-
-        break;
-      }
-      case 'ArrowLeft': {
-        setFocusedSubNavItem(UNFOCUSED);
-        break;
-      }
-
-      case 'Enter': {
-        setFocusedSubNavItem(UNFOCUSED);
-
-        break;
-      }
-
-      default:
-        break;
-    }
-  };
-
-  const handleFocus = () => {
-    // open tv mode
-    navItemRef.current?.setAttribute('aria-expanded', 'true');
-  };
 
   return (
     <li
       role="menuitem"
       aria-haspopup={menuItems?.length > 0 ? 'true' : false}
       className={cx(styles.container, 'dropdown', { dropup: reverseMenuDirection })}
-      onFocus={handleFocus}
-      ref={navItemRef}
-      onKeyDown={handleKeys}
     >
       {element}
       <NavBarDropdown
