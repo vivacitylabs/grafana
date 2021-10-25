@@ -309,6 +309,7 @@
     "rc-time-picker": "^3.7.3",
     "re-resizable": "^6.2.0",
     "react": "17.0.1",
+    "react-aria": "3.10.0",
     "react-beautiful-dnd": "13.1.0",
     "react-diff-viewer": "^3.1.1",
     "react-dom": "17.0.1",
