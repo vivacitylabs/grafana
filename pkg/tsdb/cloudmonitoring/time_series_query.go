@@ -11,12 +11,15 @@ import (
 	"strings"
 	"time"
 
-	"github.com/opentracing/opentracing-go"
-
-	"github.com/grafana/grafana-plugin-sdk-go/backend"
 	"github.com/grafana/grafana-plugin-sdk-go/data"
-
-	"github.com/grafana/grafana/pkg/tsdb/intervalv2"
+	"github.com/grafana/grafana/pkg/components/simplejson"
+	"github.com/grafana/grafana/pkg/infra/tracing"
+	"github.com/grafana/grafana/pkg/plugins"
+	"github.com/grafana/grafana/pkg/tsdb/interval"
+	"go.opentelemetry.io/otel"
+	"go.opentelemetry.io/otel/attribute"
+	"go.opentelemetry.io/otel/propagation"
+	"golang.org/x/net/context/ctxhttp"
 )
 
 func (timeSeriesQuery cloudMonitoringTimeSeriesQuery) run(ctx context.Context, req *backend.QueryDataRequest,
@@ -55,22 +58,15 @@ func (timeSeriesQuery cloudMonitoringTimeSeriesQuery) run(ctx context.Context, r
 		return dr, cloudMonitoringResponse{}, "", nil
 	}
 
-	span, ctx := opentracing.StartSpanFromContext(ctx, "cloudMonitoring MQL query")
-	span.SetTag("query", timeSeriesQuery.Query)
-	span.SetTag("from", req.Queries[0].TimeRange.From)
-	span.SetTag("until", req.Queries[0].TimeRange.To)
-	span.SetTag("datasource_id", dsInfo.id)
-	span.SetTag("org_id", req.PluginContext.OrgID)
+	ctx, span := tracing.Tracer.Start(ctx, "cloudMonitoring MQL query")
+	span.SetAttributes(attribute.Key("query").String(timeSeriesQuery.Query))
+	span.SetAttributes(attribute.Key("from").String(tsdbQuery.TimeRange.From))
+	span.SetAttributes(attribute.Key("until").String(tsdbQuery.TimeRange.To))
+	span.SetAttributes(attribute.Key("datasource_id").Int64(e.dsInfo.Id))
+	span.SetAttributes(attribute.Key("org_id").Int64(e.dsInfo.OrgId))
 
-	defer span.Finish()
-
-	if err := opentracing.GlobalTracer().Inject(
-		span.Context(),
-		opentracing.HTTPHeaders,
-		opentracing.HTTPHeadersCarrier(r.Header)); err != nil {
-		dr.Error = err
-		return dr, cloudMonitoringResponse{}, "", nil
-	}
+	defer span.End()
+	otel.GetTextMapPropagator().Inject(ctx, propagation.HeaderCarrier(req.Header))
 
 	r = r.WithContext(ctx)
 	res, err := dsInfo.client.Do(r)
