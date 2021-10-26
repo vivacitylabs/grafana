@@ -44,8 +44,8 @@ export const NavBar: FC = React.memo(() => {
 
   return (
     <nav className={cx(styles.sidemenu, 'sidemenu')} data-testid="sidemenu" aria-label="Main menu">
-      <ul role="menu">
-        <li role="menuitem">
+      <ul>
+        <li>
           <a href={homeUrl} className={styles.homeLogo} {...focusProps}>
             <Branding.MenuLogo />
           </a>

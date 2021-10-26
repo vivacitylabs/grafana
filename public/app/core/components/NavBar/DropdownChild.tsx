@@ -46,7 +46,7 @@ const DropdownChild = ({ isDivider = false, icon, onClick, target, text, url }: 
       );
   }
 
-  return isDivider ? <li data-testid="dropdown-child-divider" className="divider" /> : <li>{element}</li>;
+  return isDivider ? <div data-testid="dropdown-child-divider" className="divider" /> : <div>{element}</div>;
 };
 
 export default DropdownChild;

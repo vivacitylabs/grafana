@@ -1,9 +1,11 @@
-import React, { ReactNode } from 'react';
+import React, { useRef, ReactNode } from 'react';
 import { css, cx } from '@emotion/css';
 import { GrafanaTheme2, NavModelItem } from '@grafana/data';
 import { Link, useTheme2 } from '@grafana/ui';
 import NavBarDropdown from './NavBarDropdown';
-import { useFocus } from '@react-aria/interactions';
+import { useFocus, useFocusWithin } from '@react-aria/interactions';
+import { Item } from '@react-stately/collections';
+import Menu from './Menu';
 
 export interface Props {
   isActive?: boolean;
@@ -37,15 +39,23 @@ const NavBarItem = ({
   );
 
   //a11y
+  //
+  const ref = useRef();
 
-  let { focusProps } = useFocus({
-    onFocus: (e) => {
+  let { focusWithinProps } = useFocusWithin({
+    onFocusWithin: (e) => {
       console.log('focus');
+      if (ref.current) {
+        ref.current.setAttribute('aria-expanded', 'true');
+      }
     },
-    onBlur: (e) => {
+    onBlurWithin: (e) => {
       console.log('blur');
+      if (ref.current) {
+        ref.current.setAttribute('aria-expanded', 'false');
+      }
     },
-    onFocusChange: (isFocused) => {
+    onFocusWithinChange: (isFocused) => {
       console.log(`focus change: ${isFocused}`);
     },
   });
@@ -53,18 +63,11 @@ const NavBarItem = ({
   if (url) {
     element =
       !target && url.startsWith('/') ? (
-        <Link
-          className={styles.element}
-          href={url}
-          target={target}
-          aria-label={label}
-          onClick={onClick}
-          {...focusProps}
-        >
+        <Link className={styles.element} href={url} target={target} aria-label={label} onClick={onClick}>
           <span className={styles.icon}>{children}</span>
         </Link>
       ) : (
-        <a href={url} target={target} className={styles.element} onClick={onClick} aria-label={label} {...focusProps}>
+        <a href={url} target={target} className={styles.element} onClick={onClick} aria-label={label}>
           <span className={styles.icon}>{children}</span>
         </a>
       );
@@ -72,7 +75,8 @@ const NavBarItem = ({
 
   return (
     <li
-      role="menuitem"
+      {...focusWithinProps}
+      ref={ref}
       aria-haspopup={menuItems?.length > 0 ? 'true' : false}
       className={cx(styles.container, 'dropdown', { dropup: reverseMenuDirection })}
     >

@@ -1,8 +1,11 @@
 import React from 'react';
 import { css } from '@emotion/css';
 import { GrafanaTheme2, NavModelItem } from '@grafana/data';
-import { IconName, Link, useTheme2 } from '@grafana/ui';
+import { IconName, Link, useTheme2, Icon } from '@grafana/ui';
 import DropdownChild from './DropdownChild';
+import { FocusScope } from '@react-aria/focus';
+import { Item } from '@react-stately/collections';
+import Menu from './Menu';
 
 interface Props {
   headerTarget?: HTMLAnchorElement['target'];
@@ -46,9 +49,10 @@ const NavBarDropdown = ({
   }
 
   return (
-    <ul className={`${styles.menu} dropdown-menu dropdown-menu--sidemenu`} role="menu">
-      <li>{header}</li>
-      {filteredItems.map((child, index) => (
+    <FocusScope restoreFocus>
+      <ul className={`${styles.menu} dropdown-menu dropdown-menu--sidemenu`}>
+        <li>{header}</li>
+        {/*filteredItems.map((child, index) => (
         <DropdownChild
           key={`${child.url}-${index}`}
           isDivider={child.divider}
@@ -58,9 +62,33 @@ const NavBarDropdown = ({
           text={child.text}
           url={child.url}
         />
-      ))}
-      {subtitleText && <li className={styles.subtitle}>{subtitleText}</li>}
-    </ul>
+      )) */}
+
+        <Menu
+          aria-label={headerText}
+          className={styles.menu}
+          onAction={(args) => {
+            console.log(args);
+          }}
+        >
+          {filteredItems.map((child, index) => (
+            <Item key={`${child.url}-${index}`}>
+              <DropdownChild
+                key={`${child.url}-${index}`}
+                isDivider={child.divider}
+                icon={child.icon as IconName}
+                onClick={child.onClick}
+                target={child.target}
+                text={child.text}
+                url={child.url}
+              />
+            </Item>
+          ))}
+        </Menu>
+
+        {subtitleText && <li className={styles.subtitle}>{subtitleText}</li>}
+      </ul>
+    </FocusScope>
   );
 };
 
