@@ -7,7 +7,7 @@ import { CustomScrollbar, ScrollbarPosition, stylesFactory, Themeable2, withThem
 
 import { createErrorNotification } from 'app/core/copy/appNotification';
 import { Branding } from 'app/core/components/Branding/Branding';
-import { DashboardGrid } from '../dashgrid/DashboardGrid';
+import { DashboardGrid, DASHBOARD_SCROLLBAR_ID } from '../dashgrid/DashboardGrid';
 import { DashNav } from '../components/DashNav';
 import { DashboardSettings } from '../components/DashboardSettings';
 import { PanelEditor } from '../components/PanelEditor/PanelEditor';
@@ -29,7 +29,7 @@ import { DashboardLoading } from '../components/DashboardLoading/DashboardLoadin
 import { DashboardFailed } from '../components/DashboardLoading/DashboardFailed';
 import { DashboardPrompt } from '../components/DashboardPrompt/DashboardPrompt';
 import classnames from 'classnames';
-import { PanelEditEnteredEvent, PanelEditExitedEvent } from 'app/types/events';
+import { DashboardPanelsChangedEvent, PanelEditEnteredEvent, PanelEditExitedEvent } from 'app/types/events';
 import { liveTimer } from '../dashgrid/liveTimer';
 
 export interface DashboardPageRouteParams {
@@ -360,6 +360,7 @@ export class UnthemedDashboardPage extends PureComponent<Props, State> {
 
         <div className={styles.dashboardScroll}>
           <CustomScrollbar
+            id={DASHBOARD_SCROLLBAR_ID}
             autoHeightMin="100%"
             setScrollTop={this.setScrollTop}
             scrollTop={updateScrollTop}

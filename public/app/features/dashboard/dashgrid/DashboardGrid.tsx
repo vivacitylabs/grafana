@@ -1,5 +1,5 @@
 // Libraries
-import React, { PureComponent, CSSProperties } from 'react';
+import React, { PureComponent, CSSProperties, useRef, useEffect } from 'react';
 import ReactGridLayout, { ItemCallback } from 'react-grid-layout';
 import classNames from 'classnames';
 import AutoSizer from 'react-virtualized-auto-sizer';
@@ -17,6 +17,9 @@ import { DashboardPanelsChangedEvent } from 'app/types/events';
 import { GridPos } from '../state/PanelModel';
 import { config } from '@grafana/runtime';
 
+export const DASHBOARD_SCROLLBAR_ID = 'dashboard-page-scroll-bar';
+const DASHBOARD_SCROLL_SELECTOR = `#${DASHBOARD_SCROLLBAR_ID} > .scrollbar-view`;
+
 export interface Props {
   dashboard: DashboardModel;
   editPanel: PanelModel | null;
@@ -29,11 +32,12 @@ export interface State {
 }
 
 export class DashboardGrid extends PureComponent<Props, State> {
-  private panelMap: { [key: string]: PanelModel } = {};
+  private panelMap: Record<string, PanelModel> = {};
   private eventSubs = new Subscription();
   private windowHeight = 1200;
   private windowWidth = 1920;
   private gridWidth = 0;
+  private observer?: IntersectionObserver;
 
   constructor(props: Props) {
     super(props);
@@ -46,10 +50,33 @@ export class DashboardGrid extends PureComponent<Props, State> {
   componentDidMount() {
     const { dashboard } = this.props;
     this.eventSubs.add(dashboard.events.subscribe(DashboardPanelsChangedEvent, this.triggerForceUpdate));
+
+    this.observer = new IntersectionObserver(this.intersectionHandler.bind(this), {
+      root: document.querySelector(DASHBOARD_SCROLL_SELECTOR),
+      rootMargin: '15%',
+    });
   }
 
   componentWillUnmount() {
     this.eventSubs.unsubscribe();
+  }
+
+  private intersectionHandler(entries: IntersectionObserverEntry[]) {
+    for (const entry of entries) {
+      const panelId = entry.target.getAttribute('data-panelid') ?? '';
+      const panel = this.panelMap[panelId];
+      if (panel) {
+        const { isIntersecting } = entry;
+        panel.isInView = isIntersecting;
+      }
+    }
+
+    // This this.state.isLayoutInitialized used to be set in onLayoutChange the first time we render to correct any invalid grid positions.
+    // Because we're now tracking intersections we need to set the panel.isInView prop before re rendering.
+    // Otherwise all panels will have panel.isInView === false on first render.
+    if (!this.state.isLayoutInitialized) {
+      this.setState({ isLayoutInitialized: true });
+    }
   }
 
   buildLayout() {
@@ -94,11 +121,6 @@ export class DashboardGrid extends PureComponent<Props, State> {
     }
 
     this.props.dashboard.sortPanelsByGridPos();
-
-    // This is called on grid mount as it can correct invalid initial grid positions
-    if (!this.state.isLayoutInitialized) {
-      this.setState({ isLayoutInitialized: true });
-    }
   };
 
   triggerForceUpdate = () => {
@@ -123,33 +145,6 @@ export class DashboardGrid extends PureComponent<Props, State> {
     this.updateGridPos(newItem, layout);
   };
 
-  isInView(panel: PanelModel) {
-    if (panel.isViewing || panel.isEditing) {
-      return true;
-    }
-
-    const scrollTop = this.props.scrollTop;
-    const panelTop = panel.gridPos.y * (GRID_CELL_HEIGHT + GRID_CELL_VMARGIN);
-    const panelBottom = panelTop + panel.gridPos.h * (GRID_CELL_HEIGHT + GRID_CELL_VMARGIN) - GRID_CELL_VMARGIN;
-
-    // Show things that are almost in the view
-    const buffer = 100;
-
-    // The panel is above the viewport
-    if (scrollTop > panelBottom + buffer) {
-      return false;
-    }
-
-    const scrollViewBottom = scrollTop + this.windowHeight;
-
-    // Panel is below view
-    if (panelTop > scrollViewBottom + buffer) {
-      return false;
-    }
-
-    return !this.props.dashboard.otherPanelInFullscreen(panel);
-  }
-
   renderPanels(gridWidth: number) {
     const panelElements = [];
 
@@ -164,14 +159,12 @@ export class DashboardGrid extends PureComponent<Props, State> {
     for (const panel of this.props.dashboard.panels) {
       const panelClasses = classNames({ 'react-grid-item--fullscreen': panel.isViewing });
 
-      // Update is in view state
-      panel.isInView = this.isInView(panel);
-
       panelElements.push(
         <GrafanaGridItem
+          observer={this.observer}
           key={panel.key}
           className={panelClasses}
-          data-panelid={panel.id}
+          data-panelid={panel.key}
           gridPos={panel.gridPos}
           gridWidth={gridWidth}
           windowHeight={this.windowHeight}
@@ -276,6 +269,7 @@ interface GrafanaGridItemProps extends Record<string, any> {
   windowHeight: number;
   windowWidth: number;
   children: any;
+  observer: IntersectionObserver;
 }
 
 /**
@@ -286,8 +280,20 @@ const GrafanaGridItem = React.forwardRef<HTMLDivElement, GrafanaGridItemProps>((
   let width = 100;
   let height = 100;
 
-  const { gridWidth, gridPos, isViewing, windowHeight, windowWidth, ...divProps } = props;
+  const { observer, gridWidth, gridPos, isViewing, windowHeight, windowWidth, ...divProps } = props;
   const style: CSSProperties = props.style ?? {};
+  const innerRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (innerRef.current) {
+      observer.observe(innerRef.current);
+    }
+    return () => {
+      if (innerRef.current) {
+        observer.unobserve(innerRef.current);
+      }
+    };
+  }, [innerRef, observer]);
 
   if (isViewing) {
     width = gridWidth!;
@@ -307,7 +313,7 @@ const GrafanaGridItem = React.forwardRef<HTMLDivElement, GrafanaGridItemProps>((
 
   // props.children[0] is our main children. RGL adds the drag handle at props.children[1]
   return (
-    <div {...divProps} ref={ref}>
+    <div {...divProps} ref={innerRef}>
       {/* Pass width and height to children as render props */}
       {[props.children[0](width, height), props.children.slice(1)]}
     </div>

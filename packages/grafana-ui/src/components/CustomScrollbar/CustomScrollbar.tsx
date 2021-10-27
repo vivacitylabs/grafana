@@ -9,6 +9,7 @@ import { GrafanaTheme2 } from '@grafana/data';
 export type ScrollbarPosition = positionValues;
 
 interface Props {
+  id?: string;
   className?: string;
   autoHide?: boolean;
   autoHideTimeout?: number;
@@ -38,6 +39,7 @@ export const CustomScrollbar: FC<Props> = ({
   updateAfterMountMs,
   scrollTop,
   children,
+  id,
 }) => {
   const ref = useRef<Scrollbars>(null);
   const styles = useStyles2(getStyles);
@@ -109,6 +111,7 @@ export const CustomScrollbar: FC<Props> = ({
 
   return (
     <Scrollbars
+      id={id}
       ref={ref}
       className={classNames(styles.customScrollbar, className)}
       onScrollStop={onScrollStop}
