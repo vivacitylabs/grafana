@@ -7,19 +7,30 @@ import { LinkButton } from '@grafana/ui';
 import { getBackendSrv } from '@grafana/runtime';
 import { AdminOrgsTable } from './AdminOrgsTable';
 import useAsyncFn from 'react-use/lib/useAsyncFn';
+import { contextSrv } from 'app/core/services/context_srv';
+import { AccessControlAction } from 'app/types';
 
 const deleteOrg = async (orgId: number) => {
-  return await getBackendSrv().delete('/api/orgs/' + orgId);
+  // TODO find a better design than this.
+  if (contextSrv.hasAccess(AccessControlAction.OrgsDelete, contextSrv.isGrafanaAdmin)) {
+    return await getBackendSrv().delete('/api/orgs/' + orgId);
+  }
+  return await {};
 };
 
 const getOrgs = async () => {
-  return await getBackendSrv().get('/api/orgs');
+  // TODO find a better design than this.
+  if (contextSrv.hasAccess(AccessControlAction.OrgsRead, contextSrv.isGrafanaAdmin)) {
+    return await getBackendSrv().get('/api/orgs');
+  }
+  return await [];
 };
 
 export const AdminListOrgsPages: FC = () => {
   const navIndex = useSelector((state: StoreState) => state.navIndex);
   const navModel = getNavModel(navIndex, 'global-orgs');
   const [state, fetchOrgs] = useAsyncFn(async () => await getOrgs(), []);
+  const isOrgCreator = contextSrv.hasAccess(AccessControlAction.OrgsCreate, contextSrv.isGrafanaAdmin);
 
   useEffect(() => {
     fetchOrgs();
@@ -31,7 +42,7 @@ export const AdminListOrgsPages: FC = () => {
         <>
           <div className="page-action-bar">
             <div className="page-action-bar__spacer" />
-            <LinkButton icon="plus" href="org/new">
+            <LinkButton icon="plus" href="org/new" disabled={!isOrgCreator}>
               New org
             </LinkButton>
           </div>

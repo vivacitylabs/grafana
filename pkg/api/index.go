@@ -288,7 +288,9 @@ func (hs *HTTPServer) getNavTree(c *models.ReqContext, hasEditPerm bool) ([]*dto
 			Icon:        "plug",
 			Url:         hs.Cfg.AppSubURL + "/plugins",
 		})
+	}
 
+	if hasAccess(ac.ReqOrgAdmin, orgPreferencesAccessEvaluator) {
 		configNodes = append(configNodes, &dtos.NavLink{
 			Text:        "Preferences",
 			Id:          "org-settings",
@@ -296,6 +298,9 @@ func (hs *HTTPServer) getNavTree(c *models.ReqContext, hasEditPerm bool) ([]*dto
 			Icon:        "sliders-v-alt",
 			Url:         hs.Cfg.AppSubURL + "/org",
 		})
+	}
+
+	if c.OrgRole == models.ROLE_ADMIN {
 		configNodes = append(configNodes, &dtos.NavLink{
 			Text:        "API keys",
 			Id:          "apikeys",
@@ -405,7 +410,7 @@ func (hs *HTTPServer) buildAdminNavLinks(c *models.ReqContext) []*dtos.NavLink {
 		})
 	}
 
-	if c.IsGrafanaAdmin {
+	if hasAccess(ac.ReqGrafanaAdmin, orgsAccessEvaluator) {
 		adminNavLinks = append(adminNavLinks, &dtos.NavLink{
 			Text: "Orgs", Id: "global-orgs", Url: hs.Cfg.AppSubURL + "/admin/orgs", Icon: "building",
 		})

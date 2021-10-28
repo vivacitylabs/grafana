@@ -18,7 +18,7 @@ func Middleware(ac accesscontrol.AccessControl) func(web.Handler, accesscontrol.
 		}
 
 		return func(c *models.ReqContext) {
-			injected, err := evaluator.Inject(buildScopeParams(c))
+			injected, err := evaluator.Inject(accesscontrol.BuildScopeParams(c))
 			if err != nil {
 				c.JsonApiErr(http.StatusInternalServerError, "Internal server error", err)
 				return
@@ -67,11 +67,4 @@ func newID() string {
 		id = fmt.Sprintf("%d", time.Now().UnixNano())
 	}
 	return "ACE" + id
-}
-
-func buildScopeParams(c *models.ReqContext) accesscontrol.ScopeParams {
-	return accesscontrol.ScopeParams{
-		OrgID:     c.OrgId,
-		URLParams: web.Params(c.Req),
-	}
 }

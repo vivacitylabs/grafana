@@ -1,7 +1,7 @@
 import React, { FC, useState, useEffect } from 'react';
 import Page from 'app/core/components/Page/Page';
 import { useSelector } from 'react-redux';
-import { StoreState, OrgUser } from 'app/types';
+import { StoreState, OrgUser, AccessControlAction } from 'app/types';
 import { getNavModel } from 'app/core/selectors/navModel';
 import UsersTable from '../users/UsersTable';
 import { useAsyncFn } from 'react-use';
@@ -10,23 +10,28 @@ import { UrlQueryValue } from '@grafana/data';
 import { Form, Field, Input, Button, Legend } from '@grafana/ui';
 import { css } from '@emotion/css';
 import { GrafanaRouteComponentProps } from 'app/core/navigation/types';
+import { contextSrv } from 'app/core/core';
 
 interface OrgNameDTO {
   orgName: string;
 }
 
+// TODO if I reached this page this is becuase I had the ability to read all orgs, do I need to protect this?
 const getOrg = async (orgId: UrlQueryValue) => {
   return await getBackendSrv().get('/api/orgs/' + orgId);
 };
 
+// TODO handle user listing as well
 const getOrgUsers = async (orgId: UrlQueryValue) => {
   return await getBackendSrv().get('/api/orgs/' + orgId + '/users');
 };
 
+// TODO handle changing user role
 const updateOrgUserRole = async (orgUser: OrgUser, orgId: UrlQueryValue) => {
   await getBackendSrv().patch('/api/orgs/' + orgId + '/users/' + orgUser.userId, orgUser);
 };
 
+// TODO handle user removal as well
 const removeOrgUser = async (orgUser: OrgUser, orgId: UrlQueryValue) => {
   return await getBackendSrv().delete('/api/orgs/' + orgId + '/users/' + orgUser.userId);
 };
@@ -37,6 +42,7 @@ export const AdminEditOrgPage: FC<Props> = ({ match }) => {
   const navIndex = useSelector((state: StoreState) => state.navIndex);
   const navModel = getNavModel(navIndex, 'global-orgs');
   const orgId = parseInt(match.params.id, 10);
+  const isOrgWriter = contextSrv.hasAccess(AccessControlAction.OrgsWrite, contextSrv.isGrafanaAdmin);
 
   const [users, setUsers] = useState<OrgUser[]>([]);
 
@@ -68,7 +74,7 @@ export const AdminEditOrgPage: FC<Props> = ({ match }) => {
                   <Field label="Name" invalid={!!errors.orgName} error="Name is required">
                     <Input {...register('orgName', { required: true })} id="org-name-input" />
                   </Field>
-                  <Button>Update</Button>
+                  <Button disabled={!isOrgWriter}>Update</Button>
                 </>
               )}
             </Form>
