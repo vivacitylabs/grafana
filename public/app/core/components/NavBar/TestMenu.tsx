@@ -10,9 +10,8 @@ import {
   useMenuItem,
   useMenuTrigger,
   useOverlay,
-  useLink,
 } from 'react-aria';
-import { Icon, IconName } from '@grafana/ui';
+import { Icon, IconName, Link } from '@grafana/ui';
 
 export function MenuButton(props: any) {
   const { link, ...rest } = props;
@@ -25,18 +24,36 @@ export function MenuButton(props: any) {
 
   // Get props for the button based on the trigger props from useMenuTrigger
   let { buttonProps } = useButton(menuTriggerProps, ref);
-  let { linkProps } = useLink(menuTriggerProps, ref);
+
+  let element = (
+    <button onClick={link.onClick} aria-label={link.label}>
+      <span>{link.children}</span>
+    </button>
+  );
+
+  if (link.url) {
+    element =
+      !link.target && link.url.startsWith('/') ? (
+        <Link href={link.url} target={link.target} onClick={link.onClick}>
+          <span>{link.children}</span>
+        </Link>
+      ) : (
+        <a href={link.url} target={link.target} onClick={link.onClick}>
+          <span>{link.children}</span>
+        </a>
+      );
+  }
 
   return (
-    <div style={{ position: 'relative', display: 'inline-block' }}>
-      <a {...linkProps} ref={ref} style={{ height: 30, fontSize: 14 }}>
+    <li style={{ position: 'relative', display: 'inline-block' }}>
+      <element {...buttonProps} ref={ref}>
         {link.icon && <Icon name={link.icon as IconName} size="xl" />}
         {link.img && <img src={link.img} alt={`${link.text} logo`} />}
-      </a>
+      </element>
       {state.isOpen && (
         <MenuPopup {...rest} domProps={menuProps} autoFocus={state.focusStrategy} onClose={() => state.close()} />
       )}
-    </div>
+    </li>
   );
 }
 

@@ -28,28 +28,30 @@ const TopSection = () => {
       <NavBarItem isActive={isSearchActive(location)} label="Search dashboards" onClick={onOpenSearch}>
         <Icon name="search" size="xl" />
       </NavBarItem>
-      {mainLinks.map((link, index) => {
-        return (
-          <MenuButton onAction={alert} key={`${link.id}-${index}`} link={link}>
-            {link &&
-              link.children &&
-              link.children.map((link, index) => {
-                return <Item key={`${link.id}-${index}`}>{link.text}</Item>;
-              })}
-          </MenuButton>
-          // <NavBarItem
-          //   key={`${link.id}-${index}`}
-          //   isActive={!isSearchActive(location) && activeItemId === link.id}
-          //   label={link.text}
-          //   menuItems={link.children}
-          //   target={link.target}
-          //   url={link.url}
-          // >
-          //   {link.icon && <Icon name={link.icon as IconName} size="xl" />}
-          //   {link.img && <img src={link.img} alt={`${link.text} logo`} />}
-          // </NavBarItem>
-        );
-      })}
+      <ul>
+        {mainLinks.map((link, index) => {
+          return (
+            <MenuButton onAction={alert} key={`${link.id}-${index}`} link={link}>
+              {link &&
+                link.children &&
+                link.children.map((link, index) => {
+                  return <Item key={`${link.id}-${index}`}>{link.text}</Item>;
+                })}
+            </MenuButton>
+            // <NavBarItem
+            //   key={`${link.id}-${index}`}
+            //   isActive={!isSearchActive(location) && activeItemId === link.id}
+            //   label={link.text}
+            //   menuItems={link.children}
+            //   target={link.target}
+            //   url={link.url}
+            // >
+            //   {link.icon && <Icon name={link.icon as IconName} size="xl" />}
+            //   {link.img && <img src={link.img} alt={`${link.text} logo`} />}
+            // </NavBarItem>
+          );
+        })}
+      </ul>
     </div>
   );
 };
