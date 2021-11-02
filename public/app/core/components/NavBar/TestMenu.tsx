@@ -1,19 +1,23 @@
-import { useMenuTriggerState } from '@react-stately/menu';
-import { useButton } from '@react-aria/button';
-import { useMenu, useMenuItem, useMenuTrigger } from '@react-aria/menu';
-import { useTreeState } from '@react-stately/tree';
-import { Item } from '@react-stately/collections';
-import { mergeProps } from '@react-aria/utils';
-import { FocusScope } from '@react-aria/focus';
-import { useFocus } from '@react-aria/interactions';
-import { useOverlay, DismissButton } from '@react-aria/overlays';
+import React from 'react';
+import { useMenuTriggerState, useTreeState } from 'react-stately';
+import {
+  DismissButton,
+  FocusScope,
+  mergeProps,
+  useButton,
+  useFocus,
+  useMenu,
+  useMenuItem,
+  useMenuTrigger,
+  useOverlay,
+} from 'react-aria';
 
-export function MenuButton(props) {
+export function MenuButton(props: any) {
   // Create state based on the incoming props
   let state = useMenuTriggerState(props);
 
   // Get props for the menu trigger and menu elements
-  let ref = React.useRef();
+  let ref = React.useRef(null);
   let { menuTriggerProps, menuProps } = useMenuTrigger({}, state, ref);
 
   // Get props for the button based on the trigger props from useMenuTrigger
@@ -34,17 +38,17 @@ export function MenuButton(props) {
   );
 }
 
-function MenuPopup(props) {
+function MenuPopup(props: any) {
   // Create menu state based on the incoming props
   let state = useTreeState({ ...props, selectionMode: 'none' });
 
   // Get props for the menu element
-  let ref = React.useRef();
+  let ref = React.useRef(null);
   let { menuProps } = useMenu(props, state, ref);
 
   // Handle events that should cause the menu to close,
   // e.g. blur, clicking outside, or pressing the escape key.
-  let overlayRef = React.useRef();
+  let overlayRef = React.useRef(null);
   let { overlayProps } = useOverlay(
     {
       onClose: props.onClose,
@@ -86,9 +90,9 @@ function MenuPopup(props) {
   );
 }
 
-function MenuItem({ item, state, onAction, onClose }) {
+function MenuItem({ item, state, onAction, onClose }: any) {
   // Get props for the menu item element
-  let ref = React.useRef();
+  let ref = React.useRef(null);
   let { menuItemProps } = useMenuItem(
     {
       key: item.key,

@@ -4,12 +4,12 @@ import { cloneDeep } from 'lodash';
 import { css } from '@emotion/css';
 import { GrafanaTheme2, NavModelItem } from '@grafana/data';
 import { locationService } from '@grafana/runtime';
-import { Icon, IconName, useTheme2 } from '@grafana/ui';
+import { Icon, useTheme2 } from '@grafana/ui';
 import config from '../../config';
-import { isLinkActive, isSearchActive } from './utils';
+import { isSearchActive } from './utils';
 import NavBarItem from './NavBarItem';
 import { MenuButton } from './TestMenu';
-import { Item } from '@react-stately/collections';
+import { Item } from 'react-stately';
 
 const TopSection = () => {
   const location = useLocation();
@@ -17,7 +17,7 @@ const TopSection = () => {
   const styles = getStyles(theme);
   const navTree: NavModelItem[] = cloneDeep(config.bootData.navTree);
   const mainLinks = navTree.filter((item) => !item.hideFromMenu);
-  const activeItemId = mainLinks.find((item) => isLinkActive(location.pathname, item))?.id;
+  // const activeItemId = mainLinks.find((item) => isLinkActive(location.pathname, item))?.id;
 
   const onOpenSearch = () => {
     locationService.partial({ search: 'open' });
