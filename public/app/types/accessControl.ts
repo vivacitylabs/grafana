@@ -28,6 +28,7 @@ export enum AccessControlAction {
   OrgsRead = 'orgs:read',
   OrgsPreferencesRead = 'orgs.preferences:read',
   OrgsWrite = 'orgs:write',
+  OrgsPreferencesWrite = 'orgs.preferences:write',
   OrgsCreate = 'orgs:create',
   OrgsDelete = 'orgs:delete',
   OrgUsersRead = 'org.users:read',
