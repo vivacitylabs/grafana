@@ -1,9 +1,6 @@
-import React, { ReactNode } from 'react';
+import React, { useRef } from 'react';
 import { useTreeState } from '@react-stately/tree';
-import { Item } from '@react-stately/collections';
-import { useFocus } from '@react-aria/interactions';
-import { mergeProps } from '@react-aria/utils';
-import { useMenu, useMenuItem, useMenuSection } from '@react-aria/menu';
+import { useMenu } from '@react-aria/menu';
 import MenuItem from './MenuItem';
 
 function Menu(props) {
@@ -11,7 +8,7 @@ function Menu(props) {
   let state = useTreeState({ ...props, selectionMode: 'none' });
 
   // Get props for the menu element
-  let ref = React.useRef();
+  let ref = useRef<HTMLUListElement>(null);
   let { menuProps } = useMenu(props, state, ref);
 
   return (

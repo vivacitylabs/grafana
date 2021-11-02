@@ -1,7 +1,7 @@
 import React from 'react';
 import { css } from '@emotion/css';
 import { GrafanaTheme2, NavModelItem } from '@grafana/data';
-import { IconName, Link, useTheme2, Icon } from '@grafana/ui';
+import { IconName, Link, useTheme2 } from '@grafana/ui';
 import DropdownChild from './DropdownChild';
 import { FocusScope } from '@react-aria/focus';
 import { Item } from '@react-stately/collections';
@@ -51,7 +51,7 @@ const NavBarDropdown = ({
   return (
     <FocusScope restoreFocus>
       <ul className={`${styles.menu} dropdown-menu dropdown-menu--sidemenu`}>
-        <li>{header}</li>
+        <li tabIndex="-1">{header}</li>
         {/*filteredItems.map((child, index) => (
         <DropdownChild
           key={`${child.url}-${index}`}
@@ -64,13 +64,7 @@ const NavBarDropdown = ({
         />
       )) */}
 
-        <Menu
-          aria-label={headerText}
-          className={styles.menu}
-          onAction={(args) => {
-            console.log(args);
-          }}
-        >
+        <Menu aria-label={headerText} className={styles.menu} onAction={() => {}}>
           {filteredItems.map((child, index) => (
             <Item key={`${child.url}-${index}`}>
               <DropdownChild

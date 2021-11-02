@@ -1,11 +1,9 @@
-import React, { useRef, ReactNode } from 'react';
+import React, { useState, ReactNode } from 'react';
 import { css, cx } from '@emotion/css';
 import { GrafanaTheme2, NavModelItem } from '@grafana/data';
 import { Link, useTheme2 } from '@grafana/ui';
 import NavBarDropdown from './NavBarDropdown';
-import { useFocus, useFocusWithin } from '@react-aria/interactions';
-import { Item } from '@react-stately/collections';
-import Menu from './Menu';
+import { useFocusWithin } from '@react-aria/interactions';
 
 export interface Props {
   isActive?: boolean;
@@ -39,23 +37,17 @@ const NavBarItem = ({
   );
 
   //a11y
-  //
-  const ref = useRef();
+  const [open, setOpen] = useState(false);
 
   let { focusWithinProps } = useFocusWithin({
     onFocusWithin: (e) => {
       console.log('focus');
-      if (ref.current) {
-        ref.current.setAttribute('aria-expanded', 'true');
-      }
     },
     onBlurWithin: (e) => {
       console.log('blur');
-      if (ref.current) {
-        ref.current.setAttribute('aria-expanded', 'false');
-      }
     },
     onFocusWithinChange: (isFocused) => {
+      setOpen(isFocused);
       console.log(`focus change: ${isFocused}`);
     },
   });
@@ -76,20 +68,21 @@ const NavBarItem = ({
   return (
     <li
       {...focusWithinProps}
-      ref={ref}
       aria-haspopup={menuItems?.length > 0 ? 'true' : false}
-      className={cx(styles.container, 'dropdown', { dropup: reverseMenuDirection })}
+      className={cx(styles.container, 'dropdown', { dropup: reverseMenuDirection, focused: open })}
     >
       {element}
-      <NavBarDropdown
-        headerTarget={target}
-        headerText={label}
-        headerUrl={url}
-        items={menuItems}
-        onHeaderClick={onClick}
-        reverseDirection={reverseMenuDirection}
-        subtitleText={menuSubTitle}
-      />
+      {open && (
+        <NavBarDropdown
+          headerTarget={target}
+          headerText={label}
+          headerUrl={url}
+          items={menuItems}
+          onHeaderClick={onClick}
+          reverseDirection={reverseMenuDirection}
+          subtitleText={menuSubTitle}
+        />
+      )}
     </li>
   );
 };
@@ -133,7 +126,7 @@ const getStyles = (theme: GrafanaTheme2, isActive: Props['isActive']) => ({
         }
       }
 
-      &[aria-expanded='true'] {
+      &.focused {
         .dropdown-menu {
           animation: dropdown-anim 150ms ease-in-out 100ms forwards;
           display: flex;
