@@ -7,7 +7,7 @@ import UsersTable from '../users/UsersTable';
 import { useAsyncFn } from 'react-use';
 import { getBackendSrv } from '@grafana/runtime';
 import { UrlQueryValue } from '@grafana/data';
-import { Form, Field, Input, Button, Legend } from '@grafana/ui';
+import { Form, Field, Input, Button, Legend, Alert } from '@grafana/ui';
 import { css } from '@emotion/css';
 import { GrafanaRouteComponentProps } from 'app/core/navigation/types';
 import { contextSrv } from 'app/core/core';
@@ -16,24 +16,28 @@ interface OrgNameDTO {
   orgName: string;
 }
 
-// TODO if I reached this page this is becuase I had the ability to read all orgs, do I need to protect this?
+// TODO if I reached this page this is because I had the ability to read all orgs, do I need to protect this?
 const getOrg = async (orgId: UrlQueryValue) => {
   return await getBackendSrv().get('/api/orgs/' + orgId);
 };
 
-// TODO handle user listing as well
 const getOrgUsers = async (orgId: UrlQueryValue) => {
-  return await getBackendSrv().get('/api/orgs/' + orgId + '/users');
+  if (contextSrv.hasPermission(AccessControlAction.OrgUsersRead)) {
+    return await getBackendSrv().get('/api/orgs/' + orgId + '/users');
+  }
+  return [];
 };
 
-// TODO handle changing user role
 const updateOrgUserRole = async (orgUser: OrgUser, orgId: UrlQueryValue) => {
-  await getBackendSrv().patch('/api/orgs/' + orgId + '/users/' + orgUser.userId, orgUser);
+  if (contextSrv.hasPermission(AccessControlAction.OrgUsersRoleUpdate)) {
+    await getBackendSrv().patch('/api/orgs/' + orgId + '/users/' + orgUser.userId, orgUser);
+  }
 };
 
-// TODO handle user removal as well
 const removeOrgUser = async (orgUser: OrgUser, orgId: UrlQueryValue) => {
-  return await getBackendSrv().delete('/api/orgs/' + orgId + '/users/' + orgUser.userId);
+  if (contextSrv.hasPermission(AccessControlAction.OrgUsersRemove)) {
+    return await getBackendSrv().delete('/api/orgs/' + orgId + '/users/' + orgUser.userId);
+  }
 };
 
 interface Props extends GrafanaRouteComponentProps<{ id: string }> {}
@@ -42,7 +46,8 @@ export const AdminEditOrgPage: FC<Props> = ({ match }) => {
   const navIndex = useSelector((state: StoreState) => state.navIndex);
   const navModel = getNavModel(navIndex, 'global-orgs');
   const orgId = parseInt(match.params.id, 10);
-  const isOrgWriter = contextSrv.hasAccess(AccessControlAction.OrgsWrite, contextSrv.isGrafanaAdmin);
+  const canEditOrg = contextSrv.hasPermission(AccessControlAction.OrgsWrite);
+  const canListUsers = contextSrv.hasPermission(AccessControlAction.OrgUsersRead);
 
   const [users, setUsers] = useState<OrgUser[]>([]);
 
@@ -58,11 +63,30 @@ export const AdminEditOrgPage: FC<Props> = ({ match }) => {
     return await getBackendSrv().put('/api/orgs/' + orgId, { ...orgState.value, name });
   };
 
+  // TODO did this to be consistent with data sources access notifications, but do we want to have something standardized and centralized?
+  const renderMissingUserListRightsMessage = () => {
+    return (
+      <Alert severity="info" title="Missing rights">
+        You are not allowed to see users in this organization. Please contact your server admin to update this
+        organization.
+      </Alert>
+    );
+  };
+
+  const renderMissingEditOrgRightsMessage = () => {
+    return (
+      <Alert severity="info" title="Missing rights">
+        You are not allowed to update this organization. Please contact your server admin to update this organization.
+      </Alert>
+    );
+  };
+
   return (
     <Page navModel={navModel}>
       <Page.Contents>
         <>
           <Legend>Edit organization</Legend>
+          {!canEditOrg && renderMissingEditOrgRightsMessage()}
 
           {orgState.value && (
             <Form
@@ -71,10 +95,10 @@ export const AdminEditOrgPage: FC<Props> = ({ match }) => {
             >
               {({ register, errors }) => (
                 <>
-                  <Field label="Name" invalid={!!errors.orgName} error="Name is required">
+                  <Field label="Name" invalid={!!errors.orgName} error="Name is required" disabled={!canEditOrg}>
                     <Input {...register('orgName', { required: true })} id="org-name-input" />
                   </Field>
-                  <Button disabled={!isOrgWriter}>Update</Button>
+                  <Button disabled={!canEditOrg}>Update</Button>
                 </>
               )}
             </Form>
@@ -86,7 +110,8 @@ export const AdminEditOrgPage: FC<Props> = ({ match }) => {
             `}
           >
             <Legend>Organization users</Legend>
-            {!!users.length && (
+            {!canListUsers && renderMissingUserListRightsMessage()}
+            {canListUsers && !!users.length && (
               <UsersTable
                 users={users}
                 onRoleChange={(role, orgUser) => {

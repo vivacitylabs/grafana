@@ -11,26 +11,24 @@ import { contextSrv } from 'app/core/services/context_srv';
 import { AccessControlAction } from 'app/types';
 
 const deleteOrg = async (orgId: number) => {
-  // TODO find a better design than this.
-  if (contextSrv.hasAccess(AccessControlAction.OrgsDelete, contextSrv.isGrafanaAdmin)) {
+  if (contextSrv.hasPermission(AccessControlAction.OrgsDelete)) {
     return await getBackendSrv().delete('/api/orgs/' + orgId);
   }
-  return await {};
+  return {};
 };
 
 const getOrgs = async () => {
-  // TODO find a better design than this.
-  if (contextSrv.hasAccess(AccessControlAction.OrgsRead, contextSrv.isGrafanaAdmin)) {
+  if (contextSrv.hasPermission(AccessControlAction.OrgsRead)) {
     return await getBackendSrv().get('/api/orgs');
   }
-  return await [];
+  return [];
 };
 
 export const AdminListOrgsPages: FC = () => {
   const navIndex = useSelector((state: StoreState) => state.navIndex);
   const navModel = getNavModel(navIndex, 'global-orgs');
   const [state, fetchOrgs] = useAsyncFn(async () => await getOrgs(), []);
-  const isOrgCreator = contextSrv.hasAccess(AccessControlAction.OrgsCreate, contextSrv.isGrafanaAdmin);
+  const isOrgCreator = contextSrv.hasPermission(AccessControlAction.OrgsCreate);
 
   useEffect(() => {
     fetchOrgs();
