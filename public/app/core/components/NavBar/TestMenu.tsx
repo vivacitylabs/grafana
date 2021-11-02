@@ -11,7 +11,7 @@ import {
   useMenuTrigger,
   useOverlay,
 } from 'react-aria';
-import { Icon, IconName, Link } from '@grafana/ui';
+import { Icon, IconName, Link, useTheme2 } from '@grafana/ui';
 
 export function MenuButton(props: any) {
   const { link, ...rest } = props;
@@ -84,6 +84,7 @@ function MenuPopup(props: any) {
     overlayRef
   );
 
+  const theme = useTheme2();
   // Wrap in <FocusScope> so that focus is restored back to the
   // trigger when the menu is closed. In addition, add hidden
   // <DismissButton> components at the start and end of the list
@@ -96,13 +97,14 @@ function MenuPopup(props: any) {
           {...mergeProps(menuProps, props.domProps)}
           ref={ref}
           style={{
+            backgroundColor: `${theme.colors.action.hover}`,
+            color: `${theme.colors.text.primary}`,
             position: 'absolute',
-            width: '100%',
             margin: '4px 0 0 0',
             padding: 0,
             listStyle: 'none',
-            border: '1px solid gray',
             background: 'lightgray',
+            left: `${theme.components.sidemenu.width - 1}px`,
           }}
         >
           {[...state.collection].map((item) => (
