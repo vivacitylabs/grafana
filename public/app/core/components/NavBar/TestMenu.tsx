@@ -47,7 +47,7 @@ export function MenuButton(props: any) {
         <a href={link.url} target={link.target} onClick={link.onClick} {...buttonProps} ref={ref}>
           <span>
             {link.icon && <Icon name={link.icon as IconName} size="xl" />}
-            {link.img && <img src={link.img} alt={`${link.text} logo`} />}
+            {link.img && <img src={link.img} alt={`${link.text} logo`} style={{ width: '100%' }} />}
           </span>
         </a>
       );
@@ -56,6 +56,7 @@ export function MenuButton(props: any) {
   return (
     <li style={{ position: 'relative', display: 'inline-block' }}>
       {element}
+      {/*state.isOpen && (*/}
       {state.isOpen && (
         <MenuPopup {...rest} domProps={menuProps} autoFocus={state.focusStrategy} onClose={() => state.close()} />
       )}
@@ -135,6 +136,7 @@ function MenuItem({ item, state, onAction, onClose }: any) {
   // style to the focused menu item
   let [isFocused, setFocused] = React.useState(false);
   let { focusProps } = useFocus({ onFocusChange: setFocused });
+  console.log(item.rendered);
 
   return (
     <li

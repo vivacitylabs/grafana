@@ -4,17 +4,19 @@ import { cloneDeep } from 'lodash';
 import { css } from '@emotion/css';
 import { GrafanaTheme2, NavModelItem } from '@grafana/data';
 import { locationService } from '@grafana/runtime';
-import { Icon, useTheme2 } from '@grafana/ui';
+import { Icon, useTheme2, IconName } from '@grafana/ui';
 import config from '../../config';
 import { isSearchActive } from './utils';
 import NavBarItem from './NavBarItem';
 import { MenuButton } from './TestMenu';
 import { Item } from 'react-stately';
+import DropdownChild from './DropdownChild';
 
 const TopSection = () => {
   const location = useLocation();
   const theme = useTheme2();
   const styles = getStyles(theme);
+
   const navTree: NavModelItem[] = cloneDeep(config.bootData.navTree);
   const mainLinks = navTree.filter((item) => !item.hideFromMenu);
   // const activeItemId = mainLinks.find((item) => isLinkActive(location.pathname, item))?.id;
@@ -31,11 +33,23 @@ const TopSection = () => {
       <ul>
         {mainLinks.map((link, index) => {
           return (
-            <MenuButton onAction={alert} key={`${link.id}-${index}`} link={link}>
+            <MenuButton key={`${link.id}-${index}`} link={link}>
               {link &&
                 link.children &&
                 link.children.map((link, index) => {
-                  return <Item key={`${link.id}-${index}`}>{link.text}</Item>;
+                  return (
+                    <Item key={`${link.id}-${index}`} textValue={link.text}>
+                      <DropdownChild
+                        key={`${link.url}-${index}`}
+                        isDivider={link.divider}
+                        icon={link.icon as IconName}
+                        onClick={link.onClick}
+                        target={link.target}
+                        text={link.text}
+                        url={link.url}
+                      />
+                    </Item>
+                  );
                 })}
             </MenuButton>
             // <NavBarItem
