@@ -26,30 +26,36 @@ export function MenuButton(props: any) {
   let { buttonProps } = useButton(menuTriggerProps, ref);
 
   let element = (
-    <button onClick={link.onClick} aria-label={link.label}>
-      <span>{link.children}</span>
+    <button {...buttonProps} ref={ref} onClick={link.onClick} aria-label={link.label}>
+      <span>
+        {link.icon && <Icon name={link.icon as IconName} size="xl" />}
+        {link.img && <img src={link.img} alt={`${link.text} logo`} />}
+      </span>
     </button>
   );
 
   if (link.url) {
     element =
       !link.target && link.url.startsWith('/') ? (
-        <Link href={link.url} target={link.target} onClick={link.onClick}>
-          <span>{link.children}</span>
+        <Link {...buttonProps} ref={ref} href={link.url} target={link.target} onClick={link.onClick}>
+          <span>
+            {link.icon && <Icon name={link.icon as IconName} size="xl" />}
+            {link.img && <img src={link.img} alt={`${link.text} logo`} />}
+          </span>
         </Link>
       ) : (
-        <a href={link.url} target={link.target} onClick={link.onClick}>
-          <span>{link.children}</span>
+        <a href={link.url} target={link.target} onClick={link.onClick} {...buttonProps} ref={ref}>
+          <span>
+            {link.icon && <Icon name={link.icon as IconName} size="xl" />}
+            {link.img && <img src={link.img} alt={`${link.text} logo`} />}
+          </span>
         </a>
       );
   }
 
   return (
     <li style={{ position: 'relative', display: 'inline-block' }}>
-      <element {...buttonProps} ref={ref}>
-        {link.icon && <Icon name={link.icon as IconName} size="xl" />}
-        {link.img && <img src={link.img} alt={`${link.text} logo`} />}
-      </element>
+      {element}
       {state.isOpen && (
         <MenuPopup {...rest} domProps={menuProps} autoFocus={state.focusStrategy} onClose={() => state.close()} />
       )}
