@@ -73,21 +73,13 @@ export const AdminEditOrgPage: FC<Props> = ({ match }) => {
     );
   };
 
-  const renderMissingEditOrgRightsMessage = () => {
-    return (
-      <Alert severity="info" title="Missing rights">
-        You are not allowed to update this organization. Please contact your server admin to update this organization.
-      </Alert>
-    );
-  };
+  // TODO should I render a mising right message when you are not allowed to edit an org?
 
   return (
     <Page navModel={navModel}>
       <Page.Contents>
         <>
           <Legend>Edit organization</Legend>
-          {!canEditOrg && renderMissingEditOrgRightsMessage()}
-
           {orgState.value && (
             <Form
               defaultValues={{ orgName: orgState.value.name }}

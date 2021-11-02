@@ -9,7 +9,7 @@ interface Props {
 }
 
 export const AdminOrgsTable: FC<Props> = ({ orgs, onDelete }) => {
-  const isOrgDeletor = contextSrv.hasAccess(AccessControlAction.OrgsDelete, contextSrv.isGrafanaAdmin);
+  const canDeleteOrg = contextSrv.hasPermission(AccessControlAction.OrgsDelete);
 
   const [deleteOrg, setDeleteOrg] = useState<Organization>();
   return (
@@ -37,7 +37,7 @@ export const AdminOrgsTable: FC<Props> = ({ orgs, onDelete }) => {
                 icon="times"
                 onClick={() => setDeleteOrg(org)}
                 aria-label="Delete org"
-                disabled={!isOrgDeletor}
+                disabled={!canDeleteOrg}
               />
             </td>
           </tr>

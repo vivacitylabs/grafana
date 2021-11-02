@@ -3,7 +3,7 @@ import { getNavModel } from 'app/core/selectors/navModel';
 import Page from 'app/core/components/Page/Page';
 import { useSelector } from 'react-redux';
 import { StoreState } from 'app/types/store';
-import { LinkButton } from '@grafana/ui';
+import { Alert, LinkButton } from '@grafana/ui';
 import { getBackendSrv } from '@grafana/runtime';
 import { AdminOrgsTable } from './AdminOrgsTable';
 import useAsyncFn from 'react-use/lib/useAsyncFn';
@@ -24,11 +24,20 @@ const getOrgs = async () => {
   return [];
 };
 
+const renderMissingOrgListRightsMessage = () => {
+  return (
+    <Alert severity="info" title="Missing rights">
+      You are not allowed to list organizations. Please contact your server admin to edit organizations.
+    </Alert>
+  );
+};
+
 export const AdminListOrgsPages: FC = () => {
   const navIndex = useSelector((state: StoreState) => state.navIndex);
   const navModel = getNavModel(navIndex, 'global-orgs');
   const [state, fetchOrgs] = useAsyncFn(async () => await getOrgs(), []);
-  const isOrgCreator = contextSrv.hasPermission(AccessControlAction.OrgsCreate);
+  const canCreateOrg = contextSrv.hasPermission(AccessControlAction.OrgsCreate);
+  const canListOrgs = contextSrv.hasPermission(AccessControlAction.OrgsRead);
 
   useEffect(() => {
     fetchOrgs();
@@ -40,10 +49,11 @@ export const AdminListOrgsPages: FC = () => {
         <>
           <div className="page-action-bar">
             <div className="page-action-bar__spacer" />
-            <LinkButton icon="plus" href="org/new" disabled={!isOrgCreator}>
+            <LinkButton icon="plus" href="org/new" disabled={!canCreateOrg}>
               New org
             </LinkButton>
           </div>
+          {!canListOrgs && renderMissingOrgListRightsMessage()}
           {state.loading && 'Fetching organizations'}
           {state.error}
           {state.value && (
