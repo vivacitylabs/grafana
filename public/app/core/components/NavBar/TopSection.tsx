@@ -8,6 +8,8 @@ import { Icon, IconName, useTheme2 } from '@grafana/ui';
 import config from '../../config';
 import { isLinkActive, isSearchActive } from './utils';
 import NavBarItem from './NavBarItem';
+import { MenuButton } from './TestMenu';
+import { Item } from '@react-stately/collections';
 
 const TopSection = () => {
   const location = useLocation();
@@ -28,17 +30,22 @@ const TopSection = () => {
       </NavBarItem>
       {mainLinks.map((link, index) => {
         return (
-          <NavBarItem
-            key={`${link.id}-${index}`}
-            isActive={!isSearchActive(location) && activeItemId === link.id}
-            label={link.text}
-            menuItems={link.children}
-            target={link.target}
-            url={link.url}
-          >
-            {link.icon && <Icon name={link.icon as IconName} size="xl" />}
-            {link.img && <img src={link.img} alt={`${link.text} logo`} />}
-          </NavBarItem>
+          <MenuButton label="Actions" onAction={alert}>
+            <Item key="copy">Copy</Item>
+            <Item key="cut">Cut</Item>
+            <Item key="paste">Paste</Item>
+          </MenuButton>
+          // <NavBarItem
+          //   key={`${link.id}-${index}`}
+          //   isActive={!isSearchActive(location) && activeItemId === link.id}
+          //   label={link.text}
+          //   menuItems={link.children}
+          //   target={link.target}
+          //   url={link.url}
+          // >
+          //   {link.icon && <Icon name={link.icon as IconName} size="xl" />}
+          //   {link.img && <img src={link.img} alt={`${link.text} logo`} />}
+          // </NavBarItem>
         );
       })}
     </div>
