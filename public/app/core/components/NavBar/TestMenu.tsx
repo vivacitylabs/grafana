@@ -11,8 +11,10 @@ import {
   useMenuTrigger,
   useOverlay,
 } from 'react-aria';
+import { Icon, IconName } from '@grafana/ui';
 
 export function MenuButton(props: any) {
+  const { link } = props;
   // Create state based on the incoming props
   let state = useMenuTriggerState(props);
 
@@ -26,10 +28,8 @@ export function MenuButton(props: any) {
   return (
     <div style={{ position: 'relative', display: 'inline-block' }}>
       <button {...buttonProps} ref={ref} style={{ height: 30, fontSize: 14 }}>
-        {props.label}
-        <span aria-hidden="true" style={{ paddingLeft: 5 }}>
-          ▼
-        </span>
+        {link.icon && <Icon name={link.icon as IconName} size="xl" />}
+        {link.img && <img src={link.img} alt={`${link.text} logo`} />}
       </button>
       {state.isOpen && (
         <MenuPopup {...props} domProps={menuProps} autoFocus={state.focusStrategy} onClose={() => state.close()} />

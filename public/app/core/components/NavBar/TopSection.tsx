@@ -30,10 +30,12 @@ const TopSection = () => {
       </NavBarItem>
       {mainLinks.map((link, index) => {
         return (
-          <MenuButton label="Actions" onAction={alert}>
-            <Item key="copy">Copy</Item>
-            <Item key="cut">Cut</Item>
-            <Item key="paste">Paste</Item>
+          <MenuButton onAction={alert} key={`${link.id}-${index}`} link={link}>
+            {link &&
+              link.children &&
+              link.children.map((link, index) => {
+                return <Item key={`${link.id}-${index}`}>{link.text}</Item>;
+              })}
           </MenuButton>
           // <NavBarItem
           //   key={`${link.id}-${index}`}
