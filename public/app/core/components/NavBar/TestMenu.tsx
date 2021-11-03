@@ -40,9 +40,9 @@ export function MenuButton(props: any) {
       if (isFocused) {
         state.open();
       }
-      // if (!isFocused) {
-      //   state.close();
-      // }
+      if (!isFocused) {
+        state.close();
+      }
     },
   });
 
@@ -53,6 +53,14 @@ export function MenuButton(props: any) {
       onKeyDown: (e) => {
         e.stopPropagation();
         link.onClick();
+        switch (e.key) {
+          case 'Enter':
+          case ' ':
+            state.toggle();
+            break;
+          default:
+            break;
+        }
       },
     },
     ref
@@ -140,6 +148,7 @@ function MenuPopup(props: any) {
             background: 'lightgray',
             left: `${theme.components.sidemenu.width - 1}px`,
           }}
+          tabIndex={-1}
         >
           {[...state.collection].map((item) => (
             <MenuItem key={item.key} item={item} state={state} onAction={props.onAction} onClose={props.onClose} />
@@ -154,7 +163,7 @@ function MenuPopup(props: any) {
 function MenuItem({ item, state, onAction, onClose }: any) {
   // Get props for the menu item element
   const ref = React.useRef(null);
-  let isDisabled = state.disabledKeys.has(item.key);
+  state.disabledKeys.add(item.key);
 
   const { menuItemProps } = useMenuItem(
     {
