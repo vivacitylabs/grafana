@@ -154,10 +154,12 @@ function MenuPopup(props: any) {
 function MenuItem({ item, state, onAction, onClose }: any) {
   // Get props for the menu item element
   const ref = React.useRef(null);
+  let isDisabled = state.disabledKeys.has(item.key);
+
   const { menuItemProps } = useMenuItem(
     {
       key: item.key,
-      isDisabled: item.isDisabled,
+      isDisabled: true,
       onAction,
       onClose,
     },

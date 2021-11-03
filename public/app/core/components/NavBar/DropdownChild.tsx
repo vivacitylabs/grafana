@@ -29,18 +29,26 @@ const DropdownChild = ({ isDivider = false, icon, onClick, target, text, url }: 
   );
 
   let element = (
-    <button className={styles.element} onClick={onClick}>
+    <button className={styles.element} onClick={onClick} tabIndex={-1} aria-disabled="true">
       {linkContent}
     </button>
   );
   if (url) {
     element =
       !target && url.startsWith('/') ? (
-        <Link className={styles.element} onClick={onClick} href={url}>
+        <Link tabIndex={-1} className={styles.element} onClick={onClick} href={url} aria-disabled="true">
           {linkContent}
         </Link>
       ) : (
-        <a className={styles.element} href={url} target={target} rel="noopener" onClick={onClick}>
+        <a
+          tabIndex={-1}
+          className={styles.element}
+          href={url}
+          target={target}
+          rel="noopener"
+          onClick={onClick}
+          aria-disabled="true"
+        >
           {linkContent}
         </a>
       );
