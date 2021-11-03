@@ -35,8 +35,11 @@ export function MenuButton(props: any) {
   // Get props for the menu trigger and menu elements
   const ref = React.useRef(null);
   const { menuTriggerProps, menuProps } = useMenuTrigger({}, state, ref);
-  const {} = useFocusWithin({
+  const { focusWithinProps } = useFocusWithin({
     onFocusWithinChange: (isFocused) => {
+      if (isFocused) {
+        state.open();
+      }
       if (!isFocused) {
         state.close();
       }
@@ -55,7 +58,7 @@ export function MenuButton(props: any) {
     ref
   );
 
-  const element = (
+  let element = (
     <button {...buttonProps} ref={ref} onClick={link.onClick} aria-label={link.label}>
       <span>
         {link.icon && <Icon name={link.icon as IconName} size="xl" />}
@@ -84,7 +87,7 @@ export function MenuButton(props: any) {
   }
 
   return (
-    <li className={cx(styles.container, 'dropdown')}>
+    <li className={cx(styles.container, 'dropdown')} {...focusWithinProps}>
       {element}
       {/*state.isOpen && (*/}
       {state.isOpen && (
