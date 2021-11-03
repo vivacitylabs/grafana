@@ -36,7 +36,16 @@ export function MenuButton(props: any) {
   let { menuTriggerProps, menuProps } = useMenuTrigger({}, state, ref);
 
   // Get props for the button based on the trigger props from useMenuTrigger
-  let { buttonProps } = useButton(menuTriggerProps, ref);
+  let { buttonProps } = useButton(
+    {
+      ...menuTriggerProps,
+      onKeyDown: (e) => {
+        e.stopPropagation();
+        link.onClick();
+      },
+    },
+    ref
+  );
 
   let element = (
     <button {...buttonProps} ref={ref} onClick={link.onClick} aria-label={link.label}>
