@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { css, cx } from '@emotion/css';
 import { useMenuTriggerState, useTreeState } from 'react-stately';
 import {
@@ -46,17 +46,22 @@ export function MenuButton(props: any) {
     },
   });
 
+  const [isFocusedItem, setIsFocusedItem] = useState(false);
+
   // Get props for the button based on the trigger props from useMenuTrigger
   const { buttonProps } = useButton(
     {
       ...menuTriggerProps,
       onKeyDown: (e) => {
-        e.stopPropagation();
-        link.onClick();
         switch (e.key) {
           case 'Enter':
           case ' ':
-            state.toggle();
+            e.stopPropagation();
+            link.onClick();
+            break;
+          case 'ArrowRight':
+            e.stopPropagation();
+            setIsFocusedItem(true);
             break;
           default:
             break;
@@ -99,7 +104,13 @@ export function MenuButton(props: any) {
       {element}
       {/*state.isOpen && (*/}
       {state.isOpen && (
-        <MenuPopup {...rest} domProps={menuProps} autoFocus={state.focusStrategy} onClose={() => state.close()} />
+        <MenuPopup
+          {...rest}
+          disableAllKeys={isItemFocused}
+          domProps={menuProps}
+          autoFocus={state.focusStrategy}
+          onClose={() => state.close()}
+        />
       )}
     </li>
   );
