@@ -1,4 +1,5 @@
 import React from 'react';
+import { css, cx } from '@emotion/css';
 import { useMenuTriggerState, useTreeState } from 'react-stately';
 import {
   DismissButton,
@@ -12,11 +13,23 @@ import {
   useOverlay,
 } from 'react-aria';
 import { Icon, IconName, Link, useTheme2 } from '@grafana/ui';
+import { GrafanaTheme2 } from '@grafana/data';
+
+console.log('test');
 
 export function MenuButton(props: any) {
-  const { link, ...rest } = props;
+  const theme = useTheme2();
+
+  const { link, isActive, ...rest } = props;
+  const styles = getStyles(theme, isActive);
+
   // Create state based on the incoming props
-  let state = useMenuTriggerState(rest);
+  let state = useMenuTriggerState({
+    ...rest,
+    onOpenChange: (isOpen) => {
+      console.log({ isOpen });
+    },
+  });
 
   // Get props for the menu trigger and menu elements
   let ref = React.useRef(null);
@@ -54,7 +67,7 @@ export function MenuButton(props: any) {
   }
 
   return (
-    <li style={{ position: 'relative', display: 'inline-block' }}>
+    <li className={cx(styles.container, 'dropdown')}>
       {element}
       {/*state.isOpen && (*/}
       {state.isOpen && (
@@ -136,7 +149,6 @@ function MenuItem({ item, state, onAction, onClose }: any) {
   // style to the focused menu item
   let [isFocused, setFocused] = React.useState(false);
   let { focusProps } = useFocus({ onFocusChange: setFocused });
-  console.log(item.rendered);
 
   return (
     <li
@@ -154,3 +166,88 @@ function MenuItem({ item, state, onAction, onClose }: any) {
     </li>
   );
 }
+
+const getStyles = (theme: GrafanaTheme2, isActive: boolean) => ({
+  container: css`
+    position: relative;
+
+    @keyframes dropdown-anim {
+      0% {
+        opacity: 0;
+      }
+      100% {
+        opacity: 1;
+      }
+    }
+
+    ${theme.breakpoints.up('md')} {
+      color: ${isActive ? theme.colors.text.primary : theme.colors.text.secondary};
+
+      &:hover {
+        background-color: ${theme.colors.action.hover};
+        color: ${theme.colors.text.primary};
+
+        .dropdown-menu {
+          animation: dropdown-anim 150ms ease-in-out 100ms forwards;
+          display: flex;
+          // important to overlap it otherwise it can be hidden
+          // again by the mouse getting outside the hover space
+          left: ${theme.components.sidemenu.width - 1}px;
+          margin: 0;
+          opacity: 0;
+          top: 0;
+          z-index: ${theme.zIndex.sidemenu};
+        }
+
+        &.dropup .dropdown-menu {
+          top: auto;
+        }
+      }
+    }
+  `,
+  element: css`
+    background-color: transparent;
+    border: none;
+    color: inherit;
+    display: block;
+    line-height: ${theme.components.sidemenu.width}px;
+    padding: 0;
+    text-align: center;
+    width: ${theme.components.sidemenu.width}px;
+
+    &::before {
+      display: ${isActive ? 'block' : 'none'};
+      content: ' ';
+      position: absolute;
+      left: 0;
+      top: 0;
+      bottom: 0;
+      width: 4px;
+      border-radius: 2px;
+      background-image: ${theme.colors.gradients.brandVertical};
+    }
+
+    &:focus-visible {
+      background-color: ${theme.colors.action.hover};
+      box-shadow: none;
+      color: ${theme.colors.text.primary};
+      outline: 2px solid ${theme.colors.primary.main};
+      outline-offset: -2px;
+      transition: none;
+    }
+
+    .sidemenu-open--xs & {
+      display: none;
+    }
+  `,
+  icon: css`
+    height: 100%;
+    width: 100%;
+
+    img {
+      border-radius: 50%;
+      height: 24px;
+      width: 24px;
+    }
+  `,
+});

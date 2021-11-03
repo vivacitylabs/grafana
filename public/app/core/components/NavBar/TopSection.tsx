@@ -6,7 +6,7 @@ import { GrafanaTheme2, NavModelItem } from '@grafana/data';
 import { locationService } from '@grafana/runtime';
 import { Icon, useTheme2, IconName } from '@grafana/ui';
 import config from '../../config';
-import { isSearchActive } from './utils';
+import { isLinkActive, isSearchActive } from './utils';
 import NavBarItem from './NavBarItem';
 import { MenuButton } from './TestMenu';
 import { Item } from 'react-stately';
@@ -19,7 +19,7 @@ const TopSection = () => {
 
   const navTree: NavModelItem[] = cloneDeep(config.bootData.navTree);
   const mainLinks = navTree.filter((item) => !item.hideFromMenu);
-  // const activeItemId = mainLinks.find((item) => isLinkActive(location.pathname, item))?.id;
+  const activeItemId = mainLinks.find((item) => isLinkActive(location.pathname, item))?.id;
 
   const onOpenSearch = () => {
     locationService.partial({ search: 'open' });
@@ -33,7 +33,11 @@ const TopSection = () => {
       <ul>
         {mainLinks.map((link, index) => {
           return (
-            <MenuButton key={`${link.id}-${index}`} link={link}>
+            <MenuButton
+              key={`${link.id}-${index}`}
+              link={link}
+              isActive={!isSearchActive(location) && activeItemId === link.id}
+            >
               {link &&
                 link.children &&
                 link.children.map((link, index) => {
