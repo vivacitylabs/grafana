@@ -7,6 +7,7 @@ import {
   mergeProps,
   useButton,
   useFocus,
+  useFocusWithin,
   useMenu,
   useMenuItem,
   useMenuTrigger,
@@ -24,7 +25,7 @@ export function MenuButton(props: any) {
   const styles = getStyles(theme, isActive);
 
   // Create state based on the incoming props
-  let state = useMenuTriggerState({
+  const state = useMenuTriggerState({
     ...rest,
     onOpenChange: (isOpen) => {
       console.log({ isOpen });
@@ -32,11 +33,18 @@ export function MenuButton(props: any) {
   });
 
   // Get props for the menu trigger and menu elements
-  let ref = React.useRef(null);
-  let { menuTriggerProps, menuProps } = useMenuTrigger({}, state, ref);
+  const ref = React.useRef(null);
+  const { menuTriggerProps, menuProps } = useMenuTrigger({}, state, ref);
+  const {} = useFocusWithin({
+    onFocusWithinChange: (isFocused) => {
+      if (!isFocused) {
+        state.close();
+      }
+    },
+  });
 
   // Get props for the button based on the trigger props from useMenuTrigger
-  let { buttonProps } = useButton(
+  const { buttonProps } = useButton(
     {
       ...menuTriggerProps,
       onKeyDown: (e) => {
@@ -47,7 +55,7 @@ export function MenuButton(props: any) {
     ref
   );
 
-  let element = (
+  const element = (
     <button {...buttonProps} ref={ref} onClick={link.onClick} aria-label={link.label}>
       <span>
         {link.icon && <Icon name={link.icon as IconName} size="xl" />}
@@ -88,16 +96,16 @@ export function MenuButton(props: any) {
 
 function MenuPopup(props: any) {
   // Create menu state based on the incoming props
-  let state = useTreeState({ ...props, selectionMode: 'none' });
+  const state = useTreeState({ ...props, selectionMode: 'none' });
 
   // Get props for the menu element
-  let ref = React.useRef(null);
-  let { menuProps } = useMenu(props, state, ref);
+  const ref = React.useRef(null);
+  const { menuProps } = useMenu(props, state, ref);
 
   // Handle events that should cause the menu to close,
   // e.g. blur, clicking outside, or pressing the escape key.
-  let overlayRef = React.useRef(null);
-  let { overlayProps } = useOverlay(
+  const overlayRef = React.useRef(null);
+  const { overlayProps } = useOverlay(
     {
       onClose: props.onClose,
       shouldCloseOnBlur: true,
@@ -142,8 +150,8 @@ function MenuPopup(props: any) {
 
 function MenuItem({ item, state, onAction, onClose }: any) {
   // Get props for the menu item element
-  let ref = React.useRef(null);
-  let { menuItemProps } = useMenuItem(
+  const ref = React.useRef(null);
+  const { menuItemProps } = useMenuItem(
     {
       key: item.key,
       isDisabled: item.isDisabled,
@@ -156,8 +164,8 @@ function MenuItem({ item, state, onAction, onClose }: any) {
 
   // Handle focus events so we can apply highlighted
   // style to the focused menu item
-  let [isFocused, setFocused] = React.useState(false);
-  let { focusProps } = useFocus({ onFocusChange: setFocused });
+  const [isFocused, setFocused] = React.useState(false);
+  const { focusProps } = useFocus({ onFocusChange: setFocused });
 
   return (
     <li
