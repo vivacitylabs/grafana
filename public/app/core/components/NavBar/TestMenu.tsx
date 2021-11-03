@@ -60,11 +60,11 @@ export function MenuButton(props: any) {
             link.onClick();
             break;
           case 'ArrowRight':
-            e.stopPropagation();
+            e.continuePropagation();
             setEnableAllItems(true);
             break;
           case 'ArrowLeft':
-            e.stopPropagation();
+            e.continuePropagation();
             setEnableAllItems(false);
             break;
           default:
@@ -190,7 +190,7 @@ function MenuItem({ item, state, onAction, onClose, enabled }: any) {
   if (!enabled) {
     state.disabledKeys.add(item.key);
   } else {
-    state.disabledKeys.remove(item.key);
+    state.disabledKeys.delete(item.key);
   }
 
   const { menuItemProps } = useMenuItem(
