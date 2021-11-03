@@ -46,7 +46,7 @@ export function MenuButton(props: any) {
     },
   });
 
-  const [isFocusedItem, setIsFocusedItem] = useState(false);
+  const [enableAllItems, setEnableAllItems] = useState(false);
 
   // Get props for the button based on the trigger props from useMenuTrigger
   const { buttonProps } = useButton(
@@ -61,7 +61,11 @@ export function MenuButton(props: any) {
             break;
           case 'ArrowRight':
             e.stopPropagation();
-            setIsFocusedItem(true);
+            setEnableAllItems(true);
+            break;
+          case 'ArrowLeft':
+            e.stopPropagation();
+            setEnableAllItems(false);
             break;
           default:
             break;
@@ -106,7 +110,7 @@ export function MenuButton(props: any) {
       {state.isOpen && (
         <MenuPopup
           {...rest}
-          disableAllKeys={isItemFocused}
+          enableAllItems={enableAllItems}
           domProps={menuProps}
           autoFocus={state.focusStrategy}
           onClose={() => state.close()}
@@ -117,12 +121,14 @@ export function MenuButton(props: any) {
 }
 
 function MenuPopup(props: any) {
+  const { enableAllItems, ...rest } = props;
+
   // Create menu state based on the incoming props
-  const state = useTreeState({ ...props, selectionMode: 'none' });
+  const state = useTreeState({ ...rest, selectionMode: 'none' });
 
   // Get props for the menu element
   const ref = React.useRef(null);
-  const { menuProps } = useMenu(props, state, ref);
+  const { menuProps } = useMenu(rest, state, ref);
 
   // Handle events that should cause the menu to close,
   // e.g. blur, clicking outside, or pressing the escape key.
@@ -159,10 +165,17 @@ function MenuPopup(props: any) {
             background: 'lightgray',
             left: `${theme.components.sidemenu.width - 1}px`,
           }}
-          tabIndex={-1}
+          tabIndex={enableAllItems ? 0 : -1}
         >
           {[...state.collection].map((item) => (
-            <MenuItem key={item.key} item={item} state={state} onAction={props.onAction} onClose={props.onClose} />
+            <MenuItem
+              key={item.key}
+              item={item}
+              state={state}
+              onAction={props.onAction}
+              onClose={props.onClose}
+              enabled={enableAllItems}
+            />
           ))}
         </ul>
         <DismissButton onDismiss={props.onClose} />
@@ -171,15 +184,19 @@ function MenuPopup(props: any) {
   );
 }
 
-function MenuItem({ item, state, onAction, onClose }: any) {
+function MenuItem({ item, state, onAction, onClose, enabled }: any) {
   // Get props for the menu item element
   const ref = React.useRef(null);
-  state.disabledKeys.add(item.key);
+  if (!enabled) {
+    state.disabledKeys.add(item.key);
+  } else {
+    state.disabledKeys.remove(item.key);
+  }
 
   const { menuItemProps } = useMenuItem(
     {
       key: item.key,
-      isDisabled: true,
+      isDisabled: !enabled,
       onAction,
       onClose,
     },
