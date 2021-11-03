@@ -4,7 +4,7 @@ import { cloneDeep } from 'lodash';
 import { css } from '@emotion/css';
 import { GrafanaTheme2, NavModelItem } from '@grafana/data';
 import { locationService } from '@grafana/runtime';
-import { Icon, useTheme2, IconName } from '@grafana/ui';
+import { Icon, IconName, useTheme2 } from '@grafana/ui';
 import config from '../../config';
 import { isLinkActive, isSearchActive } from './utils';
 import NavBarItem from './NavBarItem';

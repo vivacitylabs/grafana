@@ -40,9 +40,9 @@ export function MenuButton(props: any) {
       if (isFocused) {
         state.open();
       }
-      if (!isFocused) {
-        state.close();
-      }
+      // if (!isFocused) {
+      //   state.close();
+      // }
     },
   });
 
