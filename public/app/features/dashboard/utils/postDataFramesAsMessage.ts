@@ -42,9 +42,13 @@ const buildVariableMap = (dashboard: DashboardModel): Map<string, string | undef
   const variableMap = new Map<string, string | undefined>();
   variables.forEach((variable: any) => {
     if (variable.current) {
-      variableMap.set(variable.id, variable.current.value);
+      if (Array.isArray(variable.current.value)) {
+        variableMap.set(variable.id, variable.current.value);
+      } else {
+        variableMap.set(variable.id, [variable.current.value]);
+      }
     } else {
-      variableMap.set(variable.id, undefined);
+      variableMap.set(variable.id, []);
     }
   });
   return variableMap;
