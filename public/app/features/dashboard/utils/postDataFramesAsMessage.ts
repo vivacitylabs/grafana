@@ -5,7 +5,7 @@ interface IframeMessage {
   panelId: number;
   dashboardId: number;
   series: DataFrame[];
-  variables: Map<string, string | undefined>;
+  variables: Map<string, string[]>;
   timeRange: { to: number; from: number };
 }
 
@@ -37,9 +37,9 @@ const cleanDataOfUnsendableProperties = (data: PanelData): DataFrame[] => {
   return series;
 };
 
-const buildVariableMap = (dashboard: DashboardModel): Map<string, string | undefined> => {
+const buildVariableMap = (dashboard: DashboardModel): Map<string, string[]> => {
   const variables = dashboard.getVariables();
-  const variableMap = new Map<string, string | undefined>();
+  const variableMap = new Map<string, string[]>();
   variables.forEach((variable: any) => {
     if (variable.current) {
       if (Array.isArray(variable.current.value)) {
