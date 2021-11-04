@@ -38,6 +38,7 @@ import { deleteAnnotation, saveAnnotation, updateAnnotation } from '../../annota
 import { getDashboardQueryRunner } from '../../query/state/DashboardQueryRunner/DashboardQueryRunner';
 import { liveTimer } from './liveTimer';
 import { isSoloRoute } from '../../../routes/utils';
+import { postDataFramesAsMessage } from '../utils/postDataFramesAsMessage';
 
 const DEFAULT_PLUGIN_ERROR = 'Error in plugin';
 
@@ -52,7 +53,6 @@ export interface Props {
   height: number;
   onInstanceStateChange: (value: any) => void;
 }
-
 export interface State {
   isFirstLoad: boolean;
   renderCounter: number;
@@ -256,6 +256,9 @@ export class PanelChrome extends PureComponent<Props, State> {
   onDataUpdate(data: PanelData) {
     const { dashboard, panel, plugin } = this.props;
 
+    // console.log("RUNNING")
+    // postDataFrames(data, panel, dashboard)
+
     // Ignore this data update if we are now a non data panel
     if (plugin.meta.skipDataQuery) {
       this.setState({ data: this.getInitialPanelDataState() });
@@ -292,6 +295,7 @@ export class PanelChrome extends PureComponent<Props, State> {
         break;
     }
 
+    postDataFramesAsMessage(data, panel, dashboard);
     this.setState({ isFirstLoad, errorMessage, data, liveTime: undefined });
   }
 
