@@ -55,24 +55,31 @@ try {
   def gitCommit = ""
   def imageName = ""
   node("dashboard") {
+      echo "STAGED 0"
+
       stage("SCM checkout") {
           gitCommit = checkout()
       }
 
+      echo "STAGED 1"
+
       stage("Build docker image") {
         imageName = build(gitCommit)
       }
-
+      echo "STAGED 2"
       if (params.pushImage || env.BRANCH_NAME == "master") {
         stage("Push docker image") {
           pushImage(imageName)
         }
       }
+      echo "STAGED 3"
 
       stage("Clean up") {
         cleanUp(imageName)
         deleteDir()
       }
+
+      echo "STAGED 4"
   }
 } catch(Exception e) {
     throw e
