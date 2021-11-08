@@ -28,14 +28,13 @@ def checkout() {
 
 def build(gitCommit) {
   def imageBucket = "eu.gcr.io/atrocity-management/amd64/grafana"
-  def images = []
   def imageName = ""
     withGCP("atrocity-gcr-puller") {
         sshagent(['github-key']) {
 
           def imageTag = gitCommit + "-grafana"
-          imageName = "${imageName}:${imageTag}"
-          buildDockerImage("grafana", imageName, null, null)
+          imageName = "${imageBucket}:${imageTag}"
+          buildDockerImage("grafana", imageName, null, true)
       }
     }
     return imageName
