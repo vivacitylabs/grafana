@@ -108,4 +108,6 @@ try {
         deleteDir()
       }
   }
+} catch(Exception e) {
+    throw e
 }
