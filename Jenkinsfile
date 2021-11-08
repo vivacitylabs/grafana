@@ -34,7 +34,7 @@ def build(gitCommit) {
 
           def imageTag = gitCommit + "-grafana"
           imageName = "${imageBucket}:${imageTag}"
-          buildDockerImage("grafana", imageName, null, true)
+          buildDockerImage("grafana", imageName, null, "")
       }
     }
     return imageName
