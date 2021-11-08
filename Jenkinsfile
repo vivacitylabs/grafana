@@ -76,19 +76,10 @@ def cleanUp(imageName) {
   sh "docker rmi -f ${imageName} || true"
 }
 
-stage("Assigning main CI node") {
-    node("dashboard") {
-        mainNode.name = env.NODE_NAME
-        mainNode.ip = getNodeIP()
-    }
-
-    println "Running CI on: ${mainNode.name} (${mainNode.ip})"
-}
-
 try {
   def gitCommit = ""
   def imageName = ""
-  node(mainNode.name) {
+  node("dashboard") {
       stage("SCM checkout") {
           gitCommit = checkout()
       }
