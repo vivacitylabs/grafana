@@ -4,29 +4,6 @@ properties([
     ]),
 ])
 
-def getNodeIP() {
-    return sh(returnStdout: true,
-                script: 'ip -4 a show dev eth0  | grep inet | cut -d " " -f6 | cut -d "/" -f1').trim()
-}
-
-def pushImages(project, uuid, arch, gitCommit) {
-    def images = []
-    def projectName = project == "master" ? "" : "${project}-"
-    def branchName = env.BRANCH_NAME == "master" ? "" : "${env.BRANCH_NAME}-"
-    def tags = []
-    def commitString = "${branchName}${projectName}${gitCommit}"
-    def commitMessage = sh(returnStdout: true, script: "git log --format=format:%s -1 ${gitCommit}")
-
-    tags = [commitString]
-
-
-    tags.each { tag ->
-        images += retagAndPushImage("grafana:${uuid}-amd64-${project}", "eu.gcr.io/atrocity-management/grafana/supermario:${tag}")
-    }
-
-    return images
-}
-
 def checkout() {
     scmVars = checkout([
         $class: 'GitSCM',
@@ -48,8 +25,6 @@ def checkout() {
 
     return scmVars.GIT_COMMIT.take(7)
 }
-
-
 
 def build(gitCommit) {
   def imageBucket = "eu.gcr.io/atrocity-management/amd64/grafana"
