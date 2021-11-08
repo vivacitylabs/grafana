@@ -37,6 +37,8 @@ const cleanDataOfUnsendableProperties = (data: PanelData): DataFrame[] => {
   return series;
 };
 
+// jenkins test comment
+
 const buildVariableMap = (dashboard: DashboardModel): Map<string, string[]> => {
   const variables = dashboard.getVariables();
   const variableMap = new Map<string, string[]>();
