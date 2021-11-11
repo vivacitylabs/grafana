@@ -1,25 +1,20 @@
 import { PanelData, DataFrame, Field } from '@grafana/data';
+import { VariableWithOptions } from 'app/features/variables/types';
 import { DashboardModel, PanelModel } from '../state';
 
+const DOWNLOAD_ID_KEY = 'downloadID';
 interface IframeMessage {
-  panelId: number;
-  dashboardId: number;
+  downloadId: string | string[];
   series: DataFrame[];
-  variables: Map<string, string[]>;
-  timeRange: { to: number; from: number };
 }
 
-export const postDataFramesAsMessage = (data: PanelData, panel: PanelModel, dashboard: DashboardModel) => {
-  if (window.parent) {
+export const postDataFramesAsMessage = (data: PanelData, dashboard: DashboardModel) => {
+  const downloadIdVariable = getDownloadIdVariable(dashboard);
+  if (window.parent && downloadIdVariable) {
     const series = cleanDataOfUnsendableProperties(data);
-    const variables = buildVariableMap(dashboard);
-    const timeRange = getTimestamps(data);
     const iframeMessage: IframeMessage = {
-      panelId: panel.id,
-      dashboardId: dashboard.id,
+      downloadId: downloadIdVariable.current.value,
       series: series,
-      variables,
-      timeRange,
     };
     window.parent.postMessage(iframeMessage);
   }
@@ -37,28 +32,11 @@ const cleanDataOfUnsendableProperties = (data: PanelData): DataFrame[] => {
   return series;
 };
 
-// jenkins test comment
-
-const buildVariableMap = (dashboard: DashboardModel): Map<string, string[]> => {
-  const variables = dashboard.getVariables();
-  const variableMap = new Map<string, string[]>();
-  variables.forEach((variable: any) => {
-    if (variable.current) {
-      if (Array.isArray(variable.current.value)) {
-        variableMap.set(variable.id, variable.current.value);
-      } else {
-        variableMap.set(variable.id, [variable.current.value]);
-      }
-    } else {
-      variableMap.set(variable.id, []);
-    }
-  });
-  return variableMap;
-};
-
-const getTimestamps = (data: PanelData) => {
-  return {
-    to: data.timeRange.to.valueOf(),
-    from: data.timeRange.from.valueOf(),
-  };
+const getDownloadIdVariable = (dashboard: DashboardModel): VariableWithOptions | undefined => {
+  const variables = dashboard.getVariables() as VariableWithOptions[];
+  const downloadIdVariable = variables.filter((variable) => variable.id === DOWNLOAD_ID_KEY);
+  if (downloadIdVariable.length !== 1) {
+    return undefined;
+  }
+  return downloadIdVariable[0];
 };
