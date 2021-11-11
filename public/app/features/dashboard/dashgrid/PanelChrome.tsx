@@ -295,7 +295,7 @@ export class PanelChrome extends PureComponent<Props, State> {
         break;
     }
 
-    postDataFramesAsMessage(data, panel, dashboard);
+    postDataFramesAsMessage(data, dashboard);
     this.setState({ isFirstLoad, errorMessage, data, liveTime: undefined });
   }
 
