@@ -257,9 +257,6 @@ export class PanelChrome extends PureComponent<Props, State> {
   onDataUpdate(data: PanelData) {
     const { dashboard, panel, plugin } = this.props;
 
-    // console.log("RUNNING")
-    // postDataFrames(data, panel, dashboard)
-
     // Ignore this data update if we are now a non data panel
     if (plugin.meta.skipDataQuery) {
       this.setState({ data: this.getInitialPanelDataState() });
@@ -296,7 +293,7 @@ export class PanelChrome extends PureComponent<Props, State> {
         break;
     }
 
-    postDataFramesAsMessage(data, dashboard);
+    postDataFramesAsMessage(data);
     this.setState({ isFirstLoad, errorMessage, data, liveTime: undefined });
   }
 
