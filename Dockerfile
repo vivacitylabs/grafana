@@ -2,9 +2,6 @@ FROM node:16-alpine3.14 as js-builder
 
 ENV NODE_OPTIONS=--max_old_space_size=8000
 
-RUN useradd -m docker && echo "docker:docker" | chpasswd && adduser docker sudo
-USER docker
-
 WORKDIR /grafana
 
 COPY package.json yarn.lock .yarnrc.yml ./
