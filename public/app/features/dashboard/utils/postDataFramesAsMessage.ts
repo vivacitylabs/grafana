@@ -1,19 +1,19 @@
 import { PanelData, DataFrame, Field } from '@grafana/data';
-import { VariableWithOptions } from 'app/features/variables/types';
-import { DashboardModel, PanelModel } from '../state';
+import { locationService } from '@grafana/runtime';
+import { UrlQueryMap, UrlQueryValue } from '../../../../../packages/grafana-data/src';
 
-const DOWNLOAD_ID_KEY = 'downloadID';
+const DOWNLOAD_ID_KEY = 'var-downloadId';
 interface IframeMessage {
-  downloadId: string | string[];
+  downloadId: UrlQueryValue;
   series: DataFrame[];
 }
 
-export const postDataFramesAsMessage = (data: PanelData, dashboard: DashboardModel) => {
-  const downloadIdVariable = getDownloadIdVariable(dashboard);
+export const postDataFramesAsMessage = (data: PanelData) => {
+  const downloadIdVariable = getDownloadIdVariable();
   if (window.parent && downloadIdVariable) {
     const series = cleanDataOfUnsendableProperties(data);
     const iframeMessage: IframeMessage = {
-      downloadId: downloadIdVariable.current.value,
+      downloadId: downloadIdVariable,
       series: series,
     };
     window.parent.postMessage(iframeMessage);
@@ -32,11 +32,7 @@ const cleanDataOfUnsendableProperties = (data: PanelData): DataFrame[] => {
   return series;
 };
 
-const getDownloadIdVariable = (dashboard: DashboardModel): VariableWithOptions | undefined => {
-  const variables = dashboard.getVariables() as VariableWithOptions[];
-  const downloadIdVariable = variables.filter((variable) => variable.id === DOWNLOAD_ID_KEY);
-  if (downloadIdVariable.length !== 1) {
-    return undefined;
-  }
-  return downloadIdVariable[0];
+const getDownloadIdVariable = (): UrlQueryValue | undefined => {
+  const variables: UrlQueryMap = locationService.getSearchObject();
+  return variables[DOWNLOAD_ID_KEY];
 };
