@@ -27,7 +27,7 @@ def checkout() {
 }
 
 def build(gitCommit) {
-  def imageName = "atrocity-management/amd64/grafana"
+  def imageName = "eu.gcr.io/atrocity-management/amd64/grafana"
     withGCP("atrocity-gcr-puller") {
         sshagent(['github-key']) {
           def imageTag = gitCommit + "-grafana"
