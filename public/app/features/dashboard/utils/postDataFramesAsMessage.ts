@@ -3,24 +3,23 @@ import { locationService } from '@grafana/runtime';
 import { UrlQueryMap, UrlQueryValue } from '../../../../../packages/grafana-data/src';
 
 const DOWNLOAD_ID_KEY = 'downloadId';
-const MESSAGE_TARGET_DOMAIN_KEY = 'messageTargetDomain';
+const MESSAGE_TARGET_ORIGIN_KEY = 'messageTargetOrigin';
 interface IframeMessage {
   downloadId: UrlQueryValue;
   series: DataFrame[];
 }
 
 export const postDataFramesAsMessage = (data: PanelData) => {
-  const variables: UrlQueryMap = locationService.getSearchObject();
-  const downloadIdVariable = getDownloadIdVariable(variables);
-  const messageTargetDomain = getTargetDomainVariable(variables);
-  if (window.parent && downloadIdVariable) {
+  const urlQueryParams: UrlQueryMap = locationService.getSearchObject();
+  const downloadIdVariable = getDownloadIdParam(urlQueryParams);
+  const messageTargetOrigin = getTargetOriginParam(urlQueryParams);
+  if (window.parent && downloadIdVariable && messageTargetOrigin && typeof messageTargetOrigin === 'string') {
     const series = cleanDataOfUnsendableProperties(data);
     const iframeMessage: IframeMessage = {
       downloadId: downloadIdVariable,
       series: series,
     };
-    const targetOrigin = messageTargetDomain ? `https://${messageTargetDomain}` : '*';
-    window.parent.postMessage(iframeMessage, targetOrigin);
+    window.parent.postMessage(iframeMessage, messageTargetOrigin);
   }
 };
 
@@ -36,10 +35,10 @@ const cleanDataOfUnsendableProperties = (data: PanelData): DataFrame[] => {
   return series;
 };
 
-const getDownloadIdVariable = (variables: UrlQueryMap): UrlQueryValue | undefined => {
-  return variables[DOWNLOAD_ID_KEY];
+const getDownloadIdParam = (urlQueryParams: UrlQueryMap): UrlQueryValue | undefined => {
+  return urlQueryParams[DOWNLOAD_ID_KEY];
 };
 
-const getTargetDomainVariable = (variables: UrlQueryMap): UrlQueryValue | undefined => {
-  return variables[MESSAGE_TARGET_DOMAIN_KEY];
+const getTargetOriginParam = (urlQueryParams: UrlQueryMap): UrlQueryValue | undefined => {
+  return urlQueryParams[MESSAGE_TARGET_ORIGIN_KEY];
 };
