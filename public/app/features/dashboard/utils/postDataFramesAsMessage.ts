@@ -1,5 +1,6 @@
 import { PanelData, DataFrame, Field } from '@grafana/data';
 import { locationService } from '@grafana/runtime';
+import { cloneDeep } from 'lodash';
 import { UrlQueryMap, UrlQueryValue } from '../../../../../packages/grafana-data/src';
 
 const DOWNLOAD_ID_KEY = 'downloadId';
@@ -23,7 +24,8 @@ export const postDataFramesAsMessage = (data: PanelData) => {
   }
 };
 
-const cleanDataOfUnsendableProperties = (data: PanelData): DataFrame[] => {
+const cleanDataOfUnsendableProperties = (dataReference: PanelData): DataFrame[] => {
+  const data = cloneDeep(dataReference);
   const { series } = data;
   series.forEach((singleSeries: DataFrame) =>
     singleSeries.fields.forEach((field: Field) => {
