@@ -4,7 +4,7 @@ import { backendSrv } from 'app/core/services/backend_srv';
 import { DashboardSrv, getDashboardSrv } from 'app/features/dashboard/services/DashboardSrv';
 import { dashboardLoaderSrv } from 'app/features/dashboard/services/DashboardLoaderSrv';
 import { getTimeSrv, TimeSrv } from 'app/features/dashboard/services/TimeSrv';
-import { keybindingSrv } from 'app/core/services/keybindingSrv';
+// import { keybindingSrv } from 'app/core/services/keybindingSrv';
 // Actions
 import { notifyApp } from 'app/core/actions';
 import {
@@ -189,7 +189,7 @@ export function initDashboard(args: InitDashboardArgs): ThunkResult<void> {
         dashboard.autoFitPanels(window.innerHeight, queryParams.kiosk);
       }
 
-      keybindingSrv.setupDashboardBindings(dashboard);
+      // keybindingSrv.setupDashboardBindings(dashboard);
     } catch (err) {
       dispatch(notifyApp(createErrorNotification('Dashboard init failed', err)));
       console.error(err);
