@@ -37,7 +37,6 @@ export const SearchField = ({ value, onSearch }: Props) => {
       onKeyDown={(e) => {
         if (e.key === 'Enter' || e.keyCode === 13) {
           onSearch(e.currentTarget.value);
-          console.log('Hi');
         }
       }}
       placeholder="Search Grafana plugins"
