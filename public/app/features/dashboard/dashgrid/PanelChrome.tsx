@@ -63,18 +63,6 @@ export interface State {
   liveTime?: TimeRange;
 }
 
-// document.addEventListener("keypress", (e) => {
-//   e.preventDefault();
-//   e.stopPropagation();
-// });
-// document.addEventListener("keydown", (e) => {
-//   e.preventDefault();
-//   e.stopPropagation();
-// });
-// document.addEventListener("keyup", (e) => {
-//   e.preventDefault();
-//   e.stopPropagation();
-// });
 export class PanelChrome extends PureComponent<Props, State> {
   private readonly timeSrv: TimeSrv = getTimeSrv();
   private subs = new Subscription();
