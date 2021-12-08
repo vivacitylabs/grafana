@@ -70,7 +70,7 @@ export class PanelChrome extends PureComponent<Props, State> {
 
   constructor(props: Props) {
     super(props);
-
+    // add one comment to be able to create a PR
     // Can this eventBus be on PanelModel?  when we have more complex event filtering, that may be a better option
     const eventBus = props.dashboard.events.newScopedBus(`panel:${props.panel.id}`, this.eventFilter);
 
