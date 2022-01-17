@@ -38,6 +38,7 @@ import { deleteAnnotation, saveAnnotation, updateAnnotation } from '../../annota
 import { getDashboardQueryRunner } from '../../query/state/DashboardQueryRunner/DashboardQueryRunner';
 import { liveTimer } from './liveTimer';
 import { isSoloRoute } from '../../../routes/utils';
+import { postDataFramesAsMessage } from '../utils/postDataFramesAsMessage';
 
 const DEFAULT_PLUGIN_ERROR = 'Error in plugin';
 
@@ -52,7 +53,6 @@ export interface Props {
   height: number;
   onInstanceStateChange: (value: any) => void;
 }
-
 export interface State {
   isFirstLoad: boolean;
   renderCounter: number;
@@ -87,7 +87,7 @@ export class PanelChrome extends PureComponent<Props, State> {
         onAnnotationCreate: this.onAnnotationCreate,
         onAnnotationUpdate: this.onAnnotationUpdate,
         onAnnotationDelete: this.onAnnotationDelete,
-        canAddAnnotations: () => Boolean(props.dashboard.meta.canEdit || props.dashboard.meta.canMakeEditable),
+        canAddAnnotations: () => false,
         onInstanceStateChange: this.onInstanceStateChange,
         onToggleLegendSort: this.onToggleLegendSort,
       },
@@ -292,6 +292,7 @@ export class PanelChrome extends PureComponent<Props, State> {
         break;
     }
 
+    postDataFramesAsMessage(data);
     this.setState({ isFirstLoad, errorMessage, data, liveTime: undefined });
   }
 
