@@ -39,6 +39,7 @@ import { getDashboardQueryRunner } from '../../query/state/DashboardQueryRunner/
 import { liveTimer } from './liveTimer';
 import { isSoloRoute } from '../../../routes/utils';
 import { postDataFramesAsMessage } from '../utils/postDataFramesAsMessage';
+import { DashboardSrv, getDashboardSrv } from 'app/features/dashboard/services/DashboardSrv';
 
 const DEFAULT_PLUGIN_ERROR = 'Error in plugin';
 
@@ -73,6 +74,13 @@ export class PanelChrome extends PureComponent<Props, State> {
 
     // Can this eventBus be on PanelModel?  when we have more complex event filtering, that may be a better option
     const eventBus = props.dashboard.events.newScopedBus(`panel:${props.panel.id}`, this.eventFilter);
+
+    window.addEventListener('message', (event) => {
+      if (event.data.testVar) {
+        console.log(event);
+        this.onRecieveVariables(event);
+      }
+    });
 
     this.state = {
       isFirstLoad: true,
@@ -251,6 +259,13 @@ export class PanelChrome extends PureComponent<Props, State> {
     }
   }
 
+  onRecieveVariables(message: any) {
+    console.log('message', message.data);
+    const newVariables = message.data;
+    getDashboardSrv().refreshVariables(newVariables);
+    getTimeSrv().updateTimeRangeFromDashboard(newVariables);
+  }
+
   // Updates the response with information from the stream
   // The next is outside a react synthetic event so setState is not batched
   // So in this context we can only do a single call to setState
@@ -292,6 +307,36 @@ export class PanelChrome extends PureComponent<Props, State> {
         }
         break;
     }
+    // setTimeout(() => {
+    //   getDashboardSrv().refreshVariables({
+    //     "testVar": {
+    //       type: "custom",
+    //       values: "3"
+    //     },
+    //     "newVarAgain": {
+    //       type: "custom",
+    //       values: ["5", "6", "7"]
+    //     },
+    //     "timeRange": {
+    //       to: 1643414399000,
+    //       from: 1641600000000
+    //     }
+    //   });
+    //   getTimeSrv().updateTimeRangeFromDashboard({
+    //     "testVar": {
+    //       type: "custom",
+    //       values: "3"
+    //     },
+    //     "newVarAgain": {
+    //       type: "custom",
+    //       values: ["5", "6", "7"]
+    //     },
+    //     "timeRange": {
+    //       to: '1643414399000',
+    //       from: '1641600000000'
+    //     }
+    //   })
+    // }, 30000);
 
     postDataFramesAsMessage(data);
     this.setState({ isFirstLoad, errorMessage, data, liveTime: undefined });

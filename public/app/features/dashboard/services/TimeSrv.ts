@@ -184,6 +184,18 @@ export class TimeSrv {
     });
   }
 
+  updateTimeRangeFromDashboard(newData: any) {
+    // console.log("updating time range from dashboard")
+    const to = newData['timeRange'].to;
+    const from = newData['timeRange'].from;
+
+    this.time.from = this.parseUrlParam(from);
+    this.time.to = this.parseUrlParam(to);
+    // console.log("FROM DASHBOARD", this.time.to, this.time.from)
+
+    this.refreshDashboard();
+  }
+
   updateTimeRangeFromUrl() {
     const params = locationService.getSearch();
 

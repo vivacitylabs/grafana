@@ -49,6 +49,10 @@ export class DashboardSrv {
     this.dashboard = dashboard;
   }
 
+  refreshVariables(newVariables: any) {
+    this.dashboard?.variablesUpdated(newVariables);
+  }
+
   getCurrent(): DashboardModel | undefined {
     if (!this.dashboard) {
       console.warn('Calling getDashboardSrv().getCurrent() without calling getDashboardSrv().setCurrent() first.');

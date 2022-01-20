@@ -510,6 +510,7 @@ export const setOptionAsCurrent = (
   current: VariableOption,
   emitChanges: boolean
 ): ThunkResult<Promise<void>> => {
+  console.log('SETTING OPTIONS FROM VARIABLES', current, identifier);
   return async (dispatch) => {
     const { rootStateKey: key } = identifier;
     dispatch(toKeyedAction(key, setCurrentVariableValue(toVariablePayload(identifier, { option: current }))));
@@ -593,19 +594,18 @@ export interface OnTimeRangeUpdatedDependencies {
   events: typeof appEvents;
 }
 
-export const onTimeRangeUpdated =
-  (
-    key: string,
-    timeRange: TimeRange,
-    dependencies: OnTimeRangeUpdatedDependencies = { templateSrv: getTemplateSrv(), events: appEvents }
-  ): ThunkResult<Promise<void>> =>
-  async (dispatch, getState) => {
-    dependencies.templateSrv.updateTimeRange(timeRange);
-    const variablesThatNeedRefresh = getVariablesByKey(key, getState()).filter((variable) => {
-      if (variable.hasOwnProperty('refresh') && variable.hasOwnProperty('options')) {
-        const variableWithRefresh = variable as unknown as QueryVariableModel;
-        return variableWithRefresh.refresh === VariableRefresh.onTimeRangeChanged;
-      }
+export const onTimeRangeUpdated = (
+  key: string,
+  timeRange: TimeRange,
+  dependencies: OnTimeRangeUpdatedDependencies = { templateSrv: getTemplateSrv(), events: appEvents }
+): ThunkResult<Promise<void>> => async (dispatch, getState) => {
+  console.log('Updating time', timeRange);
+  dependencies.templateSrv.updateTimeRange(timeRange);
+  const variablesThatNeedRefresh = getVariablesByKey(key, getState()).filter((variable) => {
+    if (variable.hasOwnProperty('refresh') && variable.hasOwnProperty('options')) {
+      const variableWithRefresh = (variable as unknown) as QueryVariableModel;
+      return variableWithRefresh.refresh === VariableRefresh.onTimeRangeChanged;
+    }
 
       return false;
     }) as VariableWithOptions[];
