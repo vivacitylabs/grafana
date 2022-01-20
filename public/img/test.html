@@ -1,15 +1,34 @@
-<!-- <html>
+<html>
   <body>
     <script>
       window.addEventListener("message", event => {
         console.log(event);
       });
+
+      let messageVariables2 = {
+        "testVar": {
+          type: "custom",
+          values: "1"
+        },
+        "newVarAgain": {
+          type: "custom",
+          values: ["5", "6", "9"]
+        },
+        "timeRange": {
+          to: '1653414399000',
+          from: '1651600000000'
+        }
+      }
+      const frameVar = document.getElementById('testFrame');
+      frameVar.contentWindow.postMessage(messageVariables2, "*");
+
     </script>
 
     <iframe
-      src="http://localhost:3000/dashboard-solo/new?orgId=1&from=1638940961704&to=1638962561704&panelId=2&downloadId=hello&messageTargetDomain=localhost:3000"
+      src="http://localhost:3000/d-solo/mKMsyIcnk/tash?orgId=1&var-testVar=5&from=1636538511887&to=1636539608910&panelId=2"
       width="1000"
       height="600"
+      id="testFrame"
     ></iframe>
   </body>
-</html> -->
+</html>
