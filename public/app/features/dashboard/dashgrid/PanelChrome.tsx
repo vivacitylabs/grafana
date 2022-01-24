@@ -76,7 +76,7 @@ export class PanelChrome extends PureComponent<Props, State> {
     const eventBus = props.dashboard.events.newScopedBus(`panel:${props.panel.id}`, this.eventFilter);
 
     window.addEventListener('message', (event) => {
-      if (event.data.testVar) {
+      if (event.data.get('postVariablesIdentifier')) {
         console.log(event);
         this.onRecieveVariables(event);
       }

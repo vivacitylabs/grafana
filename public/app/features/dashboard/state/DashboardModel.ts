@@ -382,16 +382,16 @@ export class DashboardModel implements TimeModel {
   }
 
   variablesUpdated(newVariables: any) {
-    Object.keys(newVariables).forEach((id) => {
-      if (id !== 'timeRange') {
+    newVariables.forEach((value: any, key: string) => {
+      if (key !== 'timeRange') {
         const identifier = {
-          type: newVariables[id].type,
-          id: id,
+          type: value.type,
+          id: key,
         };
         const current = {
           selected: true,
-          text: newVariables[id].values,
-          value: newVariables[id].values,
+          text: value.values,
+          value: value.values,
         };
         const emitChanges = true;
         console.log(identifier, current, emitChanges);
