@@ -77,7 +77,6 @@ export class PanelChrome extends PureComponent<Props, State> {
 
     window.addEventListener('message', (event) => {
       if (event.data.get('postVariablesIdentifier')) {
-        console.log(event);
         this.onRecieveVariables(event);
       }
     });
@@ -259,7 +258,6 @@ export class PanelChrome extends PureComponent<Props, State> {
   }
 
   onRecieveVariables(message: any) {
-    console.log('message', message.data);
     const newVariables = message.data;
     getDashboardSrv().refreshVariables(newVariables);
     getTimeSrv().updateTimeRangeFromDashboard(newVariables);
@@ -306,36 +304,6 @@ export class PanelChrome extends PureComponent<Props, State> {
         }
         break;
     }
-    // setTimeout(() => {
-    //   getDashboardSrv().refreshVariables({
-    //     "testVar": {
-    //       type: "custom",
-    //       values: "3"
-    //     },
-    //     "newVarAgain": {
-    //       type: "custom",
-    //       values: ["5", "6", "7"]
-    //     },
-    //     "timeRange": {
-    //       to: 1643414399000,
-    //       from: 1641600000000
-    //     }
-    //   });
-    //   getTimeSrv().updateTimeRangeFromDashboard({
-    //     "testVar": {
-    //       type: "custom",
-    //       values: "3"
-    //     },
-    //     "newVarAgain": {
-    //       type: "custom",
-    //       values: ["5", "6", "7"]
-    //     },
-    //     "timeRange": {
-    //       to: '1643414399000',
-    //       from: '1641600000000'
-    //     }
-    //   })
-    // }, 30000);
 
     postDataFramesAsMessage(data);
     this.setState({ isFirstLoad, errorMessage, data, liveTime: undefined });

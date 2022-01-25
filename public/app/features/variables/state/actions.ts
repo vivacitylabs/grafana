@@ -468,7 +468,6 @@ export const setOptionAsCurrent = (
   current: VariableOption,
   emitChanges: boolean
 ): ThunkResult<Promise<void>> => {
-  console.log('SETTING OPTIONS FROM VARIABLES', current, identifier);
   return async (dispatch) => {
     dispatch(setCurrentVariableValue(toVariablePayload(identifier, { option: current })));
     return await dispatch(variableUpdated(identifier, emitChanges));
@@ -554,7 +553,6 @@ export const onTimeRangeUpdated = (
   timeRange: TimeRange,
   dependencies: OnTimeRangeUpdatedDependencies = { templateSrv: getTemplateSrv(), events: appEvents }
 ): ThunkResult<Promise<void>> => async (dispatch, getState) => {
-  console.log('Updating time', timeRange);
   dependencies.templateSrv.updateTimeRange(timeRange);
   const variablesThatNeedRefresh = getVariables(getState()).filter((variable) => {
     if (variable.hasOwnProperty('refresh') && variable.hasOwnProperty('options')) {

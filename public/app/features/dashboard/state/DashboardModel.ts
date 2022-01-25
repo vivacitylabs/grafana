@@ -364,7 +364,6 @@ export class DashboardModel {
   }
 
   timeRangeUpdated(timeRange: TimeRange) {
-    // console.log("timerange", timeRange);
     this.events.publish(new TimeRangeUpdatedEvent(timeRange));
     dispatch(onTimeRangeUpdated(timeRange));
   }
@@ -382,7 +381,6 @@ export class DashboardModel {
           value: value.values,
         };
         const emitChanges = true;
-        console.log(identifier, current, emitChanges);
         dispatch(setOptionAsCurrent(identifier, current, emitChanges));
       }
     });
