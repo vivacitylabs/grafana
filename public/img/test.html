@@ -5,20 +5,6 @@
         console.log(event);
       });
 
-      let messageVariables2 = {
-        "testVar": {
-          type: "custom",
-          values: "1"
-        },
-        "newVarAgain": {
-          type: "custom",
-          values: ["5", "6", "9"]
-        },
-        "timeRange": {
-          to: '1653414399000',
-          from: '1651600000000'
-        }
-      }
       const frameVar = document.getElementById('testFrame');
       frameVar.contentWindow.postMessage(messageVariables2, "*");
 
