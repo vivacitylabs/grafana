@@ -283,6 +283,19 @@ datasources:
     jsonData:
       sslmode: "disable"
 
+  - name: gdev-timescale
+    type: postgres
+    url: 127.0.0.1:5432
+    database: postgres
+    user: tsdbadmin
+    uid: rdde3lb7z
+    secureJsonData:
+      password: tsdbadmin
+    jsonData:
+      sslmode: "disable"
+    editable: true
+    default: true
+
   - name: gdev-cloudwatch
     type: cloudwatch
     editable: true
