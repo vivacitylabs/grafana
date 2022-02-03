@@ -1,0 +1,431 @@
+{
+  "annotations": {
+    "list": [
+      {
+        "builtIn": 1,
+        "datasource": "-- Grafana --",
+        "enable": true,
+        "hide": true,
+        "iconColor": "rgba(0, 211, 255, 1)",
+        "name": "Annotations & Alerts",
+        "target": {
+          "limit": 100,
+          "matchAny": false,
+          "tags": [],
+          "type": "dashboard"
+        },
+        "type": "dashboard"
+      }
+    ]
+  },
+  "editable": true,
+  "fiscalYearStartMonth": 0,
+  "graphTooltip": 0,
+  "id": 84,
+  "iteration": 1643881664906,
+  "links": [],
+  "liveNow": false,
+  "panels": [
+    {
+      "datasource": {
+        "type": "postgres",
+        "uid": "rdde3lb7z"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "drawStyle": "line",
+            "fillOpacity": 0,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "lineInterpolation": "smooth",
+            "lineWidth": 1,
+            "pointSize": 5,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "auto",
+            "spanNulls": true,
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "decimals": 0,
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          },
+          "unit": "string"
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "mean_speed_m_s"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "red",
+                  "mode": "fixed"
+                }
+              },
+              {
+                "id": "custom.axisPlacement",
+                "value": "right"
+              },
+              {
+                "id": "unit",
+                "value": "velocityms"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "mean_speed_m_s"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "Mean Speed (m/s)"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "mean_total_objects_per_second"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "Mean Total Objects Per Second"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "mean_stopped_objects_per_second"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "Mean Stopped Objects Per Second"
+              }
+            ]
+          }
+        ]
+      },
+      "gridPos": {
+        "h": 14,
+        "w": 20,
+        "x": 0,
+        "y": 0
+      },
+      "id": 4,
+      "options": {
+        "legend": {
+          "calcs": [],
+          "displayMode": "list",
+          "placement": "bottom"
+        },
+        "tooltip": {
+          "mode": "single"
+        }
+      },
+      "targets": [
+        {
+          "datasource": {
+            "type": "postgres",
+            "uid": "rdde3lb7z"
+          },
+          "format": "time_series",
+          "group": [],
+          "metricColumn": "none",
+          "rawQuery": true,
+          "rawSql": "SELECT\n\ttime_bucket('$timeBucketSeconds seconds', window_start) + format('%s minutes', $fixTimeZoneOffsetMinutes)::INTERVAL AS time,\n\tROUND((SUM(mean_centi_objects) / 100.0) / $timeBucketSeconds, 2) AS mean_total_objects_per_second,\n\tROUND((SUM(mean_centi_stopped_objects) / 100.0) / $timeBucketSeconds, 2) AS mean_stopped_objects_per_second,\n\tAVG(mean_speed_cm_s) / 100 AS mean_speed_m_s\nFROM zonal_features_per_second\nWHERE zone_id = $zoneId\nAND window_start > TO_TIMESTAMP($__unixEpochFrom() - ($fixTimeZoneOffsetMinutes * 60))\nAND window_start < TO_TIMESTAMP((($__unixEpochTo() - ($fixTimeZoneOffsetMinutes * 60)) / $timeBucketSeconds) * $timeBucketSeconds - $timeBucketSeconds)\nAND detection_class_v2_id in ($classes)\nGROUP BY time\nORDER BY time;",
+          "refId": "A",
+          "select": [
+            [
+              {
+                "params": [
+                  "value"
+                ],
+                "type": "column"
+              }
+            ]
+          ],
+          "timeColumn": "time",
+          "where": [
+            {
+              "name": "$__timeFilter",
+              "params": [],
+              "type": "macro"
+            }
+          ]
+        }
+      ],
+      "title": "Zonal Speed vs Zonal Occupancy",
+      "type": "timeseries"
+    }
+  ],
+  "refresh": "",
+  "schemaVersion": 34,
+  "style": "dark",
+  "tags": [],
+  "templating": {
+    "list": [
+      {
+        "current": {
+          "selected": false,
+          "text": "1001",
+          "value": "1001"
+        },
+        "datasource": {
+          "type": "postgres",
+          "uid": "rdde3lb7z"
+        },
+        "definition": "SELECT id FROM zones_image_space WHERE is_occupancy=TRUE AND deleted_at IS NULL ORDER BY id;",
+        "hide": 0,
+        "includeAll": false,
+        "multi": false,
+        "name": "zoneId",
+        "options": [],
+        "query": "SELECT id FROM zones_image_space WHERE is_occupancy=TRUE AND deleted_at IS NULL ORDER BY id;",
+        "refresh": 1,
+        "regex": "",
+        "skipUrlSync": false,
+        "sort": 0,
+        "type": "query"
+      },
+      {
+        "current": {
+          "selected": false,
+          "text": "300",
+          "value": "300"
+        },
+        "hide": 0,
+        "includeAll": false,
+        "multi": false,
+        "name": "timeBucketSeconds",
+        "options": [
+          {
+            "selected": true,
+            "text": "300",
+            "value": "300"
+          },
+          {
+            "selected": false,
+            "text": "600",
+            "value": "600"
+          },
+          {
+            "selected": false,
+            "text": "900",
+            "value": "900"
+          },
+          {
+            "selected": false,
+            "text": "1800",
+            "value": "1800"
+          },
+          {
+            "selected": false,
+            "text": "3600",
+            "value": "3600"
+          }
+        ],
+        "query": "300,600,900,1800,3600",
+        "queryValue": "",
+        "skipUrlSync": false,
+        "type": "custom"
+      },
+      {
+        "current": {
+          "selected": true,
+          "text": [
+            "21929"
+          ],
+          "value": [
+            "21929"
+          ]
+        },
+        "datasource": {
+          "type": "postgres",
+          "uid": "rdde3lb7z"
+        },
+        "definition": "SELECT id FROM countlines_image_space WHERE deleted_at IS NULL ORDER BY id;",
+        "hide": 0,
+        "includeAll": false,
+        "multi": true,
+        "name": "countlineId",
+        "options": [],
+        "query": "SELECT id FROM countlines_image_space WHERE deleted_at IS NULL ORDER BY id;",
+        "refresh": 1,
+        "regex": "",
+        "skipUrlSync": false,
+        "sort": 0,
+        "type": "query"
+      },
+      {
+        "current": {
+          "selected": true,
+          "text": [
+            "1",
+            "2",
+            "3",
+            "4",
+            "5",
+            "6",
+            "7",
+            "8",
+            "9",
+            "10",
+            "11",
+            "12",
+            "13",
+            "14",
+            "15",
+            "16",
+            "17",
+            "18",
+            "19",
+            "20",
+            "21",
+            "22",
+            "23",
+            "24",
+            "25",
+            "26",
+            "27",
+            "28",
+            "29",
+            "30",
+            "31",
+            "32",
+            "60",
+            "70",
+            "71",
+            "100",
+            "101",
+            "102"
+          ],
+          "value": [
+            "1",
+            "2",
+            "3",
+            "4",
+            "5",
+            "6",
+            "7",
+            "8",
+            "9",
+            "10",
+            "11",
+            "12",
+            "13",
+            "14",
+            "15",
+            "16",
+            "17",
+            "18",
+            "19",
+            "20",
+            "21",
+            "22",
+            "23",
+            "24",
+            "25",
+            "26",
+            "27",
+            "28",
+            "29",
+            "30",
+            "31",
+            "32",
+            "60",
+            "70",
+            "71",
+            "100",
+            "101",
+            "102"
+          ]
+        },
+        "datasource": {
+          "type": "postgres",
+          "uid": "rdde3lb7z"
+        },
+        "definition": "SELECT id FROM detection_classes_v2",
+        "hide": 0,
+        "includeAll": false,
+        "multi": true,
+        "name": "classes",
+        "options": [],
+        "query": "SELECT id FROM detection_classes_v2",
+        "refresh": 1,
+        "regex": "",
+        "skipUrlSync": false,
+        "sort": 0,
+        "type": "query"
+      },
+      {
+        "current": {
+          "selected": true,
+          "text": "60",
+          "value": "60"
+        },
+        "hide": 0,
+        "name": "fixTimeZoneOffsetMinutes",
+        "options": [
+          {
+            "selected": true,
+            "text": "60",
+            "value": "60"
+          }
+        ],
+        "query": "60",
+        "skipUrlSync": false,
+        "type": "textbox"
+      }
+    ]
+  },
+  "time": {
+    "from": "now-6h",
+    "to": "now-0m"
+  },
+  "timepicker": {
+    "nowDelay": "0m"
+  },
+  "timezone": "utc",
+  "title": "Further Timescale Experiments",
+  "uid": "FurtherTimescaleExperiments",
+  "version": 5,
+  "weekStart": ""
+}
