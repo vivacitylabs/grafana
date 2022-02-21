@@ -38,7 +38,7 @@ import {
 import { CoreEvents, DashboardMeta, KioskMode } from 'app/types';
 import { GetVariables, getVariables } from 'app/features/variables/state/selectors';
 import { variableAdapters } from 'app/features/variables/adapters';
-import { onTimeRangeUpdated } from 'app/features/variables/state/actions';
+import { onTimeRangeUpdated, setOptionAsCurrent } from 'app/features/variables/state/actions';
 import { dispatch } from '../../../store/store';
 import { isAllVariable } from '../../variables/utils';
 import { DashboardPanelsChangedEvent, RenderEvent } from 'app/types/events';
@@ -366,6 +366,24 @@ export class DashboardModel {
   timeRangeUpdated(timeRange: TimeRange) {
     this.events.publish(new TimeRangeUpdatedEvent(timeRange));
     dispatch(onTimeRangeUpdated(timeRange));
+  }
+
+  variablesUpdated(newVariables: any) {
+    newVariables.forEach((value: any, key: string) => {
+      if (key !== 'timeRange') {
+        const identifier = {
+          type: value.type,
+          id: key,
+        };
+        const current = {
+          selected: true,
+          text: value.values,
+          value: value.values,
+        };
+        const emitChanges = true;
+        dispatch(setOptionAsCurrent(identifier, current, emitChanges));
+      }
+    });
   }
 
   startRefresh(event: VariablesChangedEvent = { refreshAll: true, panelIds: [] }) {

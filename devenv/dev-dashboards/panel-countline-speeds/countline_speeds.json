@@ -1,0 +1,458 @@
+{
+  "annotations": {
+    "list": [
+      {
+        "builtIn": 1,
+        "datasource": "-- Grafana --",
+        "enable": true,
+        "hide": true,
+        "iconColor": "rgba(0, 211, 255, 1)",
+        "name": "Annotations & Alerts",
+        "target": {
+          "limit": 100,
+          "matchAny": false,
+          "tags": [],
+          "type": "dashboard"
+        },
+        "type": "dashboard"
+      }
+    ]
+  },
+  "editable": true,
+  "fiscalYearStartMonth": 0,
+  "graphTooltip": 0,
+  "iteration": 1644332899037,
+  "links": [],
+  "liveNow": false,
+  "panels": [
+    {
+      "datasource": {
+        "type": "postgres",
+        "uid": "rdde3lb7z"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "custom": {
+            "fillOpacity": 80,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "lineWidth": 1
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              }
+            ]
+          }
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Speeds m/s"
+            },
+            "properties": [
+              {
+                "id": "displayName"
+              }
+            ]
+          }
+        ]
+      },
+      "gridPos": {
+        "h": 9,
+        "w": 12,
+        "x": 0,
+        "y": 0
+      },
+      "id": 2,
+      "options": {
+        "bucketOffset": 0,
+        "bucketSize": 1,
+        "legend": {
+          "calcs": [],
+          "displayMode": "list",
+          "placement": "bottom"
+        }
+      },
+      "pluginVersion": "8.4.0-pre",
+      "targets": [
+        {
+          "datasource": {
+            "type": "postgres",
+            "uid": "rdde3lb7z"
+          },
+          "format": "table",
+          "group": [],
+          "hide": false,
+          "metricColumn": "none",
+          "rawQuery": true,
+          "rawSql": "SELECT\nCASE \n  WHEN '$speedType' = 'm/s' THEN (speeds / 100)\n  WHEN '$speedType' = 'mph' THEN (speeds / 44.701)\n  WHEN '$speedType' = 'kph' THEN (speeds / 27.7778)\n  ELSE speeds\nEND AS \"Speeds ($speedType)\"\nFROM\n  (SELECT\n    long_term_average_speed_cm_s AS speeds\n  FROM crossings_v4\n  JOIN detection_classes_v2 ON crossings_v4.detection_class_v2_id = detection_classes_v2.id\n  WHERE image_space_countline_id in ($countline)\n  AND crossing_time >'$start'\n  AND crossing_time < '$end'\n  AND clockwise IN ($clockwise)\n  AND class_name IN ($classes)\n  ORDER BY speeds) AS sub;",
+          "refId": "A",
+          "select": [
+            [
+              {
+                "params": [
+                  "confidence"
+                ],
+                "type": "column"
+              }
+            ]
+          ],
+          "table": "anpr",
+          "timeColumn": "\"timestamp\"",
+          "timeColumnType": "timestamp",
+          "where": [
+            {
+              "name": "$__timeFilter",
+              "params": [],
+              "type": "macro"
+            }
+          ]
+        }
+      ],
+      "title": "Countline Speeds Histogram (traffic32)",
+      "type": "histogram"
+    },
+    {
+      "datasource": {
+        "type": "postgres",
+        "uid": "rdde3lb7z"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "custom": {
+            "fillOpacity": 80,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "lineWidth": 1
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "percentage",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              }
+            ]
+          }
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "speeds"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "Speeds"
+              }
+            ]
+          }
+        ]
+      },
+      "gridPos": {
+        "h": 9,
+        "w": 12,
+        "x": 12,
+        "y": 0
+      },
+      "id": 3,
+      "options": {
+        "bucketOffset": 0,
+        "bucketSize": 1,
+        "combine": false,
+        "legend": {
+          "calcs": [],
+          "displayMode": "list",
+          "placement": "bottom"
+        }
+      },
+      "pluginVersion": "8.4.0-pre",
+      "targets": [
+        {
+          "datasource": {
+            "type": "postgres",
+            "uid": "rdde3lb7z"
+          },
+          "format": "table",
+          "group": [],
+          "metricColumn": "none",
+          "rawQuery": true,
+          "rawSql": "SELECT\nCASE \n  WHEN '$speedType' = 'm/s' THEN (speeds / 100)\n  WHEN '$speedType' = 'mph' THEN (speeds / 44.701)\n  WHEN '$speedType' = 'kph' THEN (speeds / 27.7778)\n  ELSE speeds\nEND AS \"Speeds ($speedType)\"\nFROM\n(SELECT\nlong_term_average_speed_cm_s AS speeds\nFROM crossings_v4\nJOIN detection_classes_v2 ON crossings_v4.detection_class_v2_id = detection_classes_v2.id\nWHERE image_space_countline_id in ($countline)\nAND crossing_time >'$start'\nAND crossing_time < '$end'\nAND traffic_8_collapsed_class_name IN ($traffic8CollapsedClassName)\nAND clockwise IN ($clockwise)\nORDER BY speeds) AS sub;",
+          "refId": "A",
+          "select": [
+            [
+              {
+                "params": [
+                  "confidence"
+                ],
+                "type": "column"
+              }
+            ]
+          ],
+          "table": "anpr",
+          "timeColumn": "\"timestamp\"",
+          "timeColumnType": "timestamp",
+          "where": [
+            {
+              "name": "$__timeFilter",
+              "params": [],
+              "type": "macro"
+            }
+          ]
+        }
+      ],
+      "title": "Countline Speeds Histogram (traffic8)",
+      "type": "histogram"
+    }
+  ],
+  "refresh": "",
+  "schemaVersion": 34,
+  "style": "dark",
+  "tags": [],
+  "templating": {
+    "list": [
+      {
+        "current": {
+          "selected": true,
+          "text": [
+            "pedestrian",
+            "cyclist",
+            "motorbike",
+            "car"
+          ],
+          "value": [
+            "pedestrian",
+            "cyclist",
+            "motorbike",
+            "car"
+          ]
+        },
+        "datasource": {
+          "type": "postgres",
+          "uid": "rdde3lb7z"
+        },
+        "definition": "SELECT class_name FROM detection_classes_v2 WHERE id <= 32 ORDER BY id ASC;",
+        "hide": 0,
+        "includeAll": false,
+        "label": "Classes",
+        "multi": true,
+        "name": "classes",
+        "options": [],
+        "query": "SELECT class_name FROM detection_classes_v2 WHERE id <= 32 ORDER BY id ASC;",
+        "refresh": 1,
+        "regex": "",
+        "skipUrlSync": false,
+        "sort": 0,
+        "type": "query"
+      },
+      {
+        "current": {
+          "selected": true,
+          "text": [
+            "14817"
+          ],
+          "value": [
+            "14817"
+          ]
+        },
+        "datasource": {
+          "type": "postgres",
+          "uid": "rdde3lb7z"
+        },
+        "definition": "SELECT id FROM countlines_image_space WHERE deleted_at IS NULL ORDER BY id;",
+        "hide": 0,
+        "includeAll": false,
+        "label": "Countline",
+        "multi": true,
+        "name": "countline",
+        "options": [],
+        "query": "SELECT id FROM countlines_image_space WHERE deleted_at IS NULL ORDER BY id;",
+        "refresh": 1,
+        "regex": "",
+        "skipUrlSync": false,
+        "sort": 0,
+        "type": "query"
+      },
+      {
+        "current": {
+          "selected": true,
+          "text": "2022-01-01 00:00:00",
+          "value": "2022-01-01 00:00:00"
+        },
+        "hide": 0,
+        "label": "Start",
+        "name": "start",
+        "options": [
+          {
+            "selected": true,
+            "text": "2022-01-01 00:00:00",
+            "value": "2022-01-01 00:00:00"
+          }
+        ],
+        "query": "2022-01-01 00:00:00",
+        "skipUrlSync": false,
+        "type": "textbox"
+      },
+      {
+        "current": {
+          "selected": true,
+          "text": "2022-02-02 23:00:00",
+          "value": "2022-02-02 23:00:00"
+        },
+        "hide": 0,
+        "label": "End",
+        "name": "end",
+        "options": [
+          {
+            "selected": true,
+            "text": "2022-02-02 23:00:00",
+            "value": "2022-02-02 23:00:00"
+          }
+        ],
+        "query": "2022-02-02 23:00:00",
+        "skipUrlSync": false,
+        "type": "textbox"
+      },
+      {
+        "current": {
+          "selected": true,
+          "text": [
+            "OGV1",
+            "Pedestrian",
+            "Cyclist",
+            "Car",
+            "Motorbike",
+            "OGV2",
+            "LGV",
+            "Bus"
+          ],
+          "value": [
+            "OGV1",
+            "Pedestrian",
+            "Cyclist",
+            "Car",
+            "Motorbike",
+            "OGV2",
+            "LGV",
+            "Bus"
+          ]
+        },
+        "datasource": {
+          "type": "postgres",
+          "uid": "rdde3lb7z"
+        },
+        "definition": "SELECT traffic_8_collapsed_class_name FROM detection_classes_v2 WHERE traffic_8_collapsed_class_name IS NOT NULL GROUP BY traffic_8_collapsed_class_name;",
+        "hide": 0,
+        "includeAll": false,
+        "multi": true,
+        "name": "traffic8CollapsedClassName",
+        "options": [],
+        "query": "SELECT traffic_8_collapsed_class_name FROM detection_classes_v2 WHERE traffic_8_collapsed_class_name IS NOT NULL GROUP BY traffic_8_collapsed_class_name;",
+        "refresh": 1,
+        "regex": "",
+        "skipUrlSync": false,
+        "sort": 0,
+        "type": "query"
+      },
+      {
+        "current": {
+          "selected": true,
+          "text": "kph",
+          "value": "kph"
+        },
+        "description": "100 = m/s, 44.701 = mph, 27.7778 = kph",
+        "hide": 0,
+        "includeAll": false,
+        "label": "Speed type",
+        "multi": false,
+        "name": "speedType",
+        "options": [
+          {
+            "selected": false,
+            "text": "m/s",
+            "value": "m/s"
+          },
+          {
+            "selected": false,
+            "text": "mph",
+            "value": "mph"
+          },
+          {
+            "selected": true,
+            "text": "kph",
+            "value": "kph"
+          }
+        ],
+        "query": "m/s, mph, kph",
+        "queryValue": "",
+        "skipUrlSync": false,
+        "type": "custom"
+      },
+      {
+        "current": {
+          "selected": true,
+          "text": [
+            "TRUE",
+            "FALSE"
+          ],
+          "value": [
+            "TRUE",
+            "FALSE"
+          ]
+        },
+        "hide": 0,
+        "includeAll": false,
+        "multi": true,
+        "name": "clockwise",
+        "options": [
+          {
+            "selected": true,
+            "text": "TRUE",
+            "value": "TRUE"
+          },
+          {
+            "selected": true,
+            "text": "FALSE",
+            "value": "FALSE"
+          }
+        ],
+        "query": "TRUE, FALSE",
+        "queryValue": "",
+        "skipUrlSync": false,
+        "type": "custom"
+      }
+    ]
+  },
+  "time": {
+    "from": "now-1d/d",
+    "to": "now-1d/d"
+  },
+  "timepicker": {},
+  "timezone": "",
+  "title": "Countline Speeds",
+  "uid": "CountlineSpeeds",
+  "version": 2,
+  "weekStart": ""
+}

@@ -39,6 +39,7 @@ import { getDashboardQueryRunner } from '../../query/state/DashboardQueryRunner/
 import { liveTimer } from './liveTimer';
 import { isSoloRoute } from '../../../routes/utils';
 import { postDataFramesAsMessage } from '../utils/postDataFramesAsMessage';
+import { DashboardSrv, getDashboardSrv } from 'app/features/dashboard/services/DashboardSrv';
 
 const DEFAULT_PLUGIN_ERROR = 'Error in plugin';
 
@@ -73,6 +74,12 @@ export class PanelChrome extends PureComponent<Props, State> {
 
     // Can this eventBus be on PanelModel?  when we have more complex event filtering, that may be a better option
     const eventBus = props.dashboard.events.newScopedBus(`panel:${props.panel.id}`, this.eventFilter);
+
+    window.addEventListener('message', (event) => {
+      if (event.data.get('postVariablesIdentifier')) {
+        this.onRecieveVariables(event);
+      }
+    });
 
     this.state = {
       isFirstLoad: true,
@@ -248,6 +255,12 @@ export class PanelChrome extends PureComponent<Props, State> {
     if (width !== prevProps.width) {
       liveTimer.updateInterval(this);
     }
+  }
+
+  onRecieveVariables(message: any) {
+    const newVariables = message.data;
+    getDashboardSrv().refreshVariables(newVariables);
+    getTimeSrv().updateTimeRangeFromDashboard(newVariables);
   }
 
   // Updates the response with information from the stream

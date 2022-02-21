@@ -180,6 +180,16 @@ export class TimeSrv {
     });
   }
 
+  updateTimeRangeFromDashboard(newData: any) {
+    const to = newData.get('timeRange').to;
+    const from = newData.get('timeRange').from;
+
+    this.time.from = this.parseUrlParam(from);
+    this.time.to = this.parseUrlParam(to);
+
+    this.refreshDashboard();
+  }
+
   updateTimeRangeFromUrl() {
     const params = locationService.getSearch();
 

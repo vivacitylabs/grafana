@@ -238,6 +238,16 @@ datasources:
     jsonData:
       sslmode: "disable"
 
+  - name: gdev-timescale
+    type: postgres
+    url: 127.0.0.1:5432
+    database: postgres
+    user: tsdbadmin
+    secureJsonData:
+      password: tsdbadmin
+    jsonData:
+      sslmode: "disable"
+
   - name: gdev-postgres-ds-tests
     type: postgres
     url: postgrestest:5432
