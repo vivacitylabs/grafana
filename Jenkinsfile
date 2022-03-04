@@ -49,7 +49,7 @@ def cleanUp(imageName) {
 try {
   def gitCommit = ""
   def imageName = ""
-  node("docker && amd64") { // not [dashboard]
+  node("docker") { // not [dashboard]
       echo "STAGED 0"
 
       stage("SCM checkout") {
