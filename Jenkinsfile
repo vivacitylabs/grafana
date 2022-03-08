@@ -29,9 +29,9 @@ def checkout() {
 def build(gitCommit) {
   def imageName = "eu.gcr.io/atrocity-management/amd64/grafana"
     withGCP("atrocity-gcr-puller") {
-        sshagent(['github-key']) {
+        withCredentials([string(credentialsId: 'github-deployment-token', variable: 'GITHUB_TOKEN')]) {
           def imageTag = gitCommit + "-grafana"
-          return buildDockerImage(imageName, imageTag, null, "")
+          return buildDockerImage(imageName, imageTag, null, "${buildArgs} --secret id=github_token,env=GITHUB_TOKEN")
       }
     }
 }
