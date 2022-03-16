@@ -317,7 +317,7 @@ func vectorToDataFrames(vector model.Vector, query *PrometheusQuery, frames data
 	for _, v := range vector {
 		name := formatLegend(v.Metric, query)
 		tags := make(map[string]string, len(v.Metric))
-		timeVector := []time.Time{k.Timestamp.UTC()}
+		timeVector := []time.Time{v.Timestamp.UTC()}
 		values := []float64{float64(v.Value)}
 
 		for k, v := range v.Metric {
