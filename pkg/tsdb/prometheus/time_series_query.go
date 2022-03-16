@@ -298,7 +298,7 @@ func matrixToDataFrames(matrix model.Matrix, query *PrometheusQuery, frames data
 }
 
 func scalarToDataFrames(scalar *model.Scalar, query *PrometheusQuery, frames data.Frames) data.Frames {
-	timeVector := []time.Time{k.Timestamp.UTC()}
+	timeVector := []time.Time{scalar.Timestamp.UTC()}
 	values := []float64{float64(scalar.Value)}
 	name := fmt.Sprintf("%g", values[0])
 
