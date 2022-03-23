@@ -398,6 +398,24 @@ export class DashboardModel implements TimeModel {
     });
   }
 
+  variablesUpdated(newVariables: any) {
+    newVariables.forEach((value: any, key: string) => {
+      if (key !== 'timeRange') {
+        const identifier = {
+          type: value.type,
+          id: key,
+        };
+        const current = {
+          selected: true,
+          text: value.values,
+          value: value.values,
+        };
+        const emitChanges = true;
+        dispatch(setOptionAsCurrent(identifier, current, emitChanges));
+      }
+    });
+  }
+
   startRefresh(event: VariablesChangedEvent = { refreshAll: true, panelIds: [] }) {
     this.events.publish(new RefreshEvent());
     this.lastRefresh = Date.now();
