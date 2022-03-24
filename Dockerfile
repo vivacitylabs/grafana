@@ -47,12 +47,6 @@ LABEL maintainer="Grafana team <hello@grafana.com>"
 ARG GF_UID="472"
 ARG GF_GID="0"
 
-RUN --mount=type=secret,id=github_token \
-    export GITHUB_TOKEN=$(cat /run/secrets/github_token) && \
-    git config --global --add url."https://${GITHUB_TOKEN}:x-oauth-basic@github.com/".insteadOf "ssh://git@github.com/" && \
-    yarn install --frozen-lockfile --production && \
-    git config --global --unset url."https://${GITHUB_TOKEN}:x-oauth-basic@github.com/".insteadOf
-
 ENV PATH="/usr/share/grafana/bin:$PATH" \
   GF_PATHS_CONFIG="/etc/grafana/grafana.ini" \
   GF_PATHS_DATA="/var/lib/grafana" \
