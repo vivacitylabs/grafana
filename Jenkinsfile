@@ -31,7 +31,7 @@ def build(gitCommit) {
     withGCP("atrocity-gcr-puller") {
         withCredentials([string(credentialsId: 'github-deployment-token', variable: 'GITHUB_TOKEN')]) {
           def imageTag = gitCommit + "-grafana"
-          return buildDockerImage(imageName, imageTag, null, "${buildArgs} --secret id=github_token,env=GITHUB_TOKEN")
+          return buildDockerImage(imageName, imageTag, null, " --secret id=github_token,env=GITHUB_TOKEN")
       }
     }
 }
