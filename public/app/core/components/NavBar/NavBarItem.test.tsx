@@ -1,9 +1,10 @@
 import React from 'react';
-import { render, screen, waitFor } from '@testing-library/react';
+import { act, render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { BrowserRouter } from 'react-router-dom';
 import { locationUtil } from '@grafana/data';
 import { config, setLocationService } from '@grafana/runtime';
+import TestProvider from '../../../../test/helpers/TestProvider';
 
 import NavBarItem, { Props } from './NavBarItem';
 
@@ -30,9 +31,11 @@ function getTestContext(overrides: Partial<Props> = {}, subUrl = '') {
   const props = { ...defaults, ...overrides };
 
   const { rerender } = render(
-    <BrowserRouter>
-      <NavBarItem {...props}>{props.children}</NavBarItem>
-    </BrowserRouter>
+    <TestProvider>
+      <BrowserRouter>
+        <NavBarItem {...props}>{props.children}</NavBarItem>
+      </BrowserRouter>
+    </TestProvider>
   );
 
   return { rerender, pushMock };
@@ -50,8 +53,9 @@ describe('NavBarItem', () => {
       it('then the onClick handler should be called', () => {
         getTestContext();
 
-        userEvent.click(screen.getByRole('button'));
-
+        act(() => {
+          userEvent.click(screen.getByRole('button'));
+        });
         expect(onClickMock).toHaveBeenCalledTimes(1);
       });
     });
@@ -136,14 +140,37 @@ describe('NavBarItem', () => {
         getTestContext({ link: { ...defaults.link, url: 'https://www.grafana.com' } });
 
         userEvent.tab();
+        expect(screen.getAllByRole('link')[0]).toHaveFocus();
         expect(screen.getAllByRole('menuitem')).toHaveLength(3);
         expect(screen.getAllByRole('menuitem')[0]).toHaveAttribute('tabIndex', '-1');
         expect(screen.getAllByRole('menuitem')[1]).toHaveAttribute('tabIndex', '-1');
         expect(screen.getAllByRole('menuitem')[2]).toHaveAttribute('tabIndex', '-1');
 
         userEvent.keyboard('{arrowright}');
+        expect(screen.getAllByRole('link')[0]).not.toHaveFocus();
         expect(screen.getAllByRole('menuitem')).toHaveLength(3);
         expect(screen.getAllByRole('menuitem')[0]).toHaveAttribute('tabIndex', '0');
+        expect(screen.getAllByRole('menuitem')[1]).toHaveAttribute('tabIndex', '-1');
+        expect(screen.getAllByRole('menuitem')[2]).toHaveAttribute('tabIndex', '-1');
+      });
+    });
+
+    describe('and pressing arrow left on a menu item', () => {
+      it('then the nav bar item should receive focus', () => {
+        getTestContext({ link: { ...defaults.link, url: 'https://www.grafana.com' } });
+
+        userEvent.tab();
+        userEvent.keyboard('{arrowright}');
+        expect(screen.getAllByRole('link')[0]).not.toHaveFocus();
+        expect(screen.getAllByRole('menuitem')).toHaveLength(3);
+        expect(screen.getAllByRole('menuitem')[0]).toHaveAttribute('tabIndex', '0');
+        expect(screen.getAllByRole('menuitem')[1]).toHaveAttribute('tabIndex', '-1');
+        expect(screen.getAllByRole('menuitem')[2]).toHaveAttribute('tabIndex', '-1');
+
+        userEvent.keyboard('{arrowleft}');
+        expect(screen.getAllByRole('link')[0]).toHaveFocus();
+        expect(screen.getAllByRole('menuitem')).toHaveLength(3);
+        expect(screen.getAllByRole('menuitem')[0]).toHaveAttribute('tabIndex', '-1');
         expect(screen.getAllByRole('menuitem')[1]).toHaveAttribute('tabIndex', '-1');
         expect(screen.getAllByRole('menuitem')[2]).toHaveAttribute('tabIndex', '-1');
       });
@@ -168,7 +195,9 @@ describe('NavBarItem', () => {
           expect(screen.getByText('New')).toBeInTheDocument();
         });
 
-        userEvent.click(screen.getByText('New'));
+        act(() => {
+          userEvent.click(screen.getByText('New'));
+        });
         await waitFor(() => {
           expect(pushMock).toHaveBeenCalledTimes(1);
           expect(pushMock).toHaveBeenCalledWith('/dashboard/new');
@@ -192,7 +221,9 @@ describe('NavBarItem', () => {
           expect(screen.getByText('New')).toBeInTheDocument();
         });
 
-        userEvent.click(screen.getByText('New'));
+        act(() => {
+          userEvent.click(screen.getByText('New'));
+        });
         await waitFor(() => {
           expect(pushMock).toHaveBeenCalledTimes(1);
           expect(pushMock).toHaveBeenCalledWith('/grafana/dashboard/new');

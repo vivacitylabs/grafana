@@ -11,7 +11,7 @@ COPY plugins-bundled plugins-bundled
 
 RUN yarn install
 
-COPY tsconfig.json .eslintrc .editorconfig .browserslistrc .prettierrc.js babel.config.json ./
+COPY tsconfig.json .eslintrc .editorconfig .browserslistrc .prettierrc.js babel.config.json .linguirc ./
 COPY public public
 COPY tools tools
 COPY scripts scripts
@@ -30,6 +30,7 @@ COPY go.mod go.sum embed.go Makefile build.go package.json ./
 COPY cue cue
 COPY packages/grafana-schema packages/grafana-schema
 COPY public/app/plugins public/app/plugins
+COPY public/api-spec.json public/api-spec.json
 COPY pkg pkg
 COPY scripts scripts
 COPY cue.mod cue.mod
@@ -39,7 +40,7 @@ RUN go mod verify
 RUN make build-go
 
 # Final stage
-FROM alpine:3.14.3
+FROM alpine:3.15
 
 LABEL maintainer="Grafana team <hello@grafana.com>"
 
