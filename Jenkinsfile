@@ -29,16 +29,20 @@ def checkout() {
 def build(gitCommit) {
   def imageName = "eu.gcr.io/atrocity-management/amd64/grafana"
     withGCP("atrocity-gcr-puller") {
-        sshagent(['github-key']) {
-          def imageTag = gitCommit + "-grafana"
-          return buildDockerImage(imageName, imageTag, null, "")
-      }
+        withEnv(["DOCKER_BUILDKIT=1"]) {
+            withCredentials([string(credentialsId: 'github-deployment-token', variable: 'GITHUB_TOKEN')]) {
+		  def imageTag = gitCommit + "-grafana"
+		  return buildDockerImage(imageName, imageTag, null, " --secret id=github_token,env=GITHUB_TOKEN")
+            }
+	}
     }
 }
 
 def pushImage(imageName) {
     withGCP("atrocity-gcr-pusher") {
-        sh "docker push ${imageName[0]}"
+	withEnv(["DOCKER_BUILDKIT=1"]) {
+        	sh "docker push ${imageName[0]}"
+	}
     }
 }
 
@@ -49,7 +53,7 @@ def cleanUp(imageName) {
 try {
   def gitCommit = ""
   def imageName = ""
-  node("docker-office") { // not [dashboard]
+  node("docker") { // not [dashboard]
       echo "STAGED 0"
 
       stage("SCM checkout") {
