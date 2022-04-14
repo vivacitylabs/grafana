@@ -381,38 +381,23 @@ export class DashboardModel implements TimeModel {
   }
 
   variablesUpdated(newVariables: any) {
+    const rootStateKey = newVariables.get('dashboardUid').values;
+    newVariables.delete('dashboardUid');
+    newVariables.delete('timeRange');
+    newVariables.delete('postVariablesIdentifier');
     newVariables.forEach((value: any, key: string) => {
-      if (key !== 'timeRange') {
-        const identifier = {
-          type: value.type,
-          id: key,
-        };
-        const current = {
-          selected: true,
-          text: value.values,
-          value: value.values,
-        };
-        const emitChanges = true;
-        dispatch(setOptionAsCurrent(identifier, current, emitChanges));
-      }
-    });
-  }
-
-  variablesUpdated(newVariables: any) {
-    newVariables.forEach((value: any, key: string) => {
-      if (key !== 'timeRange') {
-        const identifier = {
-          type: value.type,
-          id: key,
-        };
-        const current = {
-          selected: true,
-          text: value.values,
-          value: value.values,
-        };
-        const emitChanges = true;
-        dispatch(setOptionAsCurrent(identifier, current, emitChanges));
-      }
+      const identifier = {
+        type: value.type,
+        id: key,
+        rootStateKey: rootStateKey,
+      };
+      const current = {
+        selected: true,
+        text: value.values,
+        value: value.values,
+      };
+      const emitChanges = true;
+      dispatch(setOptionAsCurrent(identifier, current, emitChanges));
     });
   }
 

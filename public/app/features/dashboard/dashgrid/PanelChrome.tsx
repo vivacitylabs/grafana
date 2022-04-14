@@ -39,7 +39,7 @@ import { getDashboardQueryRunner } from '../../query/state/DashboardQueryRunner/
 import { liveTimer } from './liveTimer';
 import { isSoloRoute } from '../../../routes/utils';
 import { postDataFramesAsMessage } from '../utils/postDataFramesAsMessage';
-import { DashboardSrv, getDashboardSrv } from 'app/features/dashboard/services/DashboardSrv';
+import { getDashboardSrv } from 'app/features/dashboard/services/DashboardSrv';
 
 const DEFAULT_PLUGIN_ERROR = 'Error in plugin';
 
@@ -260,8 +260,9 @@ export class PanelChrome extends PureComponent<Props, State> {
 
   onRecieveVariables(message: any) {
     const newVariables = message.data;
-    getDashboardSrv().refreshVariables(newVariables);
+    console.log('RECIEVING AND SETTING', newVariables);
     getTimeSrv().updateTimeRangeFromDashboard(newVariables);
+    getDashboardSrv().refreshVariables(newVariables);
   }
 
   // Updates the response with information from the stream

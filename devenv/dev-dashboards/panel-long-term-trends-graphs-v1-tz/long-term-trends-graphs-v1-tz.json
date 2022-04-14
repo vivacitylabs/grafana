@@ -1,0 +1,1548 @@
+{
+  "annotations": {
+    "list": [
+      {
+        "builtIn": 1,
+        "datasource": "-- Grafana --",
+        "enable": true,
+        "hide": true,
+        "iconColor": "rgba(0, 211, 255, 1)",
+        "name": "Annotations & Alerts",
+        "target": {
+          "limit": 100,
+          "matchAny": false,
+          "tags": [],
+          "type": "dashboard"
+        },
+        "type": "dashboard"
+      }
+    ]
+  },
+  "editable": true,
+  "fiscalYearStartMonth": 0,
+  "graphTooltip": 0,
+  "iteration": 1648143071994,
+  "links": [],
+  "liveNow": false,
+  "panels": [
+    {
+      "datasource": {
+        "type": "postgres",
+        "uid": "rdde3lb7z"
+      },
+      "description": "View total counts by selected modes for a single countline over a long time period (up to one year). For periods over a month, counts will be aggregated per day. For shorter periods, counts can also be viewed per hour. ",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "fixedColor": "purple",
+            "mode": "palette-classic",
+            "seriesBy": "last"
+          },
+          "custom": {
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "drawStyle": "line",
+            "fillOpacity": 0,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "lineInterpolation": "linear",
+            "lineWidth": 1,
+            "pointSize": 5,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "auto",
+            "spanNulls": false,
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 20
+              },
+              {
+                "color": "#EAB839",
+                "value": 90
+              }
+            ]
+          }
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Car"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "#7cb342",
+                  "mode": "fixed"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Pedestrian"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "#3949ab",
+                  "mode": "fixed"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Cyclist"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "#039BE5",
+                  "mode": "fixed"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Motorbike"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "#D81B60",
+                  "mode": "fixed"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Bus"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "#FB8C00",
+                  "mode": "fixed"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Rigid"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "#DF41F4",
+                  "mode": "fixed"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Truck"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "#6D4C41",
+                  "mode": "fixed"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Van"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "#FDD835",
+                  "mode": "fixed"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Taxi"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "#70A13B",
+                  "mode": "fixed"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Emergency Car"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "#FB8F23",
+                  "mode": "fixed"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Minibus"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "#3949ab",
+                  "mode": "fixed"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Fire Engine"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "#C93BDC",
+                  "mode": "fixed"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Emergency Van"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "#E4C230",
+                  "mode": "fixed"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Wheelchair"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "#33429A",
+                  "mode": "fixed"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Mobility Scooter"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "#4D5BB3",
+                  "mode": "fixed"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Pushchair"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "#2E3A89",
+                  "mode": "fixed"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Jogger"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "#616DBC",
+                  "mode": "fixed"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "E-Scooter"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "#283378",
+                  "mode": "fixed"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Rental Bike"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "#038CCE",
+                  "mode": "fixed"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Cargo Bike"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "#1CA5E8",
+                  "mode": "fixed"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Taxi Electric"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "#89BB55",
+                  "mode": "fixed"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Taxi Other"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "#638F35",
+                  "mode": "fixed"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Van Small"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "#FDDC49",
+                  "mode": "fixed"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Van Luton"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "#CAAD2a",
+                  "mode": "fixed"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Bus Coach"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "#FB981a",
+                  "mode": "fixed"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Bus London"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "#C97000",
+                  "mode": "fixed"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Towed Trailer"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "#96C268",
+                  "mode": "fixed"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Tractor"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "#96C268",
+                  "mode": "fixed"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Agriculture Vehicle"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "#B234C3",
+                  "mode": "fixed"
+                }
+              }
+            ]
+          }
+        ]
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 0,
+        "y": 0
+      },
+      "id": 4,
+      "options": {
+        "legend": {
+          "calcs": [],
+          "displayMode": "list",
+          "placement": "bottom"
+        },
+        "tooltip": {
+          "mode": "multi"
+        }
+      },
+      "targets": [
+        {
+          "datasource": {
+            "type": "postgres",
+            "uid": "rdde3lb7z"
+          },
+          "format": "time_series",
+          "group": [],
+          "metricColumn": "none",
+          "rawQuery": true,
+          "rawSql": "SELECT * FROM\n(SELECT\n  timescaledb_experimental.time_bucket_ng('$timeBucketHours hours', bucket, timezone => '$timezone') AT TIME ZONE '$timezone' as time,\n  INITCAP(replace(class_name, '_', ' ')) ::TEXT as metric,\n  CASE\n    WHEN 'TRUE' = '$countlineDirection' THEN SUM(clockwise_count)\n    WHEN 'FALSE' = '$countlineDirection' THEN SUM(anticlockwise_count)\n    WHEN 'BOTH' = '$countlineDirection' THEN SUM(clockwise_count) + SUM(anticlockwise_count)\n    ELSE NULL\n  END AS \"Counts\"\nFROM crossings_v4_one_hour\nJOIN detection_classes_v2 ON id=detection_class_v2_id\nWHERE bucket >= TO_TIMESTAMP($dataFrom)\nAND bucket < TO_TIMESTAMP($dataTo)\nAND image_space_countline_id in ($countline)\nAND class_name IN ($classes)\nGROUP BY time, class_name\nORDER BY time, class_name) AS sub\nUNION\nSELECT\n  timescaledb_experimental.time_bucket_ng('$timeBucketHours hours', bucket, timezone => '$timezone') AT TIME ZONE '$timezone' as time,\n  'TOTAL' ::TEXT as metric,\n  CASE\n    WHEN 'TRUE' = '$countlineDirection' THEN SUM(clockwise_count)\n    WHEN 'FALSE' = '$countlineDirection' THEN SUM(anticlockwise_count)\n    WHEN 'BOTH' = '$countlineDirection' THEN SUM(clockwise_count) + SUM(anticlockwise_count)\n    ELSE NULL\n  END AS \"Counts\"\nFROM crossings_v4_one_hour\nJOIN detection_classes_v2 ON id=detection_class_v2_id\nWHERE bucket >= TO_TIMESTAMP($dataFrom)\nAND bucket < TO_TIMESTAMP($dataTo)\nAND image_space_countline_id in ($countline)\nAND class_name IN ($classes)\nGROUP BY time\nORDER BY time;",
+          "refId": "A",
+          "select": [
+            [
+              {
+                "params": [
+                  "confidence"
+                ],
+                "type": "column"
+              }
+            ]
+          ],
+          "table": "anpr",
+          "timeColumn": "\"timestamp\"",
+          "timeColumnType": "timestamp",
+          "where": [
+            {
+              "name": "$__timeFilter",
+              "params": [],
+              "type": "macro"
+            }
+          ]
+        }
+      ],
+      "title": "Total counts",
+      "type": "timeseries"
+    },
+    {
+      "datasource": {
+        "type": "postgres",
+        "uid": "rdde3lb7z"
+      },
+      "description": "View total counts by selected modes for a single countline over a long time period (up to one year). For periods over a month, counts will be aggregated per day. For shorter periods, counts can also be viewed per hour. ",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "fixedColor": "purple",
+            "mode": "palette-classic",
+            "seriesBy": "last"
+          },
+          "custom": {
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "drawStyle": "line",
+            "fillOpacity": 0,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "lineInterpolation": "linear",
+            "lineWidth": 1,
+            "pointSize": 5,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "auto",
+            "spanNulls": false,
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 20
+              },
+              {
+                "color": "#EAB839",
+                "value": 90
+              }
+            ]
+          }
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Car"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "#7cb342",
+                  "mode": "fixed"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Pedestrian"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "#3949ab",
+                  "mode": "fixed"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Cyclist"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "#039be5",
+                  "mode": "fixed"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Motorbike"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "#d81b60",
+                  "mode": "fixed"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Bus"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "#fb8c00",
+                  "mode": "fixed"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "OGV1"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "#DF41F4",
+                  "mode": "fixed"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "OGV2"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "#6d4c41",
+                  "mode": "fixed"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "LGV"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "#fdd835",
+                  "mode": "fixed"
+                }
+              }
+            ]
+          }
+        ]
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 12,
+        "y": 0
+      },
+      "id": 6,
+      "options": {
+        "legend": {
+          "calcs": [],
+          "displayMode": "list",
+          "placement": "bottom"
+        },
+        "tooltip": {
+          "mode": "multi"
+        }
+      },
+      "targets": [
+        {
+          "datasource": {
+            "type": "postgres",
+            "uid": "rdde3lb7z"
+          },
+          "format": "time_series",
+          "group": [],
+          "metricColumn": "none",
+          "rawQuery": true,
+          "rawSql": "SELECT * FROM\n(SELECT\n  timescaledb_experimental.time_bucket_ng('$timeBucketHours hours', bucket, timezone => '$timezone') AT TIME ZONE '$timezone' as time,\n  traffic_8_collapsed_class_name::TEXT as metric,\n  CASE\n    WHEN 'TRUE' = '$countlineDirection' THEN SUM(clockwise_count)\n    WHEN 'FALSE' = '$countlineDirection' THEN SUM(anticlockwise_count)\n    WHEN 'BOTH' = '$countlineDirection' THEN SUM(clockwise_count) + SUM(anticlockwise_count)\n    ELSE NULL\n  END AS \"Counts\"\nFROM crossings_v4_one_hour\nJOIN detection_classes_v2 ON detection_classes_v2.id=detection_class_v2_id\nWHERE bucket >= TO_TIMESTAMP($dataFrom)\nAND bucket < TO_TIMESTAMP($dataTo)\nAND image_space_countline_id in ($countline)\nAND traffic_8_collapsed_class_name IN ($traffic8CollapsedClassName)\nGROUP BY time, traffic_8_collapsed_class_name\nORDER BY time, traffic_8_collapsed_class_name) AS sub\nUNION\nSELECT\n  timescaledb_experimental.time_bucket_ng('$timeBucketHours hours', bucket, timezone => '$timezone') AT TIME ZONE '$timezone' as time,\n  'TOTAL' ::TEXT as metric,\n  CASE\n    WHEN 'TRUE' = '$countlineDirection' THEN SUM(clockwise_count)\n    WHEN 'FALSE' = '$countlineDirection' THEN SUM(anticlockwise_count)\n    WHEN 'BOTH' = '$countlineDirection' THEN SUM(clockwise_count) + SUM(anticlockwise_count)\n    ELSE NULL\n  END AS \"Counts\"\nFROM crossings_v4_one_hour\nJOIN detection_classes_v2 ON id=detection_class_v2_id\nWHERE bucket >= TO_TIMESTAMP($dataFrom)\nAND bucket < TO_TIMESTAMP($dataTo)\nAND image_space_countline_id in ($countline)\nAND traffic_8_collapsed_class_name IN ($traffic8CollapsedClassName)\nGROUP BY time\nORDER BY time;",
+          "refId": "A",
+          "select": [
+            [
+              {
+                "params": [
+                  "confidence"
+                ],
+                "type": "column"
+              }
+            ]
+          ],
+          "table": "anpr",
+          "timeColumn": "\"timestamp\"",
+          "timeColumnType": "timestamp",
+          "where": [
+            {
+              "name": "$__timeFilter",
+              "params": [],
+              "type": "macro"
+            }
+          ]
+        }
+      ],
+      "title": "Total counts",
+      "type": "timeseries"
+    },
+    {
+      "datasource": {
+        "type": "postgres",
+        "uid": "rdde3lb7z"
+      },
+      "description": "View average counts per weekday for the selected time period. Includes all classes selected.",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "fixedColor": "purple",
+            "mode": "palette-classic",
+            "seriesBy": "last"
+          },
+          "custom": {
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "axisSoftMin": 0,
+            "fillOpacity": 80,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "lineWidth": 1
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              }
+            ]
+          }
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "bucket"
+            },
+            "properties": [
+              {
+                "id": "mappings",
+                "value": [
+                  {
+                    "options": {
+                      "friday": {
+                        "index": 4,
+                        "text": "Friday"
+                      },
+                      "monday": {
+                        "index": 0,
+                        "text": "Monday"
+                      },
+                      "saturday": {
+                        "index": 5,
+                        "text": "Saturday"
+                      },
+                      "sunday": {
+                        "index": 6,
+                        "text": "Sunday"
+                      },
+                      "thursday": {
+                        "index": 3,
+                        "text": "Thursday"
+                      },
+                      "tuesday": {
+                        "index": 1,
+                        "text": "Tuesday"
+                      },
+                      "wednesday": {
+                        "index": 2,
+                        "text": "Wednesday"
+                      }
+                    },
+                    "type": "value"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 0,
+        "y": 8
+      },
+      "id": 10,
+      "options": {
+        "barWidth": 0.97,
+        "groupWidth": 0.7,
+        "legend": {
+          "calcs": [],
+          "displayMode": "list",
+          "placement": "bottom"
+        },
+        "orientation": "auto",
+        "showValue": "auto",
+        "stacking": "none",
+        "text": {
+          "valueSize": 18
+        },
+        "tooltip": {
+          "mode": "single"
+        },
+        "xTickLabelRotation": 0
+      },
+      "targets": [
+        {
+          "datasource": {
+            "type": "postgres",
+            "uid": "rdde3lb7z"
+          },
+          "format": "table",
+          "group": [],
+          "metricColumn": "none",
+          "rawQuery": true,
+          "rawSql": "SELECT\ndow AS bucket,\nCOALESCE(ds_avg, 0) AS \"Typical weekdays\"\nFROM (\n  SELECT\n  EXTRACT(isodow FROM time) as isodow,\n  trim(to_char(time, 'day')) AS dow,\n  EXTRACT(hour FROM time) AS hour_bucket,\n  AVG(total_counts) AS ds_avg\n  FROM\n  (SELECT\n    timescaledb_experimental.time_bucket_ng('$timeBucketHours hours', bucket, timezone => '$timezone') AT TIME ZONE '$timezone' as time,\n    CASE\n      WHEN 'TRUE' = '$countlineDirection' THEN SUM(clockwise_count)\n      WHEN 'FALSE' = '$countlineDirection' THEN SUM(anticlockwise_count)\n      WHEN 'BOTH' = '$countlineDirection' THEN SUM(clockwise_count) + SUM(anticlockwise_count)\n      ELSE NULL\n    END AS total_counts\n  FROM crossings_v4_one_hour\n  JOIN detection_classes_v2 ON detection_classes_v2.id=detection_class_v2_id\n  WHERE bucket >= TO_TIMESTAMP($dataFrom)\n  AND bucket < TO_TIMESTAMP($dataTo)\n  AND image_space_countline_id in ($countline)\n  AND class_name IN ($classes)\n  GROUP BY time\n  ORDER BY time \n  ) sub\nGROUP BY EXTRACT(isodow FROM time), dow, hour_bucket\nORDER BY EXTRACT(isodow FROM time), hour_bucket ) ds;",
+          "refId": "A",
+          "select": [
+            [
+              {
+                "params": [
+                  "confidence"
+                ],
+                "type": "column"
+              }
+            ]
+          ],
+          "table": "anpr",
+          "timeColumn": "\"timestamp\"",
+          "timeColumnType": "timestamp",
+          "where": [
+            {
+              "name": "$__timeFilter",
+              "params": [],
+              "type": "macro"
+            }
+          ]
+        }
+      ],
+      "title": "Average counts per weekday",
+      "type": "barchart"
+    },
+    {
+      "datasource": {
+        "type": "postgres",
+        "uid": "rdde3lb7z"
+      },
+      "description": "View average counts per weekday for the selected time period. Includes all classes selected.",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "fixedColor": "purple",
+            "mode": "palette-classic",
+            "seriesBy": "last"
+          },
+          "custom": {
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "axisSoftMin": 0,
+            "fillOpacity": 80,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "lineWidth": 1
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              }
+            ]
+          }
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "bucket"
+            },
+            "properties": [
+              {
+                "id": "mappings",
+                "value": [
+                  {
+                    "options": {
+                      "friday": {
+                        "index": 4,
+                        "text": "Friday"
+                      },
+                      "monday": {
+                        "index": 0,
+                        "text": "Monday"
+                      },
+                      "saturday": {
+                        "index": 5,
+                        "text": "Saturday"
+                      },
+                      "sunday": {
+                        "index": 6,
+                        "text": "Sunday"
+                      },
+                      "thursday": {
+                        "index": 3,
+                        "text": "Thursday"
+                      },
+                      "tuesday": {
+                        "index": 1,
+                        "text": "Tuesday"
+                      },
+                      "wednesday": {
+                        "index": 2,
+                        "text": "Wednesday"
+                      }
+                    },
+                    "type": "value"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 12,
+        "y": 8
+      },
+      "id": 7,
+      "options": {
+        "barWidth": 0.97,
+        "groupWidth": 0.7,
+        "legend": {
+          "calcs": [],
+          "displayMode": "list",
+          "placement": "bottom"
+        },
+        "orientation": "auto",
+        "showValue": "auto",
+        "stacking": "none",
+        "text": {
+          "valueSize": 18
+        },
+        "tooltip": {
+          "mode": "single"
+        },
+        "xTickLabelRotation": 0
+      },
+      "targets": [
+        {
+          "datasource": {
+            "type": "postgres",
+            "uid": "rdde3lb7z"
+          },
+          "format": "table",
+          "group": [],
+          "metricColumn": "none",
+          "rawQuery": true,
+          "rawSql": "SELECT\ndow AS bucket,\nCOALESCE(ds_avg, 0) AS \"Typical weekdays\"\nFROM (\n  SELECT\n  EXTRACT(isodow FROM time) as isodow,\n  trim(to_char(time, 'day')) AS dow,\n  EXTRACT(hour FROM time) AS hour_bucket,\n  AVG(total_counts) AS ds_avg\n  FROM\n  (SELECT\n    timescaledb_experimental.time_bucket_ng('$timeBucketHours hours', bucket, timezone => '$timezone') AT TIME ZONE '$timezone' as time,\n    CASE\n      WHEN 'TRUE' = '$countlineDirection' THEN SUM(clockwise_count)\n      WHEN 'FALSE' = '$countlineDirection' THEN SUM(anticlockwise_count)\n      WHEN 'BOTH' = '$countlineDirection' THEN SUM(clockwise_count) + SUM(anticlockwise_count)\n      ELSE NULL\n    END AS total_counts\n  FROM crossings_v4_one_hour\n  JOIN detection_classes_v2 ON detection_classes_v2.id=detection_class_v2_id\n  WHERE bucket >= TO_TIMESTAMP($dataFrom)\n  AND bucket < TO_TIMESTAMP($dataTo)\n  AND image_space_countline_id in ($countline)\n  AND traffic_8_collapsed_class_name IN ($traffic8CollapsedClassName)\n  GROUP BY time\n  ORDER BY time \n  ) sub\nGROUP BY EXTRACT(isodow FROM time), dow, hour_bucket\nORDER BY EXTRACT(isodow FROM time), hour_bucket ) ds;",
+          "refId": "A",
+          "select": [
+            [
+              {
+                "params": [
+                  "confidence"
+                ],
+                "type": "column"
+              }
+            ]
+          ],
+          "table": "anpr",
+          "timeColumn": "\"timestamp\"",
+          "timeColumnType": "timestamp",
+          "where": [
+            {
+              "name": "$__timeFilter",
+              "params": [],
+              "type": "macro"
+            }
+          ]
+        }
+      ],
+      "title": "Average counts per weekday",
+      "type": "barchart"
+    },
+    {
+      "datasource": {
+        "type": "postgres",
+        "uid": "rdde3lb7z"
+      },
+      "description": "View average counts per hour on a day for the selected time period. Includes all classes selected.",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "custom": {
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "axisSoftMin": 0,
+            "fillOpacity": 80,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "lineWidth": 1
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              }
+            ]
+          },
+          "unit": "short"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 0,
+        "y": 16
+      },
+      "id": 11,
+      "options": {
+        "barWidth": 0.97,
+        "groupWidth": 0.7,
+        "legend": {
+          "calcs": [],
+          "displayMode": "list",
+          "placement": "bottom"
+        },
+        "orientation": "auto",
+        "showValue": "auto",
+        "stacking": "none",
+        "text": {
+          "valueSize": 18
+        },
+        "tooltip": {
+          "mode": "single"
+        },
+        "xTickLabelRotation": 0
+      },
+      "pluginVersion": "8.4.0-pre",
+      "targets": [
+        {
+          "datasource": {
+            "type": "postgres",
+            "uid": "rdde3lb7z"
+          },
+          "format": "table",
+          "group": [],
+          "metricColumn": "none",
+          "rawQuery": true,
+          "rawSql": "SELECT\nhour_bucket::TEXT AS bucket,\nCOALESCE(ds_avg, 0) AS \"Typical hours of day\"\nFROM (\n  SELECT\n  EXTRACT(hour FROM time) AS hour_bucket,\n  AVG(total_counts) AS ds_avg\n  FROM\n  (SELECT\n    timescaledb_experimental.time_bucket_ng('$timeBucketHours hours', bucket, timezone => '$timezone') AT TIME ZONE '$timezone' AS time,\n    CASE\n      WHEN 'TRUE' = '$countlineDirection' THEN SUM(clockwise_count)\n      WHEN 'FALSE' = '$countlineDirection' THEN SUM(anticlockwise_count)\n      WHEN 'BOTH' = '$countlineDirection' THEN SUM(clockwise_count) + SUM(anticlockwise_count)\n      ELSE NULL\n    END AS total_counts\n  FROM crossings_v4_one_hour\n  JOIN detection_classes_v2 ON detection_classes_v2.id=detection_class_v2_id\n  WHERE bucket >= TO_TIMESTAMP($dataFrom)\n  AND bucket < TO_TIMESTAMP($dataTo)\n  AND image_space_countline_id in ($countline)\n  AND class_name IN ($classes)\n  GROUP BY time\n  ORDER BY time \n  ) sub\nGROUP BY hour_bucket\nORDER BY hour_bucket ) ds;",
+          "refId": "A",
+          "select": [
+            [
+              {
+                "params": [
+                  "confidence"
+                ],
+                "type": "column"
+              }
+            ]
+          ],
+          "table": "anpr",
+          "timeColumn": "\"timestamp\"",
+          "timeColumnType": "timestamp",
+          "where": [
+            {
+              "name": "$__timeFilter",
+              "params": [],
+              "type": "macro"
+            }
+          ]
+        }
+      ],
+      "title": "Average counts per hour",
+      "type": "barchart"
+    },
+    {
+      "datasource": {
+        "type": "postgres",
+        "uid": "rdde3lb7z"
+      },
+      "description": "View average counts per hour on a day for the selected time period. Includes all classes selected.",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "custom": {
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "axisSoftMin": 0,
+            "fillOpacity": 80,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "lineWidth": 1
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              }
+            ]
+          },
+          "unit": "short"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 12,
+        "y": 16
+      },
+      "id": 9,
+      "options": {
+        "barWidth": 0.97,
+        "groupWidth": 0.7,
+        "legend": {
+          "calcs": [],
+          "displayMode": "list",
+          "placement": "bottom"
+        },
+        "orientation": "auto",
+        "showValue": "auto",
+        "stacking": "none",
+        "text": {
+          "valueSize": 18
+        },
+        "tooltip": {
+          "mode": "single"
+        },
+        "xTickLabelRotation": 0
+      },
+      "pluginVersion": "8.4.0-pre",
+      "targets": [
+        {
+          "datasource": {
+            "type": "postgres",
+            "uid": "rdde3lb7z"
+          },
+          "format": "table",
+          "group": [],
+          "metricColumn": "none",
+          "rawQuery": true,
+          "rawSql": "SELECT\nhour_bucket::TEXT AS bucket,\nCOALESCE(ds_avg, 0) AS \"Typical hours of day\"\nFROM (\n  SELECT\n  EXTRACT(hour FROM time) AS hour_bucket,\n  AVG(total_counts) AS ds_avg\n  FROM\n  (SELECT\n    timescaledb_experimental.time_bucket_ng('$timeBucketHours hours', bucket, timezone => '$timezone') AT TIME ZONE '$timezone' AS time,\n    CASE\n      WHEN 'TRUE' = '$countlineDirection' THEN SUM(clockwise_count)\n      WHEN 'FALSE' = '$countlineDirection' THEN SUM(anticlockwise_count)\n      WHEN 'BOTH' = '$countlineDirection' THEN SUM(clockwise_count) + SUM(anticlockwise_count)\n      ELSE NULL\n    END AS total_counts\n  FROM crossings_v4_one_hour\n  JOIN detection_classes_v2 ON detection_classes_v2.id=detection_class_v2_id\n  WHERE bucket >= TO_TIMESTAMP($dataFrom)\n  AND bucket < TO_TIMESTAMP($dataTo)\n  AND image_space_countline_id in ($countline)\n  AND traffic_8_collapsed_class_name IN ($traffic8CollapsedClassName)\n  GROUP BY time\n  ORDER BY time \n  ) sub\nGROUP BY hour_bucket\nORDER BY hour_bucket ) ds;",
+          "refId": "A",
+          "select": [
+            [
+              {
+                "params": [
+                  "confidence"
+                ],
+                "type": "column"
+              }
+            ]
+          ],
+          "table": "anpr",
+          "timeColumn": "\"timestamp\"",
+          "timeColumnType": "timestamp",
+          "where": [
+            {
+              "name": "$__timeFilter",
+              "params": [],
+              "type": "macro"
+            }
+          ]
+        }
+      ],
+      "title": "Average counts per hour",
+      "type": "barchart"
+    }
+  ],
+  "refresh": "",
+  "schemaVersion": 34,
+  "style": "dark",
+  "tags": [],
+  "templating": {
+    "list": [
+      {
+        "current": {
+          "selected": false,
+          "text": "21929",
+          "value": "21929"
+        },
+        "datasource": {
+          "type": "postgres",
+          "uid": "rdde3lb7z"
+        },
+        "definition": "SELECT id FROM countlines_image_space WHERE deleted_at IS NULL ORDER BY id;",
+        "hide": 0,
+        "includeAll": false,
+        "label": "Countline",
+        "multi": false,
+        "name": "countline",
+        "options": [],
+        "query": "SELECT id FROM countlines_image_space WHERE deleted_at IS NULL ORDER BY id;",
+        "refresh": 1,
+        "regex": "",
+        "skipUrlSync": false,
+        "sort": 0,
+        "type": "query"
+      },
+      {
+        "current": {
+          "selected": true,
+          "text": "1",
+          "value": "1"
+        },
+        "hide": 0,
+        "includeAll": false,
+        "label": "Time Bucket Hours",
+        "multi": false,
+        "name": "timeBucketHours",
+        "options": [
+          {
+            "selected": true,
+            "text": "1",
+            "value": "1"
+          },
+          {
+            "selected": false,
+            "text": "24",
+            "value": "24"
+          }
+        ],
+        "query": "1,24",
+        "queryValue": "",
+        "skipUrlSync": false,
+        "type": "custom"
+      },
+      {
+        "current": {
+          "selected": true,
+          "text": [
+            "pedestrian"
+          ],
+          "value": [
+            "pedestrian"
+          ]
+        },
+        "datasource": {
+          "type": "postgres",
+          "uid": "rdde3lb7z"
+        },
+        "definition": "SELECT class_name FROM detection_classes_v2 WHERE id <= 32 ORDER BY id ASC;",
+        "hide": 0,
+        "includeAll": false,
+        "label": "Classes",
+        "multi": true,
+        "name": "classes",
+        "options": [],
+        "query": "SELECT class_name FROM detection_classes_v2 WHERE id <= 32 ORDER BY id ASC;",
+        "refresh": 1,
+        "regex": "",
+        "skipUrlSync": false,
+        "sort": 0,
+        "type": "query"
+      },
+      {
+        "current": {
+          "selected": true,
+          "text": [
+            "LGV",
+            "OGV1",
+            "Pedestrian",
+            "Cyclist",
+            "Bus",
+            "Motorbike",
+            "Car",
+            "OGV2"
+          ],
+          "value": [
+            "LGV",
+            "OGV1",
+            "Pedestrian",
+            "Cyclist",
+            "Bus",
+            "Motorbike",
+            "Car",
+            "OGV2"
+          ]
+        },
+        "datasource": {
+          "type": "postgres",
+          "uid": "rdde3lb7z"
+        },
+        "definition": "SELECT traffic_8_collapsed_class_name FROM detection_classes_v2 WHERE traffic_8_collapsed_class_name IS NOT NULL GROUP BY traffic_8_collapsed_class_name",
+        "hide": 0,
+        "includeAll": false,
+        "multi": true,
+        "name": "traffic8CollapsedClassName",
+        "options": [],
+        "query": "SELECT traffic_8_collapsed_class_name FROM detection_classes_v2 WHERE traffic_8_collapsed_class_name IS NOT NULL GROUP BY traffic_8_collapsed_class_name",
+        "refresh": 1,
+        "regex": "",
+        "skipUrlSync": false,
+        "sort": 0,
+        "type": "query"
+      },
+      {
+        "current": {
+          "selected": false,
+          "text": "BOTH",
+          "value": "BOTH"
+        },
+        "hide": 0,
+        "includeAll": false,
+        "multi": false,
+        "name": "countlineDirection",
+        "options": [
+          {
+            "selected": false,
+            "text": "TRUE",
+            "value": "TRUE"
+          },
+          {
+            "selected": false,
+            "text": "FALSE",
+            "value": "FALSE"
+          },
+          {
+            "selected": true,
+            "text": "BOTH",
+            "value": "BOTH"
+          }
+        ],
+        "query": "TRUE, FALSE, BOTH",
+        "queryValue": "",
+        "skipUrlSync": false,
+        "type": "custom"
+      },
+      {
+        "current": {
+          "selected": false,
+          "text": "1640995200",
+          "value": "1640995200"
+        },
+        "hide": 0,
+        "name": "dataFrom",
+        "options": [
+          {
+            "selected": true,
+            "text": "1640995200",
+            "value": "1640995200"
+          }
+        ],
+        "query": "1640995200",
+        "skipUrlSync": false,
+        "type": "textbox"
+      },
+      {
+        "current": {
+          "selected": false,
+          "text": "1643673600",
+          "value": "1643673600"
+        },
+        "hide": 0,
+        "name": "dataTo",
+        "options": [
+          {
+            "selected": true,
+            "text": "1643673600",
+            "value": "1643673600"
+          }
+        ],
+        "query": "1643673600",
+        "skipUrlSync": false,
+        "type": "textbox"
+      },
+      {
+        "current": {
+          "selected": false,
+          "text": "UTC",
+          "value": "UTC"
+        },
+        "hide": 0,
+        "name": "timezone",
+        "options": [
+          {
+            "selected": true,
+            "text": "UTC",
+            "value": "UTC"
+          }
+        ],
+        "query": "UTC",
+        "skipUrlSync": false,
+        "type": "textbox"
+      }
+    ]
+  },
+  "time": {
+    "from": "now-30d",
+    "to": "now"
+  },
+  "timepicker": {},
+  "timezone": "utc",
+  "title": "Long Term Trends Graphs V1 TZ",
+  "uid": "LongTermTrendsGraphsV1TZ",
+  "version": 1,
+  "weekStart": ""
+}

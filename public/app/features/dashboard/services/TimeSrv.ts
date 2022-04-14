@@ -185,13 +185,14 @@ export class TimeSrv {
   }
 
   updateTimeRangeFromDashboard(newData: any) {
+    console.log('TIME', newData);
     const to = newData.get('timeRange').to;
     const from = newData.get('timeRange').from;
 
     this.time.from = this.parseUrlParam(from);
     this.time.to = this.parseUrlParam(to);
 
-    this.refreshDashboard();
+    this.refreshTimeModel();
   }
 
   updateTimeRangeFromUrl() {

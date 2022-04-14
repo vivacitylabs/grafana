@@ -1,0 +1,1703 @@
+{
+  "annotations": {
+    "list": [
+      {
+        "builtIn": 1,
+        "datasource": "-- Grafana --",
+        "enable": true,
+        "hide": true,
+        "iconColor": "rgba(0, 211, 255, 1)",
+        "name": "Annotations & Alerts",
+        "target": {
+          "limit": 100,
+          "matchAny": false,
+          "tags": [],
+          "type": "dashboard"
+        },
+        "type": "dashboard"
+      }
+    ]
+  },
+  "editable": true,
+  "fiscalYearStartMonth": 0,
+  "graphTooltip": 0,
+  "iteration": 1649839752155,
+  "links": [],
+  "liveNow": false,
+  "panels": [
+    {
+      "collapsed": false,
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 0
+      },
+      "id": 25,
+      "panels": [],
+      "title": "Total Avg Diff - Time",
+      "type": "row"
+    },
+    {
+      "datasource": {
+        "type": "postgres",
+        "uid": "rdde3lb7z"
+      },
+      "description": "View the absolute difference in average counts per hour for selected time periods (After vs Before). The average counts include all selected classes. ",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "custom": {
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "axisSoftMin": 0,
+            "fillOpacity": 80,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "lineWidth": 1
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              }
+            ]
+          }
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Absolute difference: Period 1 - Period 2"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "After ($period_1_start - $period_1_end) vs Before ($period_2_start - $period_2_end)"
+              }
+            ]
+          }
+        ]
+      },
+      "gridPos": {
+        "h": 13,
+        "w": 12,
+        "x": 0,
+        "y": 1
+      },
+      "id": 28,
+      "options": {
+        "barWidth": 0.97,
+        "groupWidth": 0.7,
+        "legend": {
+          "calcs": [],
+          "displayMode": "list",
+          "placement": "bottom"
+        },
+        "orientation": "vertical",
+        "showValue": "auto",
+        "stacking": "none",
+        "text": {},
+        "tooltip": {
+          "mode": "single"
+        },
+        "xTickLabelRotation": 0
+      },
+      "pluginVersion": "8.2.2",
+      "targets": [
+        {
+          "datasource": {
+            "type": "postgres",
+            "uid": "rdde3lb7z"
+          },
+          "format": "table",
+          "group": [],
+          "metricColumn": "none",
+          "rawQuery": true,
+          "rawSql": "SELECT\nCOALESCE(ds.hour_bucket, hist.hour_bucket)::TEXT AS bucket,\nCOALESCE(historic_avg, 0) - COALESCE(ds_avg, 0) AS \n\"Absolute difference: Period 1 - Period 2\"\nFROM (\n\tSELECT\n\tEXTRACT(hour FROM bucket) AS hour_bucket,\n\tAVG(count) AS ds_avg\n\tFROM (\n\t\tSELECT\n\t\ttimescaledb_experimental.time_bucket_ng('$timeBucketHours hours', crossing_time, timezone => '$timezone') AT TIME ZONE '$timezone' AS bucket,\n\t\tCOUNT(*)\n\t\tFROM crossings_v4\n\t\tJOIN detection_classes_v2 ON crossings_v4.detection_class_v2_id = detection_classes_v2.id\n\t\tWHERE image_space_countline_id = $countline\n    AND crossing_time >= '$period_1_start $timezone'\n    AND crossing_time < '$period_1_end $timezone'\n    AND clockwise IN ($clockwise)\n\t\tAND class_name IN ($classes)\n\t\tGROUP BY bucket\n\t\tORDER BY bucket\n\t) sub\n\tGROUP BY hour_bucket\n\tORDER BY hour_bucket\n) ds\nFULL OUTER JOIN (\n\tSELECT\n\tEXTRACT(hour FROM bucket) AS hour_bucket,\n\tAVG(count) AS historic_avg\n\tFROM (\n\t\tSELECT\n\t\ttimescaledb_experimental.time_bucket_ng('$timeBucketHours hours', crossing_time, timezone => '$timezone') AT TIME ZONE '$timezone' AS bucket,\n\t\tCOUNT(*)\n\t\tFROM crossings_v4\n\t\tJOIN detection_classes_v2 ON crossings_v4.detection_class_v2_id = detection_classes_v2.id\n\t\tWHERE image_space_countline_id = $countline\n    AND crossing_time >= '$period_2_start $timezone'\n    AND crossing_time < '$period_2_end $timezone'\n    AND clockwise IN ($clockwise)\n\t\tAND class_name IN ($classes)\n\t\tGROUP BY bucket\n\t\tORDER BY bucket\n\t) sub\n\tGROUP BY hour_bucket\n\tORDER BY hour_bucket\n) hist ON (hist.hour_bucket = ds.hour_bucket)\nORDER BY ds.hour_bucket;",
+          "refId": "A",
+          "select": [
+            [
+              {
+                "params": [
+                  "confidence"
+                ],
+                "type": "column"
+              }
+            ]
+          ],
+          "table": "anpr",
+          "timeColumn": "\"timestamp\"",
+          "timeColumnType": "timestamp",
+          "where": [
+            {
+              "name": "$__timeFilter",
+              "params": [],
+              "type": "macro"
+            }
+          ]
+        }
+      ],
+      "title": "Absolute difference in average counts per hour",
+      "type": "barchart"
+    },
+    {
+      "datasource": {
+        "type": "postgres",
+        "uid": "rdde3lb7z"
+      },
+      "description": "View the absolute difference in average counts per hour for selected time periods (After vs Before). The average counts include all selected classes. ",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "custom": {
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "axisSoftMin": 0,
+            "fillOpacity": 80,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "lineWidth": 1
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              }
+            ]
+          }
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Absolute difference: Period 1 - Period 2"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "After ($period_1_start - $period_1_end) vs Before ($period_2_start - $period_2_end)"
+              }
+            ]
+          }
+        ]
+      },
+      "gridPos": {
+        "h": 13,
+        "w": 12,
+        "x": 12,
+        "y": 1
+      },
+      "id": 33,
+      "options": {
+        "barWidth": 0.97,
+        "groupWidth": 0.7,
+        "legend": {
+          "calcs": [],
+          "displayMode": "list",
+          "placement": "bottom"
+        },
+        "orientation": "vertical",
+        "showValue": "auto",
+        "stacking": "none",
+        "text": {},
+        "tooltip": {
+          "mode": "single"
+        },
+        "xTickLabelRotation": 0
+      },
+      "pluginVersion": "8.2.2",
+      "targets": [
+        {
+          "datasource": {
+            "type": "postgres",
+            "uid": "rdde3lb7z"
+          },
+          "format": "table",
+          "group": [],
+          "metricColumn": "none",
+          "rawQuery": true,
+          "rawSql": "SELECT\nCOALESCE(ds.hour_bucket, hist.hour_bucket)::TEXT AS bucket,\nCOALESCE(historic_avg, 0) - COALESCE(ds_avg, 0) AS \"Absolute difference: Period 1 - Period 2\"\nFROM (\n\tSELECT\n\tEXTRACT(hour FROM bucket) AS hour_bucket,\n\tAVG(count) AS ds_avg\n\tFROM (\n\t\tSELECT\n\t\ttimescaledb_experimental.time_bucket_ng('$timeBucketHours hours', crossing_time, timezone => '$timezone') AT TIME ZONE '$timezone' AS bucket,\n\t\tCOUNT(*)\n\t\tFROM crossings_v4\n\t\tJOIN detection_classes_v2 ON crossings_v4.detection_class_v2_id = detection_classes_v2.id\n\t\tWHERE image_space_countline_id = $countline\n    AND crossing_time >= '$period_1_start $timezone'\n    AND crossing_time < '$period_1_end $timezone'\n    AND clockwise IN ($clockwise)\n\t\tAND traffic_8_collapsed_class_name IN ($traffic8CollapsedClassName)\n\t\tGROUP BY bucket\n\t\tORDER BY bucket\n\t) sub\n\tGROUP BY hour_bucket\n\tORDER BY hour_bucket\n) ds\nFULL OUTER JOIN (\n\tSELECT\n\tEXTRACT(hour FROM bucket) AS hour_bucket,\n\tAVG(count) AS historic_avg\n\tFROM (\n\t\tSELECT\n\t\ttime_bucket('$timeBucketHours hours', crossing_time) AS bucket,\n\t\tCOUNT(*)\n\t\tFROM crossings_v4\n\t\tJOIN detection_classes_v2 ON crossings_v4.detection_class_v2_id = detection_classes_v2.id\n\t\tWHERE image_space_countline_id = $countline\n    AND crossing_time >= '$period_2_start $timezone'\n    AND crossing_time < '$period_2_end $timezone'\n    AND clockwise IN ($clockwise)\n\t\tAND traffic_8_collapsed_class_name IN ($traffic8CollapsedClassName)\n\t\tGROUP BY bucket\n\t\tORDER BY bucket\n\t) sub\n\tGROUP BY hour_bucket\n\tORDER BY hour_bucket\n) hist ON (hist.hour_bucket = ds.hour_bucket)\nORDER BY ds.hour_bucket;",
+          "refId": "A",
+          "select": [
+            [
+              {
+                "params": [
+                  "confidence"
+                ],
+                "type": "column"
+              }
+            ]
+          ],
+          "table": "anpr",
+          "timeColumn": "\"timestamp\"",
+          "timeColumnType": "timestamp",
+          "where": [
+            {
+              "name": "$__timeFilter",
+              "params": [],
+              "type": "macro"
+            }
+          ]
+        }
+      ],
+      "title": "Absolute difference in average counts per hour",
+      "type": "barchart"
+    },
+    {
+      "datasource": {
+        "type": "postgres",
+        "uid": "rdde3lb7z"
+      },
+      "description": "View the average weekly counts by modes for each time period.",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "axisSoftMin": 0,
+            "fillOpacity": 80,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "lineWidth": 1
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          }
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "count_period_1"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "Count Period 1"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "count_period_2"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "Count Period 2"
+              }
+            ]
+          }
+        ]
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 0,
+        "y": 14
+      },
+      "id": 31,
+      "options": {
+        "barWidth": 0.97,
+        "groupWidth": 0.7,
+        "legend": {
+          "calcs": [],
+          "displayMode": "list",
+          "placement": "bottom"
+        },
+        "orientation": "auto",
+        "showValue": "auto",
+        "stacking": "none",
+        "text": {},
+        "tooltip": {
+          "mode": "single"
+        },
+        "xTickLabelRotation": 30
+      },
+      "targets": [
+        {
+          "datasource": {
+            "type": "postgres",
+            "uid": "rdde3lb7z"
+          },
+          "format": "table",
+          "group": [],
+          "metricColumn": "none",
+          "rawQuery": true,
+          "rawSql": "WITH period_1_rows AS (\nSELECT\nINITCAP(replace(class_name, '_', ' ')) ::TEXT as metric,\nCOUNT(*)::NUMERIC / (EXTRACT(EPOCH FROM '$period_1_end'::TIMESTAMPTZ - '$period_1_start') / (60 * 60 * 24 * 7)) AS count_period_1\nFROM crossings_v4\nJOIN detection_classes_v2 ON crossings_v4.detection_class_v2_id = detection_classes_v2.id\nWHERE image_space_countline_id = $countline::int4\nAND class_name in ($classes)\nAND crossing_time >= '$period_1_start $timezone'\nAND crossing_time < '$period_1_end $timezone'\nAND clockwise IN ($clockwise)\nGROUP BY class_name\nORDER BY class_name),\nperiod_2_rows AS (\nSELECT\nINITCAP(replace(class_name, '_', ' ')) ::TEXT as metric,\nCOUNT(*)::NUMERIC / (EXTRACT(EPOCH FROM '$period_2_end'::TIMESTAMPTZ - '$period_2_start') / (60 * 60 * 24 * 7)) AS count_period_2\nFROM crossings_v4\nJOIN detection_classes_v2 ON crossings_v4.detection_class_v2_id = detection_classes_v2.id\nWHERE image_space_countline_id = $countline::int4\nAND class_name in ($classes)\nAND crossing_time >= '$period_2_start $timezone'\nAND crossing_time < '$period_2_end $timezone'\nAND clockwise IN ($clockwise)\nGROUP BY class_name\nORDER BY class_name)\n\nSELECT COALESCE(period_1_rows.metric, period_2_rows.metric) as metric, period_1_rows.count_period_1 as \n\"Before ($period_1_start - $period_1_end)\", period_2_rows.count_period_2 as \n\"After ($period_2_start - $period_2_end)\"\nFROM period_1_rows FULL OUTER JOIN period_2_rows ON period_2_rows.metric = period_1_rows.metric;",
+          "refId": "A",
+          "select": [
+            [
+              {
+                "params": [
+                  "confidence"
+                ],
+                "type": "column"
+              }
+            ]
+          ],
+          "table": "anpr",
+          "timeColumn": "\"timestamp\"",
+          "timeColumnType": "timestamp",
+          "where": [
+            {
+              "name": "$__timeFilter",
+              "params": [],
+              "type": "macro"
+            }
+          ]
+        }
+      ],
+      "title": "Average weekly counts (DEV)",
+      "type": "barchart"
+    },
+    {
+      "datasource": {
+        "type": "postgres",
+        "uid": "rdde3lb7z"
+      },
+      "description": "View the average weekly counts by modes for each time period.",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "axisSoftMin": 0,
+            "fillOpacity": 80,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "lineWidth": 1
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          }
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "count_period_1"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "Count Period 1"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "count_period_2"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "Count Period 2"
+              }
+            ]
+          }
+        ]
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 12,
+        "y": 14
+      },
+      "id": 32,
+      "options": {
+        "barWidth": 0.97,
+        "groupWidth": 0.7,
+        "legend": {
+          "calcs": [],
+          "displayMode": "list",
+          "placement": "bottom"
+        },
+        "orientation": "auto",
+        "showValue": "auto",
+        "stacking": "none",
+        "text": {},
+        "tooltip": {
+          "mode": "single"
+        },
+        "xTickLabelRotation": 0
+      },
+      "targets": [
+        {
+          "datasource": {
+            "type": "postgres",
+            "uid": "rdde3lb7z"
+          },
+          "format": "table",
+          "group": [],
+          "metricColumn": "none",
+          "rawQuery": true,
+          "rawSql": "WITH period_1_rows AS (\nSELECT\ntraffic_8_collapsed_class_name ::TEXT as metric,\nCOUNT(*)::NUMERIC / (EXTRACT(EPOCH FROM '$period_1_end'::TIMESTAMPTZ - '$period_1_start') / (60 * 60 * 24 * 7)) AS count_period_1\nFROM crossings_v4\nJOIN detection_classes_v2 ON crossings_v4.detection_class_v2_id = detection_classes_v2.id\nWHERE image_space_countline_id = $countline\nAND traffic_8_collapsed_class_name in ($traffic8CollapsedClassName)\nAND crossing_time >= '$period_1_start $timezone'\nAND crossing_time < '$period_1_end $timezone'\nAND clockwise IN ($clockwise)\nGROUP BY traffic_8_collapsed_class_name\nORDER BY traffic_8_collapsed_class_name),\nperiod_2_rows AS (\nSELECT\ntraffic_8_collapsed_class_name as metric,\nCOUNT(*)::NUMERIC / (EXTRACT(EPOCH FROM '$period_2_end'::TIMESTAMPTZ - '$period_2_start') / (60 * 60 * 24 * 7)) AS count_period_2\nFROM crossings_v4\nJOIN detection_classes_v2 ON crossings_v4.detection_class_v2_id = detection_classes_v2.id\nWHERE image_space_countline_id = $countline\nAND traffic_8_collapsed_class_name in ($traffic8CollapsedClassName)\nAND crossing_time >= '$period_2_start $timezone'\nAND crossing_time < '$period_2_end $timezone'\nAND clockwise IN ($clockwise)\nGROUP BY traffic_8_collapsed_class_name\nORDER BY traffic_8_collapsed_class_name)\n\nSELECT COALESCE(period_1_rows.metric, period_2_rows.metric) as metric, period_1_rows.count_period_1 as \n\"Before ($period_1_start - $period_1_end)\", period_2_rows.count_period_2 as \n\"After ($period_2_start - $period_2_end)\"\nFROM period_1_rows FULL OUTER JOIN period_2_rows ON period_2_rows.metric = period_1_rows.metric;",
+          "refId": "A",
+          "select": [
+            [
+              {
+                "params": [
+                  "confidence"
+                ],
+                "type": "column"
+              }
+            ]
+          ],
+          "table": "anpr",
+          "timeColumn": "\"timestamp\"",
+          "timeColumnType": "timestamp",
+          "where": [
+            {
+              "name": "$__timeFilter",
+              "params": [],
+              "type": "macro"
+            }
+          ]
+        }
+      ],
+      "title": "Average weekly counts (DEV)",
+      "type": "barchart"
+    },
+    {
+      "datasource": {
+        "type": "postgres",
+        "uid": "rdde3lb7z"
+      },
+      "description": "View the percentage change in average counts per hour for selected time periods (After vs Before). The average counts include all selected classes. (100 * (After - Before) / Before)",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "custom": {
+            "axisGridShow": true,
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "axisSoftMin": 0,
+            "fillOpacity": 80,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "lineWidth": 1
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              }
+            ]
+          },
+          "unit": "none"
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Proportional difference: Period 1 & Period 2"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "After ($period_1_start - $period_1_end) vs Before ($period_2_start - $period_2_end)"
+              },
+              {
+                "id": "custom.axisLabel",
+                "value": "%"
+              }
+            ]
+          }
+        ]
+      },
+      "gridPos": {
+        "h": 13,
+        "w": 12,
+        "x": 0,
+        "y": 22
+      },
+      "id": 20,
+      "options": {
+        "barWidth": 0.97,
+        "groupWidth": 0.7,
+        "legend": {
+          "calcs": [],
+          "displayMode": "list",
+          "placement": "bottom"
+        },
+        "orientation": "vertical",
+        "showValue": "auto",
+        "stacking": "none",
+        "text": {},
+        "tooltip": {
+          "mode": "single"
+        },
+        "xTickLabelRotation": 0
+      },
+      "pluginVersion": "8.2.2",
+      "targets": [
+        {
+          "datasource": {
+            "type": "postgres",
+            "uid": "rdde3lb7z"
+          },
+          "format": "table",
+          "group": [],
+          "metricColumn": "none",
+          "rawQuery": true,
+          "rawSql": "SELECT\nCOALESCE(ds.hour_bucket, hist.hour_bucket)::TEXT AS bucket,\nCASE \n  WHEN historic_avg IS NULL THEN NULL\n  WHEN historic_avg = 0 THEN NULL\n  WHEN ds_avg IS NULL THEN NULL\n  WHEN ds_avg = 0 THEN NULL\n  ELSE ROUND(100 * (historic_avg - ds_avg) / ds_avg)\nEND AS \"Proportional difference: Period 1 & Period 2\"\nFROM (\n\tSELECT\n\tEXTRACT(hour FROM bucket) AS hour_bucket,\n\tAVG(count) AS ds_avg\n\tFROM (\n\t\tSELECT\n\t\ttimescaledb_experimental.time_bucket_ng('$timeBucketHours hours', crossing_time, timezone => '$timezone') AT TIME ZONE '$timezone' AS bucket,\n\t\tCOUNT(*)\n\t\tFROM crossings_v4\n\t\tJOIN detection_classes_v2 ON crossings_v4.detection_class_v2_id = detection_classes_v2.id\n\t\tWHERE image_space_countline_id = $countline\n    AND crossing_time >= '$period_1_start $timezone'\n    AND crossing_time < '$period_1_end $timezone'\n\t\tAND class_name IN ($classes)\n\t\tAND clockwise IN ($clockwise)\n\t\tGROUP BY bucket\n\t\tORDER BY bucket\n\t) sub\n\tGROUP BY hour_bucket\n\tORDER BY hour_bucket\n) ds\nFULL OUTER JOIN (\n\tSELECT\n\tEXTRACT(hour FROM bucket) AS hour_bucket,\n\tAVG(count) AS historic_avg\n\tFROM (\n\t\tSELECT\n\t\ttimescaledb_experimental.time_bucket_ng('$timeBucketHours hours', crossing_time, timezone => '$timezone') AT TIME ZONE '$timezone' AS bucket,\n\t\tCOUNT(*)\n\t\tFROM crossings_v4\n\t\tJOIN detection_classes_v2 ON crossings_v4.detection_class_v2_id = detection_classes_v2.id\n\t\tWHERE image_space_countline_id = $countline\n    AND crossing_time >= '$period_2_start $timezone'\n    AND crossing_time < '$period_2_end $timezone'\n\t\tAND class_name IN ($classes)\n\t\tAND clockwise IN ($clockwise)\n\t\tGROUP BY bucket\n\t\tORDER BY bucket\n\t) sub\n\tGROUP BY hour_bucket\n\tORDER BY hour_bucket\n) hist ON (hist.hour_bucket = ds.hour_bucket)\nORDER BY ds.hour_bucket;",
+          "refId": "A",
+          "select": [
+            [
+              {
+                "params": [
+                  "confidence"
+                ],
+                "type": "column"
+              }
+            ]
+          ],
+          "table": "anpr",
+          "timeColumn": "\"timestamp\"",
+          "timeColumnType": "timestamp",
+          "where": [
+            {
+              "name": "$__timeFilter",
+              "params": [],
+              "type": "macro"
+            }
+          ]
+        }
+      ],
+      "title": "Percentage change in average counts per hour",
+      "type": "barchart"
+    },
+    {
+      "datasource": {
+        "type": "postgres",
+        "uid": "rdde3lb7z"
+      },
+      "description": "View the percentage change in average counts per hour for selected time periods (After vs Before). The average counts include all selected classes. (100 * (After - Before) / Before)",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "custom": {
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "axisSoftMin": 0,
+            "fillOpacity": 80,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "lineWidth": 1
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              }
+            ]
+          },
+          "unit": "none"
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Proportional difference: Period 1 & Period 2"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "After ($period_1_start - $period_1_end) vs Before ($period_2_start - $period_2_end)"
+              },
+              {
+                "id": "custom.axisLabel",
+                "value": "%"
+              }
+            ]
+          }
+        ]
+      },
+      "gridPos": {
+        "h": 13,
+        "w": 12,
+        "x": 12,
+        "y": 22
+      },
+      "id": 34,
+      "options": {
+        "barWidth": 0.97,
+        "groupWidth": 0.7,
+        "legend": {
+          "calcs": [],
+          "displayMode": "list",
+          "placement": "bottom"
+        },
+        "orientation": "vertical",
+        "showValue": "auto",
+        "stacking": "none",
+        "text": {},
+        "tooltip": {
+          "mode": "single"
+        },
+        "xTickLabelRotation": 0
+      },
+      "pluginVersion": "8.2.2",
+      "targets": [
+        {
+          "datasource": {
+            "type": "postgres",
+            "uid": "rdde3lb7z"
+          },
+          "format": "table",
+          "group": [],
+          "metricColumn": "none",
+          "rawQuery": true,
+          "rawSql": "SELECT\nCOALESCE(ds.hour_bucket, hist.hour_bucket)::TEXT AS bucket,\nCASE \n  WHEN historic_avg IS NULL THEN NULL\n  WHEN historic_avg = 0 THEN NULL\n  WHEN ds_avg IS NULL THEN NULL\n  WHEN ds_avg = 0 THEN NULL\n  ELSE ROUND(100 * (historic_avg - ds_avg) / ds_avg)\nEND AS \"Proportional difference: Period 1 & Period 2\"\nFROM (\n\tSELECT\n\tEXTRACT(hour FROM bucket) AS hour_bucket,\n\tAVG(count) AS ds_avg\n\tFROM (\n\t\tSELECT\n\t\ttimescaledb_experimental.time_bucket_ng('$timeBucketHours hours', crossing_time, timezone => '$timezone') AT TIME ZONE '$timezone' AS bucket,\n\t\tCOUNT(*)\n\t\tFROM crossings_v4\n\t\tJOIN detection_classes_v2 ON crossings_v4.detection_class_v2_id = detection_classes_v2.id\n\t\tWHERE image_space_countline_id = $countline\n    AND crossing_time >= '$period_1_start $timezone'\n    AND crossing_time < '$period_1_end $timezone'\n    AND clockwise IN ($clockwise)\n\t\tAND traffic_8_collapsed_class_name IN ($traffic8CollapsedClassName)\n\t\tGROUP BY bucket\n\t\tORDER BY bucket\n\t) sub\n\tGROUP BY hour_bucket\n\tORDER BY hour_bucket\n) ds\nFULL OUTER JOIN (\n\tSELECT\n\tEXTRACT(hour FROM bucket) AS hour_bucket,\n\tAVG(count) AS historic_avg\n\tFROM (\n\t\tSELECT\n\t\ttimescaledb_experimental.time_bucket_ng('$timeBucketHours hours', crossing_time, timezone => '$timezone') AT TIME ZONE '$timezone' AS bucket,\n\t\tCOUNT(*)\n\t\tFROM crossings_v4\n\t\tJOIN detection_classes_v2 ON crossings_v4.detection_class_v2_id = detection_classes_v2.id\n\t\tWHERE image_space_countline_id = $countline\n    AND crossing_time >= '$period_2_start $timezone'\n    AND crossing_time < '$period_2_end $timezone'\n    AND clockwise IN ($clockwise)\n\t\tAND traffic_8_collapsed_class_name IN ($traffic8CollapsedClassName)\n\t\tGROUP BY bucket\n\t\tORDER BY bucket\n\t) sub\n\tGROUP BY hour_bucket\n\tORDER BY hour_bucket\n) hist ON (hist.hour_bucket = ds.hour_bucket)\nORDER BY ds.hour_bucket;",
+          "refId": "A",
+          "select": [
+            [
+              {
+                "params": [
+                  "confidence"
+                ],
+                "type": "column"
+              }
+            ]
+          ],
+          "table": "anpr",
+          "timeColumn": "\"timestamp\"",
+          "timeColumnType": "timestamp",
+          "where": [
+            {
+              "name": "$__timeFilter",
+              "params": [],
+              "type": "macro"
+            }
+          ]
+        }
+      ],
+      "title": "Percentage change in average counts per hour",
+      "type": "barchart"
+    },
+    {
+      "collapsed": false,
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 35
+      },
+      "id": 22,
+      "panels": [],
+      "title": "Total Avg Diff - Day + Time",
+      "type": "row"
+    },
+    {
+      "datasource": {
+        "type": "postgres",
+        "uid": "rdde3lb7z"
+      },
+      "description": "View the absolute difference in average counts per day for selected time periods (After vs Before). The average counts include all selected classes.",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "custom": {
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "axisSoftMin": 0,
+            "fillOpacity": 80,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "lineWidth": 1
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              }
+            ]
+          }
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "bucket"
+            },
+            "properties": [
+              {
+                "id": "mappings",
+                "value": [
+                  {
+                    "options": {
+                      "friday": {
+                        "index": 4,
+                        "text": "Friday"
+                      },
+                      "monday": {
+                        "index": 0,
+                        "text": "Monday"
+                      },
+                      "saturday": {
+                        "index": 5,
+                        "text": "Saturday"
+                      },
+                      "sunday": {
+                        "index": 6,
+                        "text": "Sunday"
+                      },
+                      "thursday": {
+                        "index": 3,
+                        "text": "Thursday"
+                      },
+                      "tuesday": {
+                        "index": 1,
+                        "text": "Tuesday"
+                      },
+                      "wednesday": {
+                        "index": 2,
+                        "text": "Wednesday"
+                      }
+                    },
+                    "type": "value"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Absolute difference: Period 2 - Period 1"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "After ($period_1_start - $period_1_end) vs Before ($period_2_start - $period_2_end)"
+              }
+            ]
+          }
+        ]
+      },
+      "gridPos": {
+        "h": 18,
+        "w": 12,
+        "x": 0,
+        "y": 36
+      },
+      "id": 23,
+      "options": {
+        "barWidth": 0.97,
+        "groupWidth": 0.7,
+        "legend": {
+          "calcs": [],
+          "displayMode": "list",
+          "placement": "bottom"
+        },
+        "orientation": "vertical",
+        "showValue": "auto",
+        "stacking": "none",
+        "text": {},
+        "tooltip": {
+          "mode": "single"
+        },
+        "xTickLabelRotation": 0
+      },
+      "pluginVersion": "8.2.2",
+      "targets": [
+        {
+          "datasource": {
+            "type": "postgres",
+            "uid": "rdde3lb7z"
+          },
+          "format": "table",
+          "group": [],
+          "metricColumn": "none",
+          "rawQuery": true,
+          "rawSql": "SELECT\nCOALESCE(ds.dow, hist.dow) AS bucket,\nCOALESCE(historic_avg, 0) - COALESCE(ds_avg, 0) AS \"Absolute difference: Period 2 - Period 1\"\nFROM (\n\tSELECT\n\tEXTRACT(isodow FROM bucket) AS isodow,\n\ttrim(to_char(bucket, 'day')) AS dow,\n\tEXTRACT(hour FROM bucket) AS hour_bucket,\n\tAVG(count) AS ds_avg\n\tFROM (\n\t\tSELECT\n\t\ttimescaledb_experimental.time_bucket_ng('$timeBucketHours hours', crossing_time, timezone => '$timezone') AT TIME ZONE '$timezone' AS bucket,\n\t\tCOUNT(*)\n\t\tFROM crossings_v4\n\t\tJOIN detection_classes_v2 ON crossings_v4.detection_class_v2_id = detection_classes_v2.id\n\t\tWHERE image_space_countline_id = $countline\n    AND crossing_time >= '$period_1_start $timezone'\n    AND crossing_time < '$period_1_end $timezone'\n    AND clockwise IN ($clockwise)\n\t\tAND traffic_8_collapsed_class_name IN ($traffic8CollapsedClassName)\n\t\tGROUP BY bucket\n\t\tORDER BY bucket\n\t) sub\n\tGROUP BY EXTRACT(isodow FROM bucket), dow, hour_bucket\n\tORDER BY EXTRACT(isodow FROM bucket), hour_bucket\n) ds\nFULL OUTER JOIN (\n\tSELECT\n\ttrim(to_char(bucket, 'day')) AS dow,\n\tEXTRACT(hour FROM bucket) AS hour_bucket,\n\tAVG(count) AS historic_avg\n\tFROM (\n\t\tSELECT\n\t\ttimescaledb_experimental.time_bucket_ng('$timeBucketHours hours', crossing_time, timezone => '$timezone') AT TIME ZONE '$timezone' AS bucket,\n\t\tCOUNT(*)\n\t\tFROM crossings_v4\n\t\tJOIN detection_classes_v2 ON crossings_v4.detection_class_v2_id = detection_classes_v2.id\n\t\tWHERE image_space_countline_id = $countline\n    AND crossing_time >= '$period_2_start $timezone'\n    AND crossing_time < '$period_2_end $timezone'\n    AND clockwise IN ($clockwise)\n\t\tAND traffic_8_collapsed_class_name IN ($traffic8CollapsedClassName)\n\t\tGROUP BY bucket\n\t\tORDER BY bucket\n\t) sub\n\tGROUP BY EXTRACT(isodow FROM bucket), dow, hour_bucket\n\tORDER BY EXTRACT(isodow FROM bucket), hour_bucket\n) hist ON (hist.dow = ds.dow AND hist.hour_bucket = ds.hour_bucket)\nORDER BY ds.isodow, ds. hour_bucket;",
+          "refId": "A",
+          "select": [
+            [
+              {
+                "params": [
+                  "confidence"
+                ],
+                "type": "column"
+              }
+            ]
+          ],
+          "table": "anpr",
+          "timeColumn": "\"timestamp\"",
+          "timeColumnType": "timestamp",
+          "where": [
+            {
+              "name": "$__timeFilter",
+              "params": [],
+              "type": "macro"
+            }
+          ]
+        }
+      ],
+      "title": "Absolute difference in average counts per day",
+      "type": "barchart"
+    },
+    {
+      "datasource": {
+        "type": "postgres",
+        "uid": "rdde3lb7z"
+      },
+      "description": "View the absolute difference in average counts per day for selected time periods (After vs Before). The average counts include all selected classes. ",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "custom": {
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "axisSoftMin": 0,
+            "fillOpacity": 80,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "lineWidth": 1
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              }
+            ]
+          }
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "bucket"
+            },
+            "properties": [
+              {
+                "id": "mappings",
+                "value": [
+                  {
+                    "options": {
+                      "friday": {
+                        "index": 4,
+                        "text": "Friday"
+                      },
+                      "monday": {
+                        "index": 0,
+                        "text": "Monday"
+                      },
+                      "saturday": {
+                        "index": 5,
+                        "text": "Saturday"
+                      },
+                      "sunday": {
+                        "index": 6,
+                        "text": "Sunday"
+                      },
+                      "thursday": {
+                        "index": 3,
+                        "text": "Thursday"
+                      },
+                      "tuesday": {
+                        "index": 1,
+                        "text": "Tuesday"
+                      },
+                      "wednesday": {
+                        "index": 2,
+                        "text": "Wednesday"
+                      }
+                    },
+                    "type": "value"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Absolute difference: Period 2 - Period 1"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "After ($period_1_start - $period_1_end) vs Before ($period_2_start - $period_2_end)"
+              }
+            ]
+          }
+        ]
+      },
+      "gridPos": {
+        "h": 18,
+        "w": 11,
+        "x": 12,
+        "y": 36
+      },
+      "id": 35,
+      "options": {
+        "barWidth": 0.97,
+        "groupWidth": 0.7,
+        "legend": {
+          "calcs": [],
+          "displayMode": "list",
+          "placement": "bottom"
+        },
+        "orientation": "vertical",
+        "showValue": "auto",
+        "stacking": "none",
+        "text": {},
+        "tooltip": {
+          "mode": "single"
+        },
+        "xTickLabelRotation": 0
+      },
+      "pluginVersion": "8.2.2",
+      "targets": [
+        {
+          "datasource": {
+            "type": "postgres",
+            "uid": "rdde3lb7z"
+          },
+          "format": "table",
+          "group": [],
+          "metricColumn": "none",
+          "rawQuery": true,
+          "rawSql": "SELECT\nCOALESCE(ds.dow, hist.dow) AS bucket,\nCOALESCE(historic_avg, 0) - COALESCE(ds_avg, 0) AS \"Absolute difference: Period 2 - Period 1\"\nFROM (\n\tSELECT\n\tEXTRACT(isodow FROM bucket) AS isodow,\n\ttrim(to_char(bucket, 'day')) AS dow,\n\tEXTRACT(hour FROM bucket) AS hour_bucket,\n\tAVG(count) AS ds_avg\n\tFROM (\n\t\tSELECT\n\t\ttimescaledb_experimental.time_bucket_ng('$timeBucketHours hours', crossing_time, timezone => '$timezone') AT TIME ZONE '$timezone' AS bucket,\n\t\tCOUNT(*)\n\t\tFROM crossings_v4\n\t\tJOIN detection_classes_v2 ON crossings_v4.detection_class_v2_id = detection_classes_v2.id\n\t\tWHERE image_space_countline_id = $countline\n    AND crossing_time >= '$period_1_start $timezone'\n    AND crossing_time < '$period_1_end $timezone'\n    AND clockwise IN ($clockwise)\n\t\tAND class_name IN ($classes)\n\t\tGROUP BY bucket\n\t\tORDER BY bucket\n\t) sub\n\tGROUP BY EXTRACT(isodow FROM bucket), dow, hour_bucket\n\tORDER BY EXTRACT(isodow FROM bucket), hour_bucket\n) ds\nFULL OUTER JOIN (\n\tSELECT\n\ttrim(to_char(bucket, 'day')) AS dow,\n\tEXTRACT(hour FROM bucket) AS hour_bucket,\n\tAVG(count) AS historic_avg\n\tFROM (\n\t\tSELECT\n\t\ttimescaledb_experimental.time_bucket_ng('$timeBucketHours hours', crossing_time, timezone => '$timezone') AT TIME ZONE '$timezone' AS bucket,\n\t\tCOUNT(*)\n\t\tFROM crossings_v4\n\t\tJOIN detection_classes_v2 ON crossings_v4.detection_class_v2_id = detection_classes_v2.id\n\t\tWHERE image_space_countline_id = $countline\n    AND crossing_time >= '$period_2_start $timezone'\n    AND crossing_time < '$period_2_end $timezone'\n    AND clockwise IN ($clockwise)\n\t\tAND class_name IN ($classes)\n\t\tGROUP BY bucket\n\t\tORDER BY bucket\n\t) sub\n\tGROUP BY EXTRACT(isodow FROM bucket), dow, hour_bucket\n\tORDER BY EXTRACT(isodow FROM bucket), hour_bucket\n) hist ON (hist.dow = ds.dow AND hist.hour_bucket = ds.hour_bucket)\nORDER BY ds.isodow, ds. hour_bucket;",
+          "refId": "A",
+          "select": [
+            [
+              {
+                "params": [
+                  "confidence"
+                ],
+                "type": "column"
+              }
+            ]
+          ],
+          "table": "anpr",
+          "timeColumn": "\"timestamp\"",
+          "timeColumnType": "timestamp",
+          "where": [
+            {
+              "name": "$__timeFilter",
+              "params": [],
+              "type": "macro"
+            }
+          ]
+        }
+      ],
+      "title": "Absolute difference in average counts per day",
+      "type": "barchart"
+    },
+    {
+      "datasource": {
+        "type": "postgres",
+        "uid": "rdde3lb7z"
+      },
+      "description": "View the percentage change in average counts per day for selected time periods (After vs Before). The average counts include all selected classes. (100 * (After - Before) / Before)",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "custom": {
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "axisSoftMin": 0,
+            "fillOpacity": 80,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "lineWidth": 1
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              }
+            ]
+          }
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "bucket"
+            },
+            "properties": [
+              {
+                "id": "mappings",
+                "value": [
+                  {
+                    "options": {
+                      "friday": {
+                        "index": 4,
+                        "text": "Friday"
+                      },
+                      "monday": {
+                        "index": 0,
+                        "text": "Monday"
+                      },
+                      "saturday": {
+                        "index": 5,
+                        "text": "Saturday"
+                      },
+                      "sunday": {
+                        "index": 6,
+                        "text": "Sunday"
+                      },
+                      "thursday": {
+                        "index": 3,
+                        "text": "Thursday"
+                      },
+                      "tuesday": {
+                        "index": 1,
+                        "text": "Tuesday"
+                      },
+                      "wednesday": {
+                        "index": 2,
+                        "text": "Wednesday"
+                      }
+                    },
+                    "type": "value"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Proportional difference: Period 1 & Period 2"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "After ($period_1_start - $period_1_end) vs Before ($period_2_start - $period_2_end)"
+              },
+              {
+                "id": "custom.axisLabel",
+                "value": "%"
+              }
+            ]
+          }
+        ]
+      },
+      "gridPos": {
+        "h": 19,
+        "w": 12,
+        "x": 0,
+        "y": 54
+      },
+      "id": 29,
+      "options": {
+        "barWidth": 0.97,
+        "groupWidth": 0.7,
+        "legend": {
+          "calcs": [],
+          "displayMode": "list",
+          "placement": "bottom"
+        },
+        "orientation": "vertical",
+        "showValue": "auto",
+        "stacking": "none",
+        "text": {},
+        "tooltip": {
+          "mode": "single"
+        },
+        "xTickLabelRotation": 0
+      },
+      "pluginVersion": "8.2.2",
+      "targets": [
+        {
+          "datasource": {
+            "type": "postgres",
+            "uid": "rdde3lb7z"
+          },
+          "format": "table",
+          "group": [],
+          "metricColumn": "none",
+          "rawQuery": true,
+          "rawSql": "SELECT\nCOALESCE(ds.dow, hist.dow) AS bucket,\nCASE \n  WHEN historic_avg IS NULL THEN NULL\n  WHEN historic_avg = 0 THEN NULL\n  WHEN ds_avg IS NULL THEN NULL\n  WHEN ds_avg = 0 THEN NULL\n  ELSE ROUND(100 * (historic_avg - ds_avg) / ds_avg)\nEND AS \"Proportional difference: Period 1 & Period 2\"\nFROM (\n\tSELECT\n\tEXTRACT(isodow FROM bucket) AS isodow,\n\ttrim(to_char(bucket, 'day')) AS dow,\n\tEXTRACT(hour FROM bucket) AS hour_bucket,\n\tAVG(count) AS ds_avg\n\tFROM (\n\t\tSELECT\n\t\ttimescaledb_experimental.time_bucket_ng('$timeBucketHours hours', crossing_time, timezone => '$timezone') AT TIME ZONE '$timezone' AS bucket,\n\t\tCOUNT(*)\n\t\tFROM crossings_v4\n\t\tJOIN detection_classes_v2 ON crossings_v4.detection_class_v2_id = detection_classes_v2.id\n\t\tWHERE image_space_countline_id = $countline\n    AND crossing_time >= '$period_1_start $timezone'\n    AND crossing_time < '$period_1_end $timezone'\n    AND clockwise IN ($clockwise)\n\t\tAND class_name IN ($classes)\n\t\tGROUP BY bucket\n\t\tORDER BY bucket\n\t) sub\n\tGROUP BY EXTRACT(isodow FROM bucket), dow, hour_bucket\n\tORDER BY EXTRACT(isodow FROM bucket), hour_bucket\n) ds\nFULL OUTER JOIN (\n\tSELECT\n\ttrim(to_char(bucket, 'day')) AS dow,\n\tEXTRACT(hour FROM bucket) AS hour_bucket,\n\tAVG(count) AS historic_avg\n\tFROM (\n\t\tSELECT\n\t\ttimescaledb_experimental.time_bucket_ng('$timeBucketHours hours', crossing_time, timezone => '$timezone') AT TIME ZONE '$timezone' AS bucket,\n\t\tCOUNT(*)\n\t\tFROM crossings_v4\n\t\tJOIN detection_classes_v2 ON crossings_v4.detection_class_v2_id = detection_classes_v2.id\n\t\tWHERE image_space_countline_id = $countline\n    AND crossing_time >= '$period_2_start $timezone'\n    AND crossing_time < '$period_2_end $timezone'\n    AND clockwise IN ($clockwise)\n\t\tAND class_name IN ($classes)\n\t\tGROUP BY bucket\n\t\tORDER BY bucket\n\t) sub\n\tGROUP BY EXTRACT(isodow FROM bucket), dow, hour_bucket\n\tORDER BY EXTRACT(isodow FROM bucket), hour_bucket\n) hist ON (hist.dow = ds.dow AND hist.hour_bucket = ds.hour_bucket)\nORDER BY ds.isodow, ds. hour_bucket;",
+          "refId": "A",
+          "select": [
+            [
+              {
+                "params": [
+                  "confidence"
+                ],
+                "type": "column"
+              }
+            ]
+          ],
+          "table": "anpr",
+          "timeColumn": "\"timestamp\"",
+          "timeColumnType": "timestamp",
+          "where": [
+            {
+              "name": "$__timeFilter",
+              "params": [],
+              "type": "macro"
+            }
+          ]
+        }
+      ],
+      "title": "Percentage change in average counts per day",
+      "type": "barchart"
+    },
+    {
+      "datasource": {
+        "type": "postgres",
+        "uid": "rdde3lb7z"
+      },
+      "description": "View the percentage change in average counts per day for selected time periods (After vs Before). The average counts include all selected classes. (100 * (After - Before) / Before)",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "custom": {
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "axisSoftMin": 0,
+            "fillOpacity": 80,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "lineWidth": 1
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              }
+            ]
+          }
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "bucket"
+            },
+            "properties": [
+              {
+                "id": "mappings",
+                "value": [
+                  {
+                    "options": {
+                      "friday": {
+                        "index": 4,
+                        "text": "Friday"
+                      },
+                      "monday": {
+                        "index": 0,
+                        "text": "Monday"
+                      },
+                      "saturday": {
+                        "index": 5,
+                        "text": "Saturday"
+                      },
+                      "sunday": {
+                        "index": 6,
+                        "text": "Sunday"
+                      },
+                      "thursday": {
+                        "index": 3,
+                        "text": "Thursday"
+                      },
+                      "tuesday": {
+                        "index": 1,
+                        "text": "Tuesday"
+                      },
+                      "wednesday": {
+                        "index": 2,
+                        "text": "Wednesday"
+                      }
+                    },
+                    "type": "value"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Proportional difference: Period 1 & Period 2"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "After ($period_1_start - $period_1_end) vs Before ($period_2_start - $period_2_end)"
+              },
+              {
+                "id": "custom.axisLabel",
+                "value": "%"
+              }
+            ]
+          }
+        ]
+      },
+      "gridPos": {
+        "h": 19,
+        "w": 12,
+        "x": 12,
+        "y": 54
+      },
+      "id": 36,
+      "options": {
+        "barWidth": 0.97,
+        "groupWidth": 0.7,
+        "legend": {
+          "calcs": [],
+          "displayMode": "list",
+          "placement": "bottom"
+        },
+        "orientation": "vertical",
+        "showValue": "auto",
+        "stacking": "none",
+        "text": {},
+        "tooltip": {
+          "mode": "single"
+        },
+        "xTickLabelRotation": 0
+      },
+      "pluginVersion": "8.2.2",
+      "targets": [
+        {
+          "datasource": {
+            "type": "postgres",
+            "uid": "rdde3lb7z"
+          },
+          "format": "table",
+          "group": [],
+          "metricColumn": "none",
+          "rawQuery": true,
+          "rawSql": "SELECT\nCOALESCE(ds.dow, hist.dow) AS bucket,\nCASE \n  WHEN historic_avg IS NULL THEN NULL\n  WHEN historic_avg = 0 THEN NULL\n  WHEN ds_avg IS NULL THEN NULL\n  WHEN ds_avg = 0 THEN NULL\n  ELSE ROUND(100 * (historic_avg - ds_avg) / ds_avg)\nEND AS \"Proportional difference: Period 1 & Period 2\"\nFROM (\n\tSELECT\n\tEXTRACT(isodow FROM bucket) AS isodow,\n\ttrim(to_char(bucket, 'day')) AS dow,\n\tEXTRACT(hour FROM bucket) AS hour_bucket,\n\tAVG(count) AS ds_avg\n\tFROM (\n\t\tSELECT\n\t\ttimescaledb_experimental.time_bucket_ng('$timeBucketHours hours', crossing_time, timezone => '$timezone') AT TIME ZONE '$timezone' AS bucket,\n\t\tCOUNT(*)\n\t\tFROM crossings_v4\n\t\tJOIN detection_classes_v2 ON crossings_v4.detection_class_v2_id = detection_classes_v2.id\n\t\tWHERE image_space_countline_id = $countline\n    AND crossing_time >= '$period_1_start $timezone'\n    AND crossing_time < '$period_1_end $timezone'\n    AND clockwise IN ($clockwise)\n\t\tAND traffic_8_collapsed_class_name IN ($traffic8CollapsedClassName)\n\t\tGROUP BY bucket\n\t\tORDER BY bucket\n\t) sub\n\tGROUP BY EXTRACT(isodow FROM bucket), dow, hour_bucket\n\tORDER BY EXTRACT(isodow FROM bucket), hour_bucket\n) ds\nFULL OUTER JOIN (\n\tSELECT\n\ttrim(to_char(bucket, 'day')) AS dow,\n\tEXTRACT(hour FROM bucket) AS hour_bucket,\n\tAVG(count) AS historic_avg\n\tFROM (\n\t\tSELECT\n\t\ttimescaledb_experimental.time_bucket_ng('$timeBucketHours hours', crossing_time, timezone => '$timezone') AT TIME ZONE '$timezone' AS bucket,\n\t\tCOUNT(*)\n\t\tFROM crossings_v4\n\t\tJOIN detection_classes_v2 ON crossings_v4.detection_class_v2_id = detection_classes_v2.id\n\t\tWHERE image_space_countline_id = $countline\n    AND crossing_time >= '$period_2_start $timezone'\n    AND crossing_time < '$period_2_end $timezone'\n    AND clockwise IN ($clockwise)\n\t\tAND traffic_8_collapsed_class_name IN ($traffic8CollapsedClassName)\n\t\tGROUP BY bucket\n\t\tORDER BY bucket\n\t) sub\n\tGROUP BY EXTRACT(isodow FROM bucket), dow, hour_bucket\n\tORDER BY EXTRACT(isodow FROM bucket), hour_bucket\n) hist ON (hist.dow = ds.dow AND hist.hour_bucket = ds.hour_bucket)\nORDER BY ds.isodow, ds. hour_bucket;",
+          "refId": "A",
+          "select": [
+            [
+              {
+                "params": [
+                  "confidence"
+                ],
+                "type": "column"
+              }
+            ]
+          ],
+          "table": "anpr",
+          "timeColumn": "\"timestamp\"",
+          "timeColumnType": "timestamp",
+          "where": [
+            {
+              "name": "$__timeFilter",
+              "params": [],
+              "type": "macro"
+            }
+          ]
+        }
+      ],
+      "title": "Percentage change in average counts per day",
+      "type": "barchart"
+    }
+  ],
+  "refresh": "",
+  "schemaVersion": 34,
+  "style": "dark",
+  "tags": [],
+  "templating": {
+    "list": [
+      {
+        "current": {
+          "selected": true,
+          "text": "14817",
+          "value": "14817"
+        },
+        "datasource": {
+          "type": "postgres",
+          "uid": "rdde3lb7z"
+        },
+        "definition": "SELECT id FROM countlines_image_space WHERE deleted_at IS NULL ORDER BY id;",
+        "hide": 0,
+        "includeAll": false,
+        "label": "Countline",
+        "multi": false,
+        "name": "countline",
+        "options": [],
+        "query": "SELECT id FROM countlines_image_space WHERE deleted_at IS NULL ORDER BY id;",
+        "refresh": 1,
+        "regex": "",
+        "skipUrlSync": false,
+        "sort": 0,
+        "type": "query"
+      },
+      {
+        "current": {
+          "selected": true,
+          "text": [
+            "pedestrian",
+            "cyclist",
+            "motorbike"
+          ],
+          "value": [
+            "pedestrian",
+            "cyclist",
+            "motorbike"
+          ]
+        },
+        "datasource": {
+          "type": "postgres",
+          "uid": "rdde3lb7z"
+        },
+        "definition": "SELECT class_name FROM detection_classes_v2 WHERE id <= 32 ORDER BY id ASC;",
+        "hide": 0,
+        "includeAll": false,
+        "label": "Classes",
+        "multi": true,
+        "name": "classes",
+        "options": [],
+        "query": "SELECT class_name FROM detection_classes_v2 WHERE id <= 32 ORDER BY id ASC;",
+        "refresh": 1,
+        "regex": "",
+        "skipUrlSync": false,
+        "sort": 0,
+        "type": "query"
+      },
+      {
+        "current": {
+          "selected": false,
+          "text": "24",
+          "value": "24"
+        },
+        "hide": 0,
+        "includeAll": false,
+        "label": "Time Bucket Hours",
+        "multi": false,
+        "name": "timeBucketHours",
+        "options": [
+          {
+            "selected": false,
+            "text": "1",
+            "value": "1"
+          },
+          {
+            "selected": false,
+            "text": "2",
+            "value": "2"
+          },
+          {
+            "selected": false,
+            "text": "3",
+            "value": "3"
+          },
+          {
+            "selected": false,
+            "text": "6",
+            "value": "6"
+          },
+          {
+            "selected": false,
+            "text": "12",
+            "value": "12"
+          },
+          {
+            "selected": true,
+            "text": "24",
+            "value": "24"
+          }
+        ],
+        "query": "1,2,3,6,12,24",
+        "queryValue": "",
+        "skipUrlSync": false,
+        "type": "custom"
+      },
+      {
+        "current": {
+          "selected": false,
+          "text": "2022-02-01 00:00:00",
+          "value": "2022-02-01 00:00:00"
+        },
+        "hide": 0,
+        "label": "Period 1 Start",
+        "name": "period_1_start",
+        "options": [
+          {
+            "selected": true,
+            "text": "2022-02-01 00:00:00",
+            "value": "2022-02-01 00:00:00"
+          }
+        ],
+        "query": "2022-02-01 00:00:00",
+        "skipUrlSync": false,
+        "type": "textbox"
+      },
+      {
+        "current": {
+          "selected": false,
+          "text": "2022-02-07 00:00:00",
+          "value": "2022-02-07 00:00:00"
+        },
+        "hide": 0,
+        "label": "Period 1 End",
+        "name": "period_1_end",
+        "options": [
+          {
+            "selected": true,
+            "text": "2022-02-07 00:00:00",
+            "value": "2022-02-07 00:00:00"
+          }
+        ],
+        "query": "2022-02-07 00:00:00",
+        "skipUrlSync": false,
+        "type": "textbox"
+      },
+      {
+        "current": {
+          "selected": false,
+          "text": "2022-02-07 00:00:00",
+          "value": "2022-02-07 00:00:00"
+        },
+        "hide": 0,
+        "label": "Period 2 Start",
+        "name": "period_2_start",
+        "options": [
+          {
+            "selected": true,
+            "text": "2022-02-07 00:00:00",
+            "value": "2022-02-07 00:00:00"
+          }
+        ],
+        "query": "2022-02-07 00:00:00",
+        "skipUrlSync": false,
+        "type": "textbox"
+      },
+      {
+        "current": {
+          "selected": false,
+          "text": "2022-02-14 00:00:00",
+          "value": "2022-02-14 00:00:00"
+        },
+        "hide": 0,
+        "label": "Period 2 End",
+        "name": "period_2_end",
+        "options": [
+          {
+            "selected": true,
+            "text": "2022-02-14 00:00:00",
+            "value": "2022-02-14 00:00:00"
+          }
+        ],
+        "query": "2022-02-14 00:00:00",
+        "skipUrlSync": false,
+        "type": "textbox"
+      },
+      {
+        "current": {
+          "selected": true,
+          "text": [
+            "OGV1",
+            "Pedestrian",
+            "Cyclist",
+            "Car",
+            "Motorbike",
+            "OGV2",
+            "LGV",
+            "Bus"
+          ],
+          "value": [
+            "OGV1",
+            "Pedestrian",
+            "Cyclist",
+            "Car",
+            "Motorbike",
+            "OGV2",
+            "LGV",
+            "Bus"
+          ]
+        },
+        "datasource": {
+          "type": "postgres",
+          "uid": "rdde3lb7z"
+        },
+        "definition": "SELECT traffic_8_collapsed_class_name FROM detection_classes_v2 WHERE traffic_8_collapsed_class_name IS NOT NULL GROUP BY traffic_8_collapsed_class_name",
+        "hide": 0,
+        "includeAll": false,
+        "multi": true,
+        "name": "traffic8CollapsedClassName",
+        "options": [],
+        "query": "SELECT traffic_8_collapsed_class_name FROM detection_classes_v2 WHERE traffic_8_collapsed_class_name IS NOT NULL GROUP BY traffic_8_collapsed_class_name",
+        "refresh": 1,
+        "regex": "",
+        "skipUrlSync": false,
+        "sort": 0,
+        "type": "query"
+      },
+      {
+        "current": {
+          "selected": false,
+          "text": [
+            "FALSE"
+          ],
+          "value": [
+            "FALSE"
+          ]
+        },
+        "hide": 0,
+        "includeAll": false,
+        "multi": true,
+        "name": "clockwise",
+        "options": [
+          {
+            "selected": false,
+            "text": "TRUE",
+            "value": "TRUE"
+          },
+          {
+            "selected": true,
+            "text": "FALSE",
+            "value": "FALSE"
+          }
+        ],
+        "query": "TRUE, FALSE",
+        "queryValue": "",
+        "skipUrlSync": false,
+        "type": "custom"
+      },
+      {
+        "current": {
+          "selected": true,
+          "text": "UTC",
+          "value": "UTC"
+        },
+        "hide": 0,
+        "name": "timezone",
+        "options": [
+          {
+            "selected": true,
+            "text": "UTC",
+            "value": "UTC"
+          }
+        ],
+        "query": "UTC",
+        "skipUrlSync": false,
+        "type": "textbox"
+      }
+    ]
+  },
+  "time": {
+    "from": "2021-09-12T12:00:00.500Z",
+    "to": "2021-11-13T11:59:58.500Z"
+  },
+  "timepicker": {
+    "hidden": true
+  },
+  "timezone": "utc",
+  "title": "Intervention TZ",
+  "uid": "InterventionTZ",
+  "version": 2,
+  "weekStart": ""
+}
