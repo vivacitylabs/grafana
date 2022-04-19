@@ -185,7 +185,6 @@ export class TimeSrv {
   }
 
   updateTimeRangeFromDashboard(newData: any) {
-    console.log('TIME', newData);
     const to = newData.get('timeRange').to;
     const from = newData.get('timeRange').from;
 
