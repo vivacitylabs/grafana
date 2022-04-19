@@ -191,7 +191,7 @@ export class TimeSrv {
     this.time.from = this.parseUrlParam(from);
     this.time.to = this.parseUrlParam(to);
 
-    this.refreshDashboard();
+    this.refreshTimeModel();
   }
 
   updateTimeRangeFromUrl() {
