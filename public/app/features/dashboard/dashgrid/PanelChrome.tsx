@@ -260,7 +260,9 @@ export class PanelChrome extends PureComponent<Props, State> {
 
   onRecieveVariables(message: any) {
     const newVariables = message.data;
-    getTimeSrv().updateTimeRangeFromDashboard(newVariables);
+    if (newVariables.get('timeRange')) {
+      getTimeSrv().updateTimeRangeFromDashboard(newVariables);
+    }
     getDashboardSrv().refreshVariables(newVariables);
   }
 
