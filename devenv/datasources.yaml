@@ -315,6 +315,12 @@ datasources:
       defaultRegion: eu-west-2
       customMetricsNamespaces: "CWAgent"
 
+  - name: JSON API - Journey Times
+    type: JSON
+    editable: true
+    url: http://localhost:8080/grafana/journey_times
+    access: server
+
   - name: gdev-loki
     type: loki
     access: proxy
