@@ -320,7 +320,6 @@ datasources:
     editable: true
     url: http://0.0.0.0:8000/grafana/journey_times
     uid: hi1
-    pluginId: simpod-json-datasource
     access: server
 
   - name: gdev-loki

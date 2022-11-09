@@ -286,5 +286,4 @@ datasources:
     type: simpod-json-datasource
     access: server
     url: http://0.0.0.0:8000/grafana/journey_times
-    pluginId: simpod-json-datasource
     editable: true
