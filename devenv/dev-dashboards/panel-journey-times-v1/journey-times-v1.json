@@ -24,14 +24,14 @@
   "editable": true,
   "fiscalYearStartMonth": 0,
   "graphTooltip": 0,
-  "iteration": 1666884823332,
+  "iteration": 1667990193827,
   "links": [],
   "liveNow": false,
   "panels": [
     {
       "datasource": {
         "type": "simpod-json-datasource",
-        "uid": "S8J1uCSVz"
+        "uid": "hi1"
       },
       "fieldConfig": {
         "defaults": {
@@ -105,7 +105,7 @@
         {
           "datasource": {
             "type": "simpod-json-datasource",
-            "uid": "S8J1uCSVz"
+            "uid": "hi1"
           },
           "payload": "{\n  \"timeBucketMinutes\":              $timeBucketMinutes,\n  \"timezone\":                       \"$timezone\",\n  \"shouldQueryExtendedClasses\":     $shouldQueryExtendedClasses,\n  \"fromTimestamp\":                  $fromTimestamp,\n  \"toTimestamp\":                    $toTimestamp,\n  \"classes\":                        $classes,\n  \"originCountlineId\":              $originCountlineId,\n  \"destinationCountlineId\":         $destinationCountlineId,\n  \"originCountlineClockwise\":       $originCountlineClockwise,\n  \"destinationCountlineClockwise\":  $destinationCountlineClockwise,\n  \"journeyLengthBucket\":            2\n}",
           "refId": "A",
@@ -118,7 +118,7 @@
     {
       "datasource": {
         "type": "simpod-json-datasource",
-        "uid": "S8J1uCSVz"
+        "uid": "hi1"
       },
       "fieldConfig": {
         "defaults": {
@@ -192,7 +192,7 @@
         {
           "datasource": {
             "type": "simpod-json-datasource",
-            "uid": "S8J1uCSVz"
+            "uid": "hi1"
           },
           "payload": "{\n  \"timeBucketMinutes\":              $timeBucketMinutes,\n  \"timezone\":                       \"$timezone\",\n  \"shouldQueryExtendedClasses\":     $shouldQueryExtendedClasses,\n  \"fromTimestamp\":                  $fromTimestamp,\n  \"toTimestamp\":                    $toTimestamp,\n  \"classes\":                        $classes,\n  \"originCountlineId\":              $originCountlineId,\n  \"destinationCountlineId\":         $destinationCountlineId,\n  \"originCountlineClockwise\":       $originCountlineClockwise,\n  \"destinationCountlineClockwise\":  $destinationCountlineClockwise,\n  \"journeyLengthBucket\":            2\n}",
           "refId": "A",
@@ -214,7 +214,7 @@
       "dataFormat": "timeseries",
       "datasource": {
         "type": "simpod-json-datasource",
-        "uid": "S8J1uCSVz"
+        "uid": "hi1"
       },
       "gridPos": {
         "h": 9,
@@ -234,7 +234,7 @@
         {
           "datasource": {
             "type": "simpod-json-datasource",
-            "uid": "S8J1uCSVz"
+            "uid": "hi1"
           },
           "payload": "{\n  \"timeBucketMinutes\":              15,\n  \"timezone\":                       \"$timezone\",\n  \"shouldQueryExtendedClasses\":     $shouldQueryExtendedClasses,\n  \"fromTimestamp\":                  $fromTimestamp,\n  \"toTimestamp\":                    $toTimestamp,\n  \"classes\":                        $classes,\n  \"originCountlineId\":              $originCountlineId,\n  \"destinationCountlineId\":         $destinationCountlineId,\n  \"originCountlineClockwise\":       $originCountlineClockwise,\n  \"destinationCountlineClockwise\":  $destinationCountlineClockwise,\n  \"journeyLengthBucket\":            2\n}",
           "refId": "A",
@@ -569,6 +569,6 @@
   "timezone": "Europe/London",
   "title": "Journey Times V1",
   "uid": "7la_VgHVk",
-  "version": 15,
+  "version": 16,
   "weekStart": ""
 }

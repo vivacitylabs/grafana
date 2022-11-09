@@ -316,9 +316,11 @@ datasources:
       customMetricsNamespaces: "CWAgent"
 
   - name: JSON API - Journey Times
-    type: JSON
+    type: simpod-json-datasource
     editable: true
-    url: http://localhost:8080/grafana/journey_times
+    url: http://0.0.0.0:8000/grafana/journey_times
+    uid: hi1
+    pluginId: simpod-json-datasource
     access: server
 
   - name: gdev-loki
