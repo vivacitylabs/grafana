@@ -285,5 +285,5 @@ datasources:
   - name: JSON API - Near Misses
     type: simpod-json-datasource
     access: server
-    url: http://0.0.0.0:8000/grafana/near_misses
+    url: http://0.0.0.0:8080/grafana/near_misses
     editable: true
