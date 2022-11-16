@@ -352,3 +352,10 @@ datasources:
     access: proxy
     url: http://localhost:3101
     editable: false
+
+  - name: JSON API - Near Misses
+    type: simpod-json-datasource
+    editable: true
+    url: http://0.0.0.0:8000/grafana/near_misses
+    uid: json-api-near-misses
+    access: server

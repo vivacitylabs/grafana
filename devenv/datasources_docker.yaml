@@ -281,3 +281,9 @@ datasources:
     access: proxy
     url: http://loki:3100
     editable: false
+
+  - name: JSON API - Near Misses
+    type: simpod-json-datasource
+    access: server
+    url: http://0.0.0.0:8000/grafana/near_misses
+    editable: true
