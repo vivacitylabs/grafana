@@ -1010,7 +1010,7 @@
   },
   "timezone": "utc",
   "title": "Near Misses Supermario V1",
-  "uid": "json-api-near-misses",
+  "uid": "near-misses-v1",
   "version": 85,
   "weekStart": ""
 }
