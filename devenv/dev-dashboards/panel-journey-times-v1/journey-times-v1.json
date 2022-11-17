@@ -107,7 +107,7 @@
             "type": "simpod-json-datasource",
             "uid": "json-api-journey-times"
           },
-          "payload": "{\n  \"timeBucketMinutes\":              $timeBucketMinutes,\n  \"timezone\":                       \"$timezone\",\n  \"shouldQueryExtendedClasses\":     $shouldQueryExtendedClasses,\n  \"fromTimestamp\":                  $fromTimestamp,\n  \"toTimestamp\":                    $toTimestamp,\n  \"classes\":                        $classes,\n  \"originCountlineId\":              $originCountlineId,\n  \"destinationCountlineId\":         $destinationCountlineId,\n  \"originCountlineClockwise\":       $originCountlineClockwise,\n  \"destinationCountlineClockwise\":  $destinationCountlineClockwise,\n  \"journeyLengthBucket\":            2\n}",
+          "payload": "{\n  \"timeBucketMinutes\":              $timeBucketMinutes,\n  \"timezone\":                       \"$timezone\",\n  \"shouldQueryExtendedClasses\":     $shouldQueryExtendedClasses,\n  \"fromTimestamp\":                  $fromTimestamp,\n  \"toTimestamp\":                    $toTimestamp,\n  \"classes\":                        $classes,\n  \"originCountlineId\":              $originCountlineId,\n  \"destinationCountlineId\":         $destinationCountlineId,\n  \"originCountlineClockwise\":       $originCountlineClockwise,\n  \"destinationCountlineClockwise\":  $destinationCountlineClockwise,\n  \"journeyLengthBucketMinutes\":            2\n}",
           "refId": "A",
           "target": "all"
         }
@@ -194,7 +194,7 @@
             "type": "simpod-json-datasource",
             "uid": "json-api-journey-times"
           },
-          "payload": "{\n  \"timeBucketMinutes\":              $timeBucketMinutes,\n  \"timezone\":                       \"$timezone\",\n  \"shouldQueryExtendedClasses\":     $shouldQueryExtendedClasses,\n  \"fromTimestamp\":                  $fromTimestamp,\n  \"toTimestamp\":                    $toTimestamp,\n  \"classes\":                        $classes,\n  \"originCountlineId\":              $originCountlineId,\n  \"destinationCountlineId\":         $destinationCountlineId,\n  \"originCountlineClockwise\":       $originCountlineClockwise,\n  \"destinationCountlineClockwise\":  $destinationCountlineClockwise,\n  \"journeyLengthBucket\":            2\n}",
+          "payload": "{\n  \"timeBucketMinutes\":              $timeBucketMinutes,\n  \"timezone\":                       \"$timezone\",\n  \"shouldQueryExtendedClasses\":     $shouldQueryExtendedClasses,\n  \"fromTimestamp\":                  $fromTimestamp,\n  \"toTimestamp\":                    $toTimestamp,\n  \"classes\":                        $classes,\n  \"originCountlineId\":              $originCountlineId,\n  \"destinationCountlineId\":         $destinationCountlineId,\n  \"originCountlineClockwise\":       $originCountlineClockwise,\n  \"destinationCountlineClockwise\":  $destinationCountlineClockwise,\n  \"journeyLengthBucketMinutes\":            2\n}",
           "refId": "A",
           "target": "all"
         }
@@ -236,7 +236,7 @@
             "type": "simpod-json-datasource",
             "uid": "json-api-journey-times"
           },
-          "payload": "{\n  \"timeBucketMinutes\":              15,\n  \"timezone\":                       \"$timezone\",\n  \"shouldQueryExtendedClasses\":     $shouldQueryExtendedClasses,\n  \"fromTimestamp\":                  $fromTimestamp,\n  \"toTimestamp\":                    $toTimestamp,\n  \"classes\":                        $classes,\n  \"originCountlineId\":              $originCountlineId,\n  \"destinationCountlineId\":         $destinationCountlineId,\n  \"originCountlineClockwise\":       $originCountlineClockwise,\n  \"destinationCountlineClockwise\":  $destinationCountlineClockwise,\n  \"journeyLengthBucket\":            2\n}",
+          "payload": "{\n  \"timeBucketMinutes\":              15,\n  \"timezone\":                       \"$timezone\",\n  \"shouldQueryExtendedClasses\":     $shouldQueryExtendedClasses,\n  \"fromTimestamp\":                  $fromTimestamp,\n  \"toTimestamp\":                    $toTimestamp,\n  \"classes\":                        $classes,\n  \"originCountlineId\":              $originCountlineId,\n  \"destinationCountlineId\":         $destinationCountlineId,\n  \"originCountlineClockwise\":       $originCountlineClockwise,\n  \"destinationCountlineClockwise\":  $destinationCountlineClockwise,\n  \"journeyLengthBucketMinutes\":            2\n}",
           "refId": "A",
           "target": "all"
         }
