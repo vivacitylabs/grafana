@@ -1,1031 +1,1016 @@
 {
-    "annotations": {
-      "list": [
-        {
-          "builtIn": 1,
-          "datasource": {
-            "type": "grafana",
-            "uid": "-- Grafana --"
-          },
-          "enable": true,
-          "hide": true,
-          "iconColor": "rgba(0, 211, 255, 1)",
-          "name": "Annotations & Alerts",
-          "target": {
-            "limit": 100,
-            "matchAny": false,
-            "tags": [],
-            "type": "dashboard"
-          },
+  "annotations": {
+    "list": [
+      {
+        "builtIn": 1,
+        "datasource": {
+          "type": "grafana",
+          "uid": "-- Grafana --"
+        },
+        "enable": true,
+        "hide": true,
+        "iconColor": "rgba(0, 211, 255, 1)",
+        "name": "Annotations & Alerts",
+        "target": {
+          "limit": 100,
+          "matchAny": false,
+          "tags": [],
           "type": "dashboard"
-        }
-      ]
-    },
-    "description": "",
-    "editable": true,
-    "fiscalYearStartMonth": 0,
-    "graphTooltip": 0,
-    "id": 2,
-    "iteration": 1668600008779,
-    "links": [],
-    "liveNow": false,
-    "panels": [
-      {
-        "datasource": {
-          "type": "simpod-json-datasource",
-          "uid": "wW6tBwHVk"
         },
-        "description": "",
-        "fieldConfig": {
-          "defaults": {
-            "color": {
-              "mode": "palette-classic"
-            },
-            "custom": {
-              "axisLabel": "",
-              "axisPlacement": "auto",
-              "barAlignment": 0,
-              "drawStyle": "line",
-              "fillOpacity": 0,
-              "gradientMode": "none",
-              "hideFrom": {
-                "legend": false,
-                "tooltip": false,
-                "viz": false
-              },
-              "lineInterpolation": "linear",
-              "lineStyle": {
-                "fill": "solid"
-              },
-              "lineWidth": 1,
-              "pointSize": 5,
-              "scaleDistribution": {
-                "type": "linear"
-              },
-              "showPoints": "auto",
-              "spanNulls": false,
-              "stacking": {
-                "group": "A",
-                "mode": "none"
-              },
-              "thresholdsStyle": {
-                "mode": "off"
-              }
-            },
-            "mappings": [],
-            "min": 0,
-            "thresholds": {
-              "mode": "absolute",
-              "steps": [
-                {
-                  "color": "green",
-                  "value": null
-                }
-              ]
-            }
-          },
-          "overrides": []
-        },
-        "gridPos": {
-          "h": 9,
-          "w": 12,
-          "x": 0,
-          "y": 0
-        },
-        "id": 2,
-        "options": {
-          "legend": {
-            "calcs": [],
-            "displayMode": "list",
-            "placement": "bottom"
-          },
-          "tooltip": {
-            "mode": "multi",
-            "sort": "none"
-          }
-        },
-        "targets": [
-          {
-            "datasource": {
-              "type": "simpod-json-datasource",
-              "uid": "wW6tBwHVk"
-            },
-            "hide": false,
-            "payload": "{\n  \"fromTimestamp\": $dateFrom,\n  \"toTimestamp\": $dateTo,\n  \"zoneId\": $zoneId,\n  \"timezone\": \"$timezone\"\n}",
-            "refId": "A",
-            "target": "all"
-          }
-        ],
-        "title": "Daily events count",
-        "type": "timeseries"
-      },
-      {
-        "datasource": {
-          "type": "simpod-json-datasource",
-          "uid": "wW6tBwHVk"
-        },
-        "fieldConfig": {
-          "defaults": {
-            "color": {
-              "mode": "palette-classic"
-            },
-            "custom": {
-              "axisLabel": "",
-              "axisPlacement": "auto",
-              "barAlignment": 0,
-              "drawStyle": "line",
-              "fillOpacity": 0,
-              "gradientMode": "none",
-              "hideFrom": {
-                "legend": false,
-                "tooltip": false,
-                "viz": false
-              },
-              "lineInterpolation": "linear",
-              "lineWidth": 1,
-              "pointSize": 5,
-              "scaleDistribution": {
-                "type": "linear"
-              },
-              "showPoints": "auto",
-              "spanNulls": false,
-              "stacking": {
-                "group": "A",
-                "mode": "none"
-              },
-              "thresholdsStyle": {
-                "mode": "off"
-              }
-            },
-            "mappings": [],
-            "min": 0,
-            "thresholds": {
-              "mode": "absolute",
-              "steps": [
-                {
-                  "color": "green",
-                  "value": null
-                }
-              ]
-            }
-          },
-          "overrides": []
-        },
-        "gridPos": {
-          "h": 9,
-          "w": 12,
-          "x": 12,
-          "y": 0
-        },
-        "id": 4,
-        "options": {
-          "legend": {
-            "calcs": [],
-            "displayMode": "list",
-            "placement": "bottom"
-          },
-          "tooltip": {
-            "mode": "single",
-            "sort": "none"
-          }
-        },
-        "targets": [
-          {
-            "datasource": {
-              "type": "simpod-json-datasource",
-              "uid": "wW6tBwHVk"
-            },
-            "payload": "{\n  \"fromTimestamp\": $dateFrom,\n  \"toTimestamp\": $dateTo,\n  \"zoneId\": $zoneId,\n  \"timezone\": \"$timezone\"\n}",
-            "refId": "A",
-            "target": "all"
-          }
-        ],
-        "title": "Daily events count - Rates",
-        "type": "timeseries"
-      },
-      {
-        "datasource": {
-          "type": "simpod-json-datasource",
-          "uid": "wW6tBwHVk"
-        },
-        "description": "",
-        "fieldConfig": {
-          "defaults": {
-            "color": {
-              "mode": "palette-classic"
-            },
-            "custom": {
-              "axisLabel": "",
-              "axisPlacement": "auto",
-              "barAlignment": 0,
-              "drawStyle": "points",
-              "fillOpacity": 0,
-              "gradientMode": "none",
-              "hideFrom": {
-                "legend": false,
-                "tooltip": false,
-                "viz": false
-              },
-              "lineInterpolation": "linear",
-              "lineStyle": {
-                "fill": "solid"
-              },
-              "lineWidth": 1,
-              "pointSize": 5,
-              "scaleDistribution": {
-                "type": "linear"
-              },
-              "showPoints": "auto",
-              "spanNulls": false,
-              "stacking": {
-                "group": "A",
-                "mode": "none"
-              },
-              "thresholdsStyle": {
-                "mode": "off"
-              }
-            },
-            "mappings": [],
-            "min": 0,
-            "thresholds": {
-              "mode": "absolute",
-              "steps": [
-                {
-                  "color": "green",
-                  "value": null
-                }
-              ]
-            }
-          },
-          "overrides": []
-        },
-        "gridPos": {
-          "h": 9,
-          "w": 12,
-          "x": 0,
-          "y": 9
-        },
-        "id": 9,
-        "options": {
-          "legend": {
-            "calcs": [],
-            "displayMode": "list",
-            "placement": "bottom"
-          },
-          "tooltip": {
-            "mode": "multi",
-            "sort": "none"
-          }
-        },
-        "targets": [
-          {
-            "datasource": {
-              "type": "simpod-json-datasource",
-              "uid": "wW6tBwHVk"
-            },
-            "hide": false,
-            "payload": "{\n  \"fromTimestamp\": $dateFrom,\n  \"toTimestamp\": $dateTo,\n  \"zoneId\": $zoneId,\n  \"timezone\": \"$timezone\"\n}",
-            "refId": "A",
-            "target": "all"
-          }
-        ],
-        "title": "Daily events count - Discontinuous",
-        "type": "timeseries"
-      },
-      {
-        "datasource": {
-          "type": "simpod-json-datasource",
-          "uid": "wW6tBwHVk"
-        },
-        "fieldConfig": {
-          "defaults": {
-            "color": {
-              "mode": "palette-classic"
-            },
-            "custom": {
-              "axisLabel": "",
-              "axisPlacement": "auto",
-              "barAlignment": 0,
-              "drawStyle": "points",
-              "fillOpacity": 0,
-              "gradientMode": "none",
-              "hideFrom": {
-                "legend": false,
-                "tooltip": false,
-                "viz": false
-              },
-              "lineInterpolation": "linear",
-              "lineWidth": 1,
-              "pointSize": 5,
-              "scaleDistribution": {
-                "type": "linear"
-              },
-              "showPoints": "auto",
-              "spanNulls": false,
-              "stacking": {
-                "group": "A",
-                "mode": "none"
-              },
-              "thresholdsStyle": {
-                "mode": "off"
-              }
-            },
-            "mappings": [],
-            "min": 0,
-            "thresholds": {
-              "mode": "absolute",
-              "steps": [
-                {
-                  "color": "green",
-                  "value": null
-                }
-              ]
-            }
-          },
-          "overrides": []
-        },
-        "gridPos": {
-          "h": 9,
-          "w": 12,
-          "x": 12,
-          "y": 9
-        },
-        "id": 10,
-        "options": {
-          "legend": {
-            "calcs": [],
-            "displayMode": "list",
-            "placement": "bottom"
-          },
-          "tooltip": {
-            "mode": "single",
-            "sort": "none"
-          }
-        },
-        "targets": [
-          {
-            "datasource": {
-              "type": "simpod-json-datasource",
-              "uid": "wW6tBwHVk"
-            },
-            "payload": "{\n  \"fromTimestamp\": $dateFrom,\n  \"toTimestamp\": $dateTo,\n  \"zoneId\": $zoneId,\n  \"timezone\": \"$timezone\"\n}",
-            "refId": "A",
-            "target": "all"
-          }
-        ],
-        "title": "Daily events count - Rates - Discontinuous",
-        "type": "timeseries"
-      },
-      {
-        "datasource": {
-          "type": "simpod-json-datasource",
-          "uid": "wW6tBwHVk"
-        },
-        "fieldConfig": {
-          "defaults": {
-            "color": {
-              "mode": "palette-classic"
-            },
-            "custom": {
-              "axisLabel": "",
-              "axisPlacement": "auto",
-              "axisSoftMin": 0,
-              "fillOpacity": 80,
-              "gradientMode": "none",
-              "hideFrom": {
-                "legend": false,
-                "tooltip": false,
-                "viz": false
-              },
-              "lineWidth": 1,
-              "scaleDistribution": {
-                "type": "linear"
-              }
-            },
-            "mappings": [],
-            "thresholds": {
-              "mode": "absolute",
-              "steps": [
-                {
-                  "color": "green",
-                  "value": null
-                }
-              ]
-            }
-          },
-          "overrides": []
-        },
-        "gridPos": {
-          "h": 9,
-          "w": 12,
-          "x": 0,
-          "y": 18
-        },
-        "id": 5,
-        "options": {
-          "barRadius": 0,
-          "barWidth": 0.97,
-          "groupWidth": 0.7,
-          "legend": {
-            "calcs": [],
-            "displayMode": "list",
-            "placement": "bottom"
-          },
-          "orientation": "auto",
-          "showValue": "auto",
-          "stacking": "none",
-          "tooltip": {
-            "mode": "single",
-            "sort": "none"
-          },
-          "xTickLabelRotation": 0,
-          "xTickLabelSpacing": 0
-        },
-        "targets": [
-          {
-            "datasource": {
-              "type": "simpod-json-datasource",
-              "uid": "wW6tBwHVk"
-            },
-            "payload": "{\n  \"fromTimestamp\": $dateFrom,\n  \"toTimestamp\": $dateTo,\n  \"zoneId\": $zoneId,\n  \"timezone\": \"$timezone\"\n}",
-            "refId": "A",
-            "target": "all"
-          }
-        ],
-        "title": "Typical week",
-        "type": "barchart"
-      },
-      {
-        "datasource": {
-          "type": "simpod-json-datasource",
-          "uid": "wW6tBwHVk"
-        },
-        "fieldConfig": {
-          "defaults": {
-            "color": {
-              "mode": "palette-classic"
-            },
-            "custom": {
-              "axisLabel": "",
-              "axisPlacement": "auto",
-              "axisSoftMin": 0,
-              "fillOpacity": 80,
-              "gradientMode": "none",
-              "hideFrom": {
-                "legend": false,
-                "tooltip": false,
-                "viz": false
-              },
-              "lineWidth": 1,
-              "scaleDistribution": {
-                "type": "linear"
-              }
-            },
-            "mappings": [],
-            "thresholds": {
-              "mode": "absolute",
-              "steps": [
-                {
-                  "color": "green",
-                  "value": null
-                },
-                {
-                  "color": "red",
-                  "value": 80
-                }
-              ]
-            }
-          },
-          "overrides": []
-        },
-        "gridPos": {
-          "h": 9,
-          "w": 12,
-          "x": 12,
-          "y": 18
-        },
-        "id": 6,
-        "options": {
-          "barRadius": 0,
-          "barWidth": 0.97,
-          "groupWidth": 0.7,
-          "legend": {
-            "calcs": [],
-            "displayMode": "list",
-            "placement": "bottom"
-          },
-          "orientation": "auto",
-          "showValue": "auto",
-          "stacking": "none",
-          "tooltip": {
-            "mode": "single",
-            "sort": "none"
-          },
-          "xTickLabelRotation": 0,
-          "xTickLabelSpacing": 0
-        },
-        "targets": [
-          {
-            "datasource": {
-              "type": "simpod-json-datasource",
-              "uid": "wW6tBwHVk"
-            },
-            "payload": "{\n  \"fromTimestamp\": $dateFrom,\n  \"toTimestamp\": $dateTo,\n  \"zoneId\": $zoneId,\n  \"timezone\": \"$timezone\"\n}\n",
-            "refId": "A",
-            "target": "all"
-          }
-        ],
-        "title": "Typical week - Rates",
-        "type": "barchart"
-      },
-      {
-        "datasource": {
-          "type": "simpod-json-datasource",
-          "uid": "wW6tBwHVk"
-        },
-        "fieldConfig": {
-          "defaults": {
-            "color": {
-              "mode": "thresholds"
-            },
-            "custom": {
-              "axisLabel": "",
-              "axisPlacement": "auto",
-              "axisSoftMin": 0,
-              "fillOpacity": 80,
-              "gradientMode": "none",
-              "hideFrom": {
-                "legend": false,
-                "tooltip": false,
-                "viz": false
-              },
-              "lineWidth": 1,
-              "scaleDistribution": {
-                "type": "linear"
-              }
-            },
-            "mappings": [],
-            "thresholds": {
-              "mode": "absolute",
-              "steps": [
-                {
-                  "color": "green",
-                  "value": null
-                }
-              ]
-            }
-          },
-          "overrides": []
-        },
-        "gridPos": {
-          "h": 9,
-          "w": 12,
-          "x": 0,
-          "y": 27
-        },
-        "id": 8,
-        "options": {
-          "barRadius": 0,
-          "barWidth": 0.97,
-          "groupWidth": 0.7,
-          "legend": {
-            "calcs": [],
-            "displayMode": "list",
-            "placement": "bottom"
-          },
-          "orientation": "auto",
-          "showValue": "auto",
-          "stacking": "none",
-          "tooltip": {
-            "mode": "single",
-            "sort": "none"
-          },
-          "xTickLabelRotation": 0,
-          "xTickLabelSpacing": 0
-        },
-        "targets": [
-          {
-            "datasource": {
-              "type": "simpod-json-datasource",
-              "uid": "wW6tBwHVk"
-            },
-            "payload": "{\n  \"fromTimestamp\": $dateFrom,\n  \"toTimestamp\": $dateTo,\n  \"zoneId\": $zoneId,\n  \"timezone\": \"$timezone\"\n}",
-            "refId": "A",
-            "target": "all"
-          }
-        ],
-        "title": "Typical day",
-        "type": "barchart"
-      },
-      {
-        "datasource": {
-          "type": "simpod-json-datasource",
-          "uid": "wW6tBwHVk"
-        },
-        "fieldConfig": {
-          "defaults": {
-            "color": {
-              "mode": "palette-classic"
-            },
-            "custom": {
-              "axisLabel": "",
-              "axisPlacement": "auto",
-              "axisSoftMin": 0,
-              "fillOpacity": 80,
-              "gradientMode": "none",
-              "hideFrom": {
-                "legend": false,
-                "tooltip": false,
-                "viz": false
-              },
-              "lineWidth": 1,
-              "scaleDistribution": {
-                "type": "linear"
-              }
-            },
-            "mappings": [],
-            "thresholds": {
-              "mode": "absolute",
-              "steps": [
-                {
-                  "color": "green",
-                  "value": null
-                },
-                {
-                  "color": "red",
-                  "value": 80
-                }
-              ]
-            }
-          },
-          "overrides": []
-        },
-        "gridPos": {
-          "h": 9,
-          "w": 12,
-          "x": 12,
-          "y": 27
-        },
-        "id": 7,
-        "options": {
-          "barRadius": 0,
-          "barWidth": 0.97,
-          "groupWidth": 0.7,
-          "legend": {
-            "calcs": [],
-            "displayMode": "list",
-            "placement": "bottom"
-          },
-          "orientation": "auto",
-          "showValue": "auto",
-          "stacking": "none",
-          "tooltip": {
-            "mode": "single",
-            "sort": "none"
-          },
-          "xTickLabelRotation": 0,
-          "xTickLabelSpacing": 0
-        },
-        "targets": [
-          {
-            "datasource": {
-              "type": "simpod-json-datasource",
-              "uid": "wW6tBwHVk"
-            },
-            "payload": "{\n  \"fromTimestamp\": $dateFrom,\n  \"toTimestamp\": $dateTo,\n  \"zoneId\": $zoneId,\n  \"timezone\": \"$timezone\"\n}",
-            "refId": "A",
-            "target": "all"
-          }
-        ],
-        "title": "Typical day - Rates",
-        "type": "barchart"
-      },
-      {
-        "datasource": {
-          "type": "datasource",
-          "uid": "-- Mixed --"
-        },
-        "description": "",
-        "fieldConfig": {
-          "defaults": {
-            "color": {
-              "mode": "thresholds"
-            },
-            "custom": {
-              "axisLabel": "",
-              "axisPlacement": "auto",
-              "axisSoftMin": 0,
-              "fillOpacity": 80,
-              "gradientMode": "none",
-              "hideFrom": {
-                "legend": false,
-                "tooltip": false,
-                "viz": false
-              },
-              "lineWidth": 1,
-              "scaleDistribution": {
-                "type": "linear"
-              }
-            },
-            "decimals": 0,
-            "mappings": [],
-            "min": 0,
-            "thresholds": {
-              "mode": "absolute",
-              "steps": [
-                {
-                  "color": "green",
-                  "value": null
-                }
-              ]
-            }
-          },
-          "overrides": []
-        },
-        "gridPos": {
-          "h": 9,
-          "w": 12,
-          "x": 0,
-          "y": 36
-        },
-        "id": 11,
-        "options": {
-          "barRadius": 0,
-          "barWidth": 0.97,
-          "groupWidth": 0.7,
-          "legend": {
-            "calcs": [],
-            "displayMode": "list",
-            "placement": "bottom"
-          },
-          "orientation": "auto",
-          "showValue": "auto",
-          "stacking": "none",
-          "tooltip": {
-            "mode": "single",
-            "sort": "none"
-          },
-          "xField": "Metric",
-          "xTickLabelRotation": 0,
-          "xTickLabelSpacing": 0
-        },
-        "pluginVersion": "8.5.0-pre",
-        "targets": [
-          {
-            "datasource": {
-              "type": "simpod-json-datasource",
-              "uid": "wW6tBwHVk"
-            },
-            "hide": false,
-            "payload": "{\n  \"fromTimestamp\": $dateFrom,\n  \"toTimestamp\": $dateTo,\n  \"zoneId\": $zoneId,\n  \"severityType\": \"$severityType\",\n  \"timezone\": \"$timezone\"\n\n}",
-            "refId": "A",
-            "target": "all"
-          },
-          {
-            "datasource": {
-              "uid": "grafana"
-            },
-            "hide": true,
-            "refId": "B"
-          }
-        ],
-        "title": "Severity $severityType",
-        "transformations": [],
-        "type": "barchart"
+        "type": "dashboard"
       }
-    ],
-    "refresh": false,
-    "schemaVersion": 36,
-    "style": "dark",
-    "tags": [],
-    "templating": {
-      "list": [
+    ]
+  },
+  "description": "",
+  "editable": true,
+  "fiscalYearStartMonth": 0,
+  "graphTooltip": 0,
+  "id": 2,
+  "iteration": 1668696416741,
+  "links": [],
+  "liveNow": false,
+  "panels": [
+    {
+      "datasource": {
+        "type": "simpod-json-datasource",
+        "uid": "wW6tBwHVk"
+      },
+      "description": "",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "drawStyle": "line",
+            "fillOpacity": 0,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "lineInterpolation": "linear",
+            "lineStyle": {
+              "fill": "solid"
+            },
+            "lineWidth": 1,
+            "pointSize": 5,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "auto",
+            "spanNulls": false,
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "mappings": [],
+          "min": 0,
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 9,
+        "w": 12,
+        "x": 0,
+        "y": 0
+      },
+      "id": 2,
+      "options": {
+        "legend": {
+          "calcs": [],
+          "displayMode": "list",
+          "placement": "bottom"
+        },
+        "tooltip": {
+          "mode": "multi",
+          "sort": "none"
+        }
+      },
+      "targets": [
         {
-          "current": {
+          "datasource": {
+            "type": "simpod-json-datasource",
+            "uid": "wW6tBwHVk"
+          },
+          "payload": "{\n  \"fromDate\": $fromDate,\n  \"toDate\": $toDate,\n  \"zoneId\": $zoneId,\n  \"startHour\": $startHour,\n  \"endHour\": $endHour,\n  \"daysOfWeek\": $daysOfWeek,\n  \"timezone\": \"$timezone\",\n  \"severityType\": \"$severityType\"\n}",
+          "refId": "A",
+          "target": "all"
+        }
+      ],
+      "title": "Daily events count",
+      "type": "timeseries"
+    },
+    {
+      "datasource": {
+        "type": "simpod-json-datasource",
+        "uid": "wW6tBwHVk"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "drawStyle": "line",
+            "fillOpacity": 0,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "lineInterpolation": "linear",
+            "lineWidth": 1,
+            "pointSize": 5,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "auto",
+            "spanNulls": false,
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "mappings": [],
+          "min": 0,
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 9,
+        "w": 12,
+        "x": 12,
+        "y": 0
+      },
+      "id": 4,
+      "options": {
+        "legend": {
+          "calcs": [],
+          "displayMode": "list",
+          "placement": "bottom"
+        },
+        "tooltip": {
+          "mode": "single",
+          "sort": "none"
+        }
+      },
+      "targets": [
+        {
+          "datasource": {
+            "type": "simpod-json-datasource",
+            "uid": "wW6tBwHVk"
+          },
+          "payload": "{\n  \"fromDate\": $fromDate,\n  \"toDate\": $toDate,\n  \"zoneId\": $zoneId,\n  \"startHour\": $startHour,\n  \"endHour\": $endHour,\n  \"daysOfWeek\": $daysOfWeek,\n  \"timezone\": \"$timezone\",\n  \"severityType\": \"$severityType\"\n}",
+          "refId": "A",
+          "target": "all"
+        }
+      ],
+      "title": "Daily events count - Rates",
+      "type": "timeseries"
+    },
+    {
+      "datasource": {
+        "type": "simpod-json-datasource",
+        "uid": "wW6tBwHVk"
+      },
+      "description": "",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "drawStyle": "points",
+            "fillOpacity": 0,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "lineInterpolation": "linear",
+            "lineStyle": {
+              "fill": "solid"
+            },
+            "lineWidth": 1,
+            "pointSize": 5,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "auto",
+            "spanNulls": false,
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "mappings": [],
+          "min": 0,
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 9,
+        "w": 12,
+        "x": 0,
+        "y": 9
+      },
+      "id": 9,
+      "options": {
+        "legend": {
+          "calcs": [],
+          "displayMode": "list",
+          "placement": "bottom"
+        },
+        "tooltip": {
+          "mode": "multi",
+          "sort": "none"
+        }
+      },
+      "targets": [
+        {
+          "datasource": {
+            "type": "simpod-json-datasource",
+            "uid": "wW6tBwHVk"
+          },
+          "hide": false,
+          "payload": "{\n  \"fromDate\": $fromDate,\n  \"toDate\": $toDate,\n  \"zoneId\": $zoneId,\n  \"startHour\": $startHour,\n  \"endHour\": $endHour,\n  \"daysOfWeek\": $daysOfWeek,\n  \"timezone\": \"$timezone\",\n  \"severityType\": \"$severityType\"\n}",
+          "refId": "A",
+          "target": "all"
+        }
+      ],
+      "title": "Daily events count - Discontinuous",
+      "type": "timeseries"
+    },
+    {
+      "datasource": {
+        "type": "simpod-json-datasource",
+        "uid": "wW6tBwHVk"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "drawStyle": "points",
+            "fillOpacity": 0,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "lineInterpolation": "linear",
+            "lineWidth": 1,
+            "pointSize": 5,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "auto",
+            "spanNulls": false,
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "mappings": [],
+          "min": 0,
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 9,
+        "w": 12,
+        "x": 12,
+        "y": 9
+      },
+      "id": 10,
+      "options": {
+        "legend": {
+          "calcs": [],
+          "displayMode": "list",
+          "placement": "bottom"
+        },
+        "tooltip": {
+          "mode": "single",
+          "sort": "none"
+        }
+      },
+      "targets": [
+        {
+          "datasource": {
+            "type": "simpod-json-datasource",
+            "uid": "wW6tBwHVk"
+          },
+          "payload": "{\n  \"fromDate\": $fromDate,\n  \"toDate\": $toDate,\n  \"zoneId\": $zoneId,\n  \"startHour\": $startHour,\n  \"endHour\": $endHour,\n  \"daysOfWeek\": $daysOfWeek,\n  \"timezone\": \"$timezone\",\n  \"severityType\": \"$severityType\"\n}",
+          "refId": "A",
+          "target": "all"
+        }
+      ],
+      "title": "Daily events count - Rates - Discontinuous",
+      "type": "timeseries"
+    },
+    {
+      "datasource": {
+        "type": "simpod-json-datasource",
+        "uid": "wW6tBwHVk"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "axisSoftMin": 0,
+            "fillOpacity": 80,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "lineWidth": 1,
+            "scaleDistribution": {
+              "type": "linear"
+            }
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 9,
+        "w": 12,
+        "x": 0,
+        "y": 18
+      },
+      "id": 5,
+      "options": {
+        "barRadius": 0,
+        "barWidth": 0.97,
+        "groupWidth": 0.7,
+        "legend": {
+          "calcs": [],
+          "displayMode": "list",
+          "placement": "bottom"
+        },
+        "orientation": "auto",
+        "showValue": "auto",
+        "stacking": "none",
+        "tooltip": {
+          "mode": "single",
+          "sort": "none"
+        },
+        "xTickLabelRotation": 0,
+        "xTickLabelSpacing": 0
+      },
+      "targets": [
+        {
+          "datasource": {
+            "type": "simpod-json-datasource",
+            "uid": "wW6tBwHVk"
+          },
+          "payload": "{\n  \"fromDate\": $fromDate,\n  \"toDate\": $toDate,\n  \"zoneId\": $zoneId,\n  \"startHour\": $startHour,\n  \"endHour\": $endHour,\n  \"daysOfWeek\": $daysOfWeek,\n  \"timezone\": \"$timezone\",\n  \"severityType\": \"$severityType\"\n}",
+          "refId": "A",
+          "target": "all"
+        }
+      ],
+      "title": "Typical week",
+      "type": "barchart"
+    },
+    {
+      "datasource": {
+        "type": "simpod-json-datasource",
+        "uid": "wW6tBwHVk"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "axisSoftMin": 0,
+            "fillOpacity": 80,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "lineWidth": 1,
+            "scaleDistribution": {
+              "type": "linear"
+            }
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 9,
+        "w": 12,
+        "x": 12,
+        "y": 18
+      },
+      "id": 6,
+      "options": {
+        "barRadius": 0,
+        "barWidth": 0.97,
+        "groupWidth": 0.7,
+        "legend": {
+          "calcs": [],
+          "displayMode": "list",
+          "placement": "bottom"
+        },
+        "orientation": "auto",
+        "showValue": "auto",
+        "stacking": "none",
+        "tooltip": {
+          "mode": "single",
+          "sort": "none"
+        },
+        "xTickLabelRotation": 0,
+        "xTickLabelSpacing": 0
+      },
+      "targets": [
+        {
+          "datasource": {
+            "type": "simpod-json-datasource",
+            "uid": "wW6tBwHVk"
+          },
+          "payload": "{\n  \"fromDate\": $fromDate,\n  \"toDate\": $toDate,\n  \"zoneId\": $zoneId,\n  \"startHour\": $startHour,\n  \"endHour\": $endHour,\n  \"daysOfWeek\": $daysOfWeek,\n  \"timezone\": \"$timezone\",\n  \"severityType\": \"$severityType\"\n}",
+          "refId": "A",
+          "target": "all"
+        }
+      ],
+      "title": "Typical week - Rates",
+      "type": "barchart"
+    },
+    {
+      "datasource": {
+        "type": "simpod-json-datasource",
+        "uid": "wW6tBwHVk"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "custom": {
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "axisSoftMin": 0,
+            "fillOpacity": 80,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "lineWidth": 1,
+            "scaleDistribution": {
+              "type": "linear"
+            }
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 9,
+        "w": 12,
+        "x": 0,
+        "y": 27
+      },
+      "id": 8,
+      "options": {
+        "barRadius": 0,
+        "barWidth": 0.97,
+        "groupWidth": 0.7,
+        "legend": {
+          "calcs": [],
+          "displayMode": "list",
+          "placement": "bottom"
+        },
+        "orientation": "auto",
+        "showValue": "auto",
+        "stacking": "none",
+        "tooltip": {
+          "mode": "single",
+          "sort": "none"
+        },
+        "xTickLabelRotation": 0,
+        "xTickLabelSpacing": 0
+      },
+      "targets": [
+        {
+          "datasource": {
+            "type": "simpod-json-datasource",
+            "uid": "wW6tBwHVk"
+          },
+          "payload": "{\n  \"fromDate\": $fromDate,\n  \"toDate\": $toDate,\n  \"zoneId\": $zoneId,\n  \"startHour\": $startHour,\n  \"endHour\": $endHour,\n  \"daysOfWeek\": $daysOfWeek,\n  \"timezone\": \"$timezone\",\n  \"severityType\": \"$severityType\"\n}",
+          "refId": "A",
+          "target": "all"
+        }
+      ],
+      "title": "Typical day",
+      "type": "barchart"
+    },
+    {
+      "datasource": {
+        "type": "simpod-json-datasource",
+        "uid": "wW6tBwHVk"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "axisSoftMin": 0,
+            "fillOpacity": 80,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "lineWidth": 1,
+            "scaleDistribution": {
+              "type": "linear"
+            }
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 9,
+        "w": 12,
+        "x": 12,
+        "y": 27
+      },
+      "id": 7,
+      "options": {
+        "barRadius": 0,
+        "barWidth": 0.97,
+        "groupWidth": 0.7,
+        "legend": {
+          "calcs": [],
+          "displayMode": "list",
+          "placement": "bottom"
+        },
+        "orientation": "auto",
+        "showValue": "auto",
+        "stacking": "none",
+        "tooltip": {
+          "mode": "single",
+          "sort": "none"
+        },
+        "xTickLabelRotation": 0,
+        "xTickLabelSpacing": 0
+      },
+      "targets": [
+        {
+          "datasource": {
+            "type": "simpod-json-datasource",
+            "uid": "wW6tBwHVk"
+          },
+          "payload": "{\n  \"fromDate\": $fromDate,\n  \"toDate\": $toDate,\n  \"zoneId\": $zoneId,\n  \"startHour\": $startHour,\n  \"endHour\": $endHour,\n  \"daysOfWeek\": $daysOfWeek,\n  \"timezone\": \"$timezone\",\n  \"severityType\": \"$severityType\"\n}",
+          "refId": "A",
+          "target": "all"
+        }
+      ],
+      "title": "Typical day - Rates",
+      "type": "barchart"
+    },
+    {
+      "datasource": {
+        "type": "simpod-json-datasource",
+        "uid": "wW6tBwHVk"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "custom": {
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "axisSoftMin": 0,
+            "fillOpacity": 80,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "lineWidth": 1,
+            "scaleDistribution": {
+              "type": "linear"
+            }
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 9,
+        "w": 12,
+        "x": 0,
+        "y": 36
+      },
+      "id": 12,
+      "options": {
+        "barRadius": 0,
+        "barWidth": 0.97,
+        "groupWidth": 0.7,
+        "legend": {
+          "calcs": [],
+          "displayMode": "list",
+          "placement": "bottom"
+        },
+        "orientation": "auto",
+        "showValue": "auto",
+        "stacking": "none",
+        "tooltip": {
+          "mode": "single",
+          "sort": "none"
+        },
+        "xTickLabelRotation": 0,
+        "xTickLabelSpacing": 0
+      },
+      "targets": [
+        {
+          "datasource": {
+            "type": "simpod-json-datasource",
+            "uid": "wW6tBwHVk"
+          },
+          "payload": "{\n  \"fromDate\": $fromDate,\n  \"toDate\": $toDate,\n  \"zoneId\": $zoneId,\n  \"startHour\": $startHour,\n  \"endHour\": $endHour,\n  \"daysOfWeek\": $daysOfWeek,\n  \"timezone\": \"$timezone\",\n  \"severityType\": \"$severityType\"\n}",
+          "refId": "A",
+          "target": "all"
+        }
+      ],
+      "title": "Severity $severityType",
+      "type": "barchart"
+    }
+  ],
+  "refresh": false,
+  "schemaVersion": 36,
+  "style": "dark",
+  "tags": [],
+  "templating": {
+    "list": [
+      {
+        "current": {
+          "selected": true,
+          "text": "1666699200",
+          "value": "1666699200"
+        },
+        "hide": 0,
+        "name": "fromDate",
+        "options": [
+          {
             "selected": true,
             "text": "1666699200",
             "value": "1666699200"
-          },
-          "hide": 0,
-          "name": "dateFrom",
-          "options": [
-            {
-              "selected": true,
-              "text": "1666699200",
-              "value": "1666699200"
-            }
-          ],
-          "query": "1666699200",
-          "skipUrlSync": false,
-          "type": "textbox"
+          }
+        ],
+        "query": "1666699200",
+        "skipUrlSync": false,
+        "type": "textbox"
+      },
+      {
+        "current": {
+          "selected": true,
+          "text": "1666720800",
+          "value": "1666720800"
         },
-        {
-          "current": {
+        "hide": 0,
+        "name": "toDate",
+        "options": [
+          {
             "selected": true,
             "text": "1666720800",
             "value": "1666720800"
-          },
-          "hide": 0,
-          "name": "dateTo",
-          "options": [
-            {
-              "selected": true,
-              "text": "1666720800",
-              "value": "1666720800"
-            }
-          ],
-          "query": "1666720800",
-          "skipUrlSync": false,
-          "type": "textbox"
+          }
+        ],
+        "query": "1666720800",
+        "skipUrlSync": false,
+        "type": "textbox"
+      },
+      {
+        "current": {
+          "selected": true,
+          "text": "UTC",
+          "value": "UTC"
         },
-        {
-          "current": {
+        "hide": 0,
+        "name": "timezone",
+        "options": [
+          {
             "selected": true,
             "text": "UTC",
             "value": "UTC"
-          },
-          "hide": 0,
-          "name": "timezone",
-          "options": [
-            {
-              "selected": true,
-              "text": "UTC",
-              "value": "UTC"
-            }
-          ],
-          "query": "UTC",
-          "skipUrlSync": false,
-          "type": "textbox"
+          }
+        ],
+        "query": "UTC",
+        "skipUrlSync": false,
+        "type": "textbox"
+      },
+      {
+        "current": {
+          "selected": true,
+          "text": "1111",
+          "value": "1111"
         },
-        {
-          "current": {
+        "hide": 0,
+        "name": "zoneId",
+        "options": [
+          {
             "selected": true,
             "text": "1111",
             "value": "1111"
-          },
-          "hide": 0,
-          "name": "zoneId",
-          "options": [
-            {
-              "selected": true,
-              "text": "1111",
-              "value": "1111"
-            }
-          ],
-          "query": "1111",
-          "skipUrlSync": false,
-          "type": "textbox"
+          }
+        ],
+        "query": "1111",
+        "skipUrlSync": false,
+        "type": "textbox"
+      },
+      {
+        "current": {
+          "selected": false,
+          "text": "speed",
+          "value": "speed"
         },
-        {
-          "current": {
-            "selected": false,
+        "hide": 0,
+        "includeAll": false,
+        "multi": false,
+        "name": "severityType",
+        "options": [
+          {
+            "selected": true,
             "text": "speed",
             "value": "speed"
           },
-          "hide": 0,
-          "includeAll": false,
-          "multi": false,
-          "name": "severityType",
-          "options": [
-            {
-              "selected": true,
-              "text": "speed",
-              "value": "speed"
-            },
-            {
-              "selected": false,
-              "text": "pet",
-              "value": "pet"
-            },
-            {
-              "selected": false,
-              "text": "proximity",
-              "value": "proximity"
-            }
+          {
+            "selected": false,
+            "text": "pet",
+            "value": "pet"
+          },
+          {
+            "selected": false,
+            "text": "proximity",
+            "value": "proximity"
+          }
+        ],
+        "query": "speed,pet,proximity",
+        "queryValue": "",
+        "skipUrlSync": false,
+        "type": "custom"
+      },
+      {
+        "current": {
+          "selected": true,
+          "text": [
+            "0",
+            "1",
+            "2",
+            "3",
+            "4",
+            "5",
+            "6"
           ],
-          "query": "speed,pet,proximity",
-          "queryValue": "",
-          "skipUrlSync": false,
-          "type": "custom"
+          "value": [
+            "0",
+            "1",
+            "2",
+            "3",
+            "4",
+            "5",
+            "6"
+          ]
         },
-        {
-          "current": {
+        "hide": 0,
+        "includeAll": false,
+        "multi": true,
+        "name": "daysOfWeek",
+        "options": [
+          {
             "selected": true,
-            "text": [
-              "monday",
-              "tuesday",
-              "wednesday",
-              "thursday",
-              "friday",
-              "saturday",
-              "sunday"
-            ],
-            "value": [
-              "monday",
-              "tuesday",
-              "wednesday",
-              "thursday",
-              "friday",
-              "saturday",
-              "sunday"
-            ]
+            "text": "0",
+            "value": "0"
           },
-          "hide": 0,
-          "includeAll": false,
-          "multi": true,
-          "name": "dayOfWeek",
-          "options": [
-            {
-              "selected": true,
-              "text": "monday",
-              "value": "monday"
-            },
-            {
-              "selected": true,
-              "text": "tuesday",
-              "value": "tuesday"
-            },
-            {
-              "selected": true,
-              "text": "wednesday",
-              "value": "wednesday"
-            },
-            {
-              "selected": true,
-              "text": "thursday",
-              "value": "thursday"
-            },
-            {
-              "selected": true,
-              "text": "friday",
-              "value": "friday"
-            },
-            {
-              "selected": true,
-              "text": "saturday",
-              "value": "saturday"
-            },
-            {
-              "selected": true,
-              "text": "sunday",
-              "value": "sunday"
-            }
-          ],
-          "query": "monday,tuesday,wednesday,thursday,friday,saturday,sunday",
-          "queryValue": "",
-          "skipUrlSync": false,
-          "type": "custom"
+          {
+            "selected": true,
+            "text": "1",
+            "value": "1"
+          },
+          {
+            "selected": true,
+            "text": "2",
+            "value": "2"
+          },
+          {
+            "selected": true,
+            "text": "3",
+            "value": "3"
+          },
+          {
+            "selected": true,
+            "text": "4",
+            "value": "4"
+          },
+          {
+            "selected": true,
+            "text": "5",
+            "value": "5"
+          },
+          {
+            "selected": true,
+            "text": "6",
+            "value": "6"
+          }
+        ],
+        "query": "0,1,2,3,4,5,6",
+        "queryValue": "",
+        "skipUrlSync": false,
+        "type": "custom"
+      },
+      {
+        "current": {
+          "selected": true,
+          "text": "0",
+          "value": "0"
         },
-        {
-          "current": {
-            "selected": false,
-            "text": "00:00",
-            "value": "00:00"
-          },
-          "hide": 0,
-          "name": "startTime",
-          "options": [
-            {
-              "selected": true,
-              "text": "00:00",
-              "value": "00:00"
-            }
-          ],
-          "query": "00:00",
-          "skipUrlSync": false,
-          "type": "textbox"
+        "hide": 0,
+        "name": "startHour",
+        "options": [
+          {
+            "selected": true,
+            "text": "0",
+            "value": "0"
+          }
+        ],
+        "query": "0",
+        "skipUrlSync": false,
+        "type": "textbox"
+      },
+      {
+        "current": {
+          "selected": true,
+          "text": "0",
+          "value": "0"
         },
-        {
-          "current": {
-            "selected": false,
-            "text": "00:00",
-            "value": "00:00"
-          },
-          "hide": 0,
-          "name": "endTime",
-          "options": [
-            {
-              "selected": true,
-              "text": "00:00",
-              "value": "00:00"
-            }
-          ],
-          "query": "00:00",
-          "skipUrlSync": false,
-          "type": "textbox"
-        }
-      ]
-    },
-    "time": {
-      "from": "2022-10-25T09:35:48.000Z",
-      "to": "2022-10-25T17:44:45.000Z"
-    },
-    "timepicker": {
-      "hidden": false
-    },
-    "timezone": "utc",
-    "title": "Near Misses Supermario V1",
-    "uid": "xyNoawHVk",
-    "version": 47,
-    "weekStart": ""
-  }
+        "hide": 0,
+        "name": "endHour",
+        "options": [
+          {
+            "selected": true,
+            "text": "0",
+            "value": "0"
+          }
+        ],
+        "query": "0",
+        "skipUrlSync": false,
+        "type": "textbox"
+      }
+    ]
+  },
+  "time": {
+    "from": "2022-10-25T09:35:48.000Z",
+    "to": "2022-10-25T17:44:45.000Z"
+  },
+  "timepicker": {
+    "hidden": false
+  },
+  "timezone": "utc",
+  "title": "Near Misses Supermario V1",
+  "uid": "xyNoawHVk",
+  "version": 85,
+  "weekStart": ""
+}
