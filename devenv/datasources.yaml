@@ -318,7 +318,7 @@ datasources:
   - name: JSON API - Journey Times
     type: simpod-json-datasource
     editable: true
-    url: http://0.0.0.0:8000/grafana/journey_times
+    url: http://0.0.0.0:8080/grafana/journey_times
     uid: json-api-journey-times
     access: server
 
