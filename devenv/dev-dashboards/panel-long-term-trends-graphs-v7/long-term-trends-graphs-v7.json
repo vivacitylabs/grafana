@@ -1,0 +1,1532 @@
+{
+    "annotations": {
+      "list": [
+        {
+          "builtIn": 1,
+          "datasource": {
+            "type": "datasource",
+            "uid": "grafana"
+          },
+          "enable": true,
+          "hide": true,
+          "iconColor": "rgba(0, 211, 255, 1)",
+          "name": "Annotations & Alerts",
+          "target": {
+            "limit": 100,
+            "matchAny": false,
+            "tags": [],
+            "type": "dashboard"
+          },
+          "type": "dashboard"
+        }
+      ]
+    },
+    "editable": true,
+    "fiscalYearStartMonth": 0,
+    "graphTooltip": 0,
+    "iteration": 1666691895588,
+    "links": [],
+    "liveNow": false,
+    "panels": [
+      {
+        "datasource": {
+          "type": "simpod-json-datasource",
+          "uid": "json-api-long-term-trends"
+        },
+        "description": "View total counts by selected modes for a single countline over a long time period (up to one year). For periods over a month, counts will be aggregated per day. For shorter periods, counts can also be viewed per hour. ",
+        "fieldConfig": {
+          "defaults": {
+            "color": {
+              "fixedColor": "purple",
+              "mode": "palette-classic",
+              "seriesBy": "last"
+            },
+            "custom": {
+              "axisLabel": "",
+              "axisPlacement": "auto",
+              "barAlignment": 0,
+              "drawStyle": "line",
+              "fillOpacity": 0,
+              "gradientMode": "none",
+              "hideFrom": {
+                "legend": false,
+                "tooltip": false,
+                "viz": false
+              },
+              "lineInterpolation": "linear",
+              "lineWidth": 1,
+              "pointSize": 5,
+              "scaleDistribution": {
+                "type": "linear"
+              },
+              "showPoints": "auto",
+              "spanNulls": false,
+              "stacking": {
+                "group": "A",
+                "mode": "none"
+              },
+              "thresholdsStyle": {
+                "mode": "off"
+              }
+            },
+            "mappings": [],
+            "thresholds": {
+              "mode": "absolute",
+              "steps": [
+                {
+                  "color": "green",
+                  "value": null
+                },
+                {
+                  "color": "red",
+                  "value": 20
+                },
+                {
+                  "color": "#EAB839",
+                  "value": 90
+                }
+              ]
+            }
+          },
+          "overrides": [
+            {
+              "matcher": {
+                "id": "byName",
+                "options": "Car"
+              },
+              "properties": [
+                {
+                  "id": "color",
+                  "value": {
+                    "fixedColor": "#7cb342",
+                    "mode": "fixed"
+                  }
+                }
+              ]
+            },
+            {
+              "matcher": {
+                "id": "byName",
+                "options": "Pedestrian"
+              },
+              "properties": [
+                {
+                  "id": "color",
+                  "value": {
+                    "fixedColor": "#3949ab",
+                    "mode": "fixed"
+                  }
+                }
+              ]
+            },
+            {
+              "matcher": {
+                "id": "byName",
+                "options": "Cyclist"
+              },
+              "properties": [
+                {
+                  "id": "color",
+                  "value": {
+                    "fixedColor": "#039BE5",
+                    "mode": "fixed"
+                  }
+                }
+              ]
+            },
+            {
+              "matcher": {
+                "id": "byName",
+                "options": "Motorbike"
+              },
+              "properties": [
+                {
+                  "id": "color",
+                  "value": {
+                    "fixedColor": "#D81B60",
+                    "mode": "fixed"
+                  }
+                }
+              ]
+            },
+            {
+              "matcher": {
+                "id": "byName",
+                "options": "Bus"
+              },
+              "properties": [
+                {
+                  "id": "color",
+                  "value": {
+                    "fixedColor": "#FB8C00",
+                    "mode": "fixed"
+                  }
+                }
+              ]
+            },
+            {
+              "matcher": {
+                "id": "byName",
+                "options": "Rigid"
+              },
+              "properties": [
+                {
+                  "id": "color",
+                  "value": {
+                    "fixedColor": "#DF41F4",
+                    "mode": "fixed"
+                  }
+                }
+              ]
+            },
+            {
+              "matcher": {
+                "id": "byName",
+                "options": "Truck"
+              },
+              "properties": [
+                {
+                  "id": "color",
+                  "value": {
+                    "fixedColor": "#6D4C41",
+                    "mode": "fixed"
+                  }
+                }
+              ]
+            },
+            {
+              "matcher": {
+                "id": "byName",
+                "options": "Van"
+              },
+              "properties": [
+                {
+                  "id": "color",
+                  "value": {
+                    "fixedColor": "#FDD835",
+                    "mode": "fixed"
+                  }
+                }
+              ]
+            },
+            {
+              "matcher": {
+                "id": "byName",
+                "options": "Taxi"
+              },
+              "properties": [
+                {
+                  "id": "color",
+                  "value": {
+                    "fixedColor": "#70A13B",
+                    "mode": "fixed"
+                  }
+                }
+              ]
+            },
+            {
+              "matcher": {
+                "id": "byName",
+                "options": "Emergency Car"
+              },
+              "properties": [
+                {
+                  "id": "color",
+                  "value": {
+                    "fixedColor": "#FB8F23",
+                    "mode": "fixed"
+                  }
+                }
+              ]
+            },
+            {
+              "matcher": {
+                "id": "byName",
+                "options": "Minibus"
+              },
+              "properties": [
+                {
+                  "id": "color",
+                  "value": {
+                    "fixedColor": "#3949ab",
+                    "mode": "fixed"
+                  }
+                }
+              ]
+            },
+            {
+              "matcher": {
+                "id": "byName",
+                "options": "Fire Engine"
+              },
+              "properties": [
+                {
+                  "id": "color",
+                  "value": {
+                    "fixedColor": "#C93BDC",
+                    "mode": "fixed"
+                  }
+                }
+              ]
+            },
+            {
+              "matcher": {
+                "id": "byName",
+                "options": "Emergency Van"
+              },
+              "properties": [
+                {
+                  "id": "color",
+                  "value": {
+                    "fixedColor": "#E4C230",
+                    "mode": "fixed"
+                  }
+                }
+              ]
+            },
+            {
+              "matcher": {
+                "id": "byName",
+                "options": "Wheelchair"
+              },
+              "properties": [
+                {
+                  "id": "color",
+                  "value": {
+                    "fixedColor": "#33429A",
+                    "mode": "fixed"
+                  }
+                }
+              ]
+            },
+            {
+              "matcher": {
+                "id": "byName",
+                "options": "Mobility Scooter"
+              },
+              "properties": [
+                {
+                  "id": "color",
+                  "value": {
+                    "fixedColor": "#4D5BB3",
+                    "mode": "fixed"
+                  }
+                }
+              ]
+            },
+            {
+              "matcher": {
+                "id": "byName",
+                "options": "Pushchair"
+              },
+              "properties": [
+                {
+                  "id": "color",
+                  "value": {
+                    "fixedColor": "#2E3A89",
+                    "mode": "fixed"
+                  }
+                }
+              ]
+            },
+            {
+              "matcher": {
+                "id": "byName",
+                "options": "Jogger"
+              },
+              "properties": [
+                {
+                  "id": "color",
+                  "value": {
+                    "fixedColor": "#616DBC",
+                    "mode": "fixed"
+                  }
+                }
+              ]
+            },
+            {
+              "matcher": {
+                "id": "byName",
+                "options": "E-Scooter"
+              },
+              "properties": [
+                {
+                  "id": "color",
+                  "value": {
+                    "fixedColor": "#283378",
+                    "mode": "fixed"
+                  }
+                }
+              ]
+            },
+            {
+              "matcher": {
+                "id": "byName",
+                "options": "Rental Bike"
+              },
+              "properties": [
+                {
+                  "id": "color",
+                  "value": {
+                    "fixedColor": "#038CCE",
+                    "mode": "fixed"
+                  }
+                }
+              ]
+            },
+            {
+              "matcher": {
+                "id": "byName",
+                "options": "Cargo Bike"
+              },
+              "properties": [
+                {
+                  "id": "color",
+                  "value": {
+                    "fixedColor": "#1CA5E8",
+                    "mode": "fixed"
+                  }
+                }
+              ]
+            },
+            {
+              "matcher": {
+                "id": "byName",
+                "options": "Taxi Electric"
+              },
+              "properties": [
+                {
+                  "id": "color",
+                  "value": {
+                    "fixedColor": "#89BB55",
+                    "mode": "fixed"
+                  }
+                }
+              ]
+            },
+            {
+              "matcher": {
+                "id": "byName",
+                "options": "Taxi Other"
+              },
+              "properties": [
+                {
+                  "id": "color",
+                  "value": {
+                    "fixedColor": "#638F35",
+                    "mode": "fixed"
+                  }
+                }
+              ]
+            },
+            {
+              "matcher": {
+                "id": "byName",
+                "options": "Van Small"
+              },
+              "properties": [
+                {
+                  "id": "color",
+                  "value": {
+                    "fixedColor": "#FDDC49",
+                    "mode": "fixed"
+                  }
+                }
+              ]
+            },
+            {
+              "matcher": {
+                "id": "byName",
+                "options": "Van Luton"
+              },
+              "properties": [
+                {
+                  "id": "color",
+                  "value": {
+                    "fixedColor": "#CAAD2a",
+                    "mode": "fixed"
+                  }
+                }
+              ]
+            },
+            {
+              "matcher": {
+                "id": "byName",
+                "options": "Bus Coach"
+              },
+              "properties": [
+                {
+                  "id": "color",
+                  "value": {
+                    "fixedColor": "#FB981a",
+                    "mode": "fixed"
+                  }
+                }
+              ]
+            },
+            {
+              "matcher": {
+                "id": "byName",
+                "options": "Bus London"
+              },
+              "properties": [
+                {
+                  "id": "color",
+                  "value": {
+                    "fixedColor": "#C97000",
+                    "mode": "fixed"
+                  }
+                }
+              ]
+            },
+            {
+              "matcher": {
+                "id": "byName",
+                "options": "Towed Trailer"
+              },
+              "properties": [
+                {
+                  "id": "color",
+                  "value": {
+                    "fixedColor": "#96C268",
+                    "mode": "fixed"
+                  }
+                }
+              ]
+            },
+            {
+              "matcher": {
+                "id": "byName",
+                "options": "Tractor"
+              },
+              "properties": [
+                {
+                  "id": "color",
+                  "value": {
+                    "fixedColor": "#96C268",
+                    "mode": "fixed"
+                  }
+                }
+              ]
+            },
+            {
+              "matcher": {
+                "id": "byName",
+                "options": "Agriculture Vehicle"
+              },
+              "properties": [
+                {
+                  "id": "color",
+                  "value": {
+                    "fixedColor": "#B234C3",
+                    "mode": "fixed"
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        "gridPos": {
+          "h": 9,
+          "w": 11,
+          "x": 0,
+          "y": 0
+        },
+        "id": 4,
+        "options": {
+          "legend": {
+            "calcs": [],
+            "displayMode": "list",
+            "placement": "bottom"
+          },
+          "tooltip": {
+            "mode": "multi",
+            "sort": "none"
+          }
+        },
+        "targets": [
+          {
+            "datasource": {
+              "type": "simpod-json-datasource",
+              "uid": "json-api-long-term-trends"
+            },
+            "format": "time_series",
+            "group": [],
+            "hide": false,
+            "metricColumn": "none",
+            "payload": "{\n  \"fromTimestamp\": $dataFrom,\n  \"toTimestamp\": $dataTo,\n  \"antiClockwiseCountlines\": $anticlockwiseCountlines,\n  \"clockwiseCountlines\": $clockwiseCountlines,\n  \"classes\": $classes,\n  \"timeBucketHours\": $timeBucketHours,\n  \"timezone\": \"$timezone\",\n  \"countlineDirection\": \"$countlineDirection\",\n  \"shouldUseCollapsedClassNames\": false\n}",
+            "refId": "B",
+            "target": "all"
+          }
+        ],
+        "title": "Total counts",
+        "type": "timeseries"
+      },
+      {
+        "datasource": {
+          "type": "simpod-json-datasource",
+          "uid": "json-api-long-term-trends"
+        },
+        "description": "View total counts by selected modes for a single countline over a long time period (up to one year). For periods over a month, counts will be aggregated per day. For shorter periods, counts can also be viewed per hour. ",
+        "fieldConfig": {
+          "defaults": {
+            "color": {
+              "fixedColor": "purple",
+              "mode": "palette-classic",
+              "seriesBy": "last"
+            },
+            "custom": {
+              "axisLabel": "",
+              "axisPlacement": "auto",
+              "barAlignment": 0,
+              "drawStyle": "line",
+              "fillOpacity": 0,
+              "gradientMode": "none",
+              "hideFrom": {
+                "legend": false,
+                "tooltip": false,
+                "viz": false
+              },
+              "lineInterpolation": "linear",
+              "lineWidth": 1,
+              "pointSize": 5,
+              "scaleDistribution": {
+                "type": "linear"
+              },
+              "showPoints": "auto",
+              "spanNulls": false,
+              "stacking": {
+                "group": "A",
+                "mode": "none"
+              },
+              "thresholdsStyle": {
+                "mode": "off"
+              }
+            },
+            "mappings": [],
+            "thresholds": {
+              "mode": "absolute",
+              "steps": [
+                {
+                  "color": "green",
+                  "value": null
+                },
+                {
+                  "color": "red",
+                  "value": 20
+                },
+                {
+                  "color": "#EAB839",
+                  "value": 90
+                }
+              ]
+            }
+          },
+          "overrides": [
+            {
+              "matcher": {
+                "id": "byName",
+                "options": "Car"
+              },
+              "properties": [
+                {
+                  "id": "color",
+                  "value": {
+                    "fixedColor": "#7cb342",
+                    "mode": "fixed"
+                  }
+                }
+              ]
+            },
+            {
+              "matcher": {
+                "id": "byName",
+                "options": "Pedestrian"
+              },
+              "properties": [
+                {
+                  "id": "color",
+                  "value": {
+                    "fixedColor": "#3949ab",
+                    "mode": "fixed"
+                  }
+                }
+              ]
+            },
+            {
+              "matcher": {
+                "id": "byName",
+                "options": "Cyclist"
+              },
+              "properties": [
+                {
+                  "id": "color",
+                  "value": {
+                    "fixedColor": "#039be5",
+                    "mode": "fixed"
+                  }
+                }
+              ]
+            },
+            {
+              "matcher": {
+                "id": "byName",
+                "options": "Motorbike"
+              },
+              "properties": [
+                {
+                  "id": "color",
+                  "value": {
+                    "fixedColor": "#d81b60",
+                    "mode": "fixed"
+                  }
+                }
+              ]
+            },
+            {
+              "matcher": {
+                "id": "byName",
+                "options": "Bus"
+              },
+              "properties": [
+                {
+                  "id": "color",
+                  "value": {
+                    "fixedColor": "#fb8c00",
+                    "mode": "fixed"
+                  }
+                }
+              ]
+            },
+            {
+              "matcher": {
+                "id": "byName",
+                "options": "OGV1"
+              },
+              "properties": [
+                {
+                  "id": "color",
+                  "value": {
+                    "fixedColor": "#DF41F4",
+                    "mode": "fixed"
+                  }
+                }
+              ]
+            },
+            {
+              "matcher": {
+                "id": "byName",
+                "options": "OGV2"
+              },
+              "properties": [
+                {
+                  "id": "color",
+                  "value": {
+                    "fixedColor": "#6d4c41",
+                    "mode": "fixed"
+                  }
+                }
+              ]
+            },
+            {
+              "matcher": {
+                "id": "byName",
+                "options": "LGV"
+              },
+              "properties": [
+                {
+                  "id": "color",
+                  "value": {
+                    "fixedColor": "#fdd835",
+                    "mode": "fixed"
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        "gridPos": {
+          "h": 14,
+          "w": 12,
+          "x": 12,
+          "y": 0
+        },
+        "id": 6,
+        "options": {
+          "legend": {
+            "calcs": [],
+            "displayMode": "list",
+            "placement": "bottom"
+          },
+          "tooltip": {
+            "mode": "multi"
+          }
+        },
+        "targets": [
+          {
+            "datasource": {
+              "type": "simpod-json-datasource",
+              "uid": "json-api-long-term-trends"
+            },
+            "format": "time_series",
+            "group": [],
+            "hide": false,
+            "metricColumn": "none",
+            "payload": "{\n  \"fromTimestamp\": $dataFrom,\n  \"toTimestamp\": $dataTo,\n  \"antiClockwiseCountlines\": $anticlockwiseCountlines,\n  \"clockwiseCountlines\": $clockwiseCountlines,\n  \"classes\": $collapsedClasses,\n  \"timeBucketHours\": $timeBucketHours,\n  \"timezone\": \"$timezone\",\n  \"countlineDirection\": \"$countlineDirection\",\n  \"shouldUseCollapsedClassNames\": true\n}",
+            "refId": "B",
+            "target": "all"
+          }
+        ],
+        "title": "Total counts",
+        "type": "timeseries"
+      },
+      {
+        "datasource": {
+          "type": "simpod-json-datasource",
+          "uid": "json-api-long-term-trends"
+        },
+        "description": "View average counts per weekday for the selected time period. Includes all classes selected.",
+        "fieldConfig": {
+          "defaults": {
+            "color": {
+              "fixedColor": "purple",
+              "mode": "palette-classic",
+              "seriesBy": "last"
+            },
+            "custom": {
+              "axisLabel": "",
+              "axisPlacement": "auto",
+              "axisSoftMin": 0,
+              "fillOpacity": 80,
+              "gradientMode": "none",
+              "hideFrom": {
+                "legend": false,
+                "tooltip": false,
+                "viz": false
+              },
+              "lineWidth": 1
+            },
+            "mappings": [],
+            "thresholds": {
+              "mode": "absolute",
+              "steps": [
+                {
+                  "color": "green",
+                  "value": null
+                }
+              ]
+            }
+          },
+          "overrides": [
+            {
+              "matcher": {
+                "id": "byName",
+                "options": "bucket"
+              },
+              "properties": [
+                {
+                  "id": "mappings",
+                  "value": [
+                    {
+                      "options": {
+                        "friday": {
+                          "index": 4,
+                          "text": "Friday"
+                        },
+                        "monday": {
+                          "index": 0,
+                          "text": "Monday"
+                        },
+                        "saturday": {
+                          "index": 5,
+                          "text": "Saturday"
+                        },
+                        "sunday": {
+                          "index": 6,
+                          "text": "Sunday"
+                        },
+                        "thursday": {
+                          "index": 3,
+                          "text": "Thursday"
+                        },
+                        "tuesday": {
+                          "index": 1,
+                          "text": "Tuesday"
+                        },
+                        "wednesday": {
+                          "index": 2,
+                          "text": "Wednesday"
+                        }
+                      },
+                      "type": "value"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        "gridPos": {
+          "h": 8,
+          "w": 12,
+          "x": 0,
+          "y": 9
+        },
+        "id": 10,
+        "options": {
+          "barWidth": 0.97,
+          "groupWidth": 0.7,
+          "legend": {
+            "calcs": [],
+            "displayMode": "list",
+            "placement": "bottom"
+          },
+          "orientation": "auto",
+          "showValue": "auto",
+          "stacking": "none",
+          "text": {
+            "valueSize": 14
+          },
+          "tooltip": {
+            "mode": "single"
+          },
+          "xTickLabelRotation": 0
+        },
+        "targets": [
+          {
+            "datasource": {
+              "type": "simpod-json-datasource",
+              "uid": "json-api-long-term-trends"
+            },
+            "format": "table",
+            "group": [],
+            "hide": false,
+            "metricColumn": "none",
+            "payload": "{\n  \"fromTimestamp\": $dataFrom,\n  \"toTimestamp\": $dataTo,\n  \"antiClockwiseCountlines\": $anticlockwiseCountlines,\n  \"clockwiseCountlines\": $clockwiseCountlines,\n  \"classes\": $classes,\n  \"timeBucketHours\": $timeBucketHours,\n  \"timezone\": \"$timezone\",\n  \"countlineDirection\": \"$countlineDirection\",\n  \"shouldUseCollapsedClassNames\": false\n}",
+            "refId": "B",
+            "target": "all"
+          }
+        ],
+        "title": "Average counts per weekday",
+        "type": "barchart"
+      },
+      {
+        "datasource": {
+          "type": "simpod-json-datasource",
+          "uid": "json-api-long-term-trends"
+        },
+        "description": "View average counts per weekday for the selected time period. Includes all classes selected.",
+        "fieldConfig": {
+          "defaults": {
+            "color": {
+              "fixedColor": "purple",
+              "mode": "palette-classic",
+              "seriesBy": "last"
+            },
+            "custom": {
+              "axisLabel": "",
+              "axisPlacement": "auto",
+              "axisSoftMin": 0,
+              "fillOpacity": 80,
+              "gradientMode": "none",
+              "hideFrom": {
+                "legend": false,
+                "tooltip": false,
+                "viz": false
+              },
+              "lineWidth": 1
+            },
+            "mappings": [],
+            "thresholds": {
+              "mode": "absolute",
+              "steps": [
+                {
+                  "color": "green",
+                  "value": null
+                }
+              ]
+            }
+          },
+          "overrides": [
+            {
+              "matcher": {
+                "id": "byName",
+                "options": "bucket"
+              },
+              "properties": [
+                {
+                  "id": "mappings",
+                  "value": [
+                    {
+                      "options": {
+                        "friday": {
+                          "index": 4,
+                          "text": "Friday"
+                        },
+                        "monday": {
+                          "index": 0,
+                          "text": "Monday"
+                        },
+                        "saturday": {
+                          "index": 5,
+                          "text": "Saturday"
+                        },
+                        "sunday": {
+                          "index": 6,
+                          "text": "Sunday"
+                        },
+                        "thursday": {
+                          "index": 3,
+                          "text": "Thursday"
+                        },
+                        "tuesday": {
+                          "index": 1,
+                          "text": "Tuesday"
+                        },
+                        "wednesday": {
+                          "index": 2,
+                          "text": "Wednesday"
+                        }
+                      },
+                      "type": "value"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        "gridPos": {
+          "h": 8,
+          "w": 12,
+          "x": 12,
+          "y": 14
+        },
+        "id": 7,
+        "options": {
+          "barWidth": 0.97,
+          "groupWidth": 0.7,
+          "legend": {
+            "calcs": [],
+            "displayMode": "list",
+            "placement": "bottom"
+          },
+          "orientation": "auto",
+          "showValue": "auto",
+          "stacking": "none",
+          "text": {
+            "valueSize": 14
+          },
+          "tooltip": {
+            "mode": "single"
+          },
+          "xTickLabelRotation": 0
+        },
+        "targets": [
+          {
+            "datasource": {
+              "type": "simpod-json-datasource",
+              "uid": "json-api-long-term-trends"
+            },
+            "format": "table",
+            "group": [],
+            "hide": false,
+            "metricColumn": "none",
+            "payload": "{\n  \"fromTimestamp\": $dataFrom,\n  \"toTimestamp\": $dataTo,\n  \"antiClockwiseCountlines\": $anticlockwiseCountlines,\n  \"clockwiseCountlines\": $clockwiseCountlines,\n  \"classes\": $collapsedClasses,\n  \"timeBucketHours\": $timeBucketHours,\n  \"timezone\": \"$timezone\",\n  \"countlineDirection\": \"$countlineDirection\",\n  \"shouldUseCollapsedClassNames\": true\n}",
+            "refId": "B",
+            "target": "all"
+          }
+        ],
+        "title": "Average counts per weekday",
+        "type": "barchart"
+      },
+      {
+        "datasource": {
+          "type": "simpod-json-datasource",
+          "uid": "json-api-long-term-trends"
+        },
+        "description": "View average counts per hour on a day for the selected time period. Includes all classes selected.",
+        "fieldConfig": {
+          "defaults": {
+            "color": {
+              "mode": "thresholds"
+            },
+            "custom": {
+              "axisLabel": "",
+              "axisPlacement": "auto",
+              "axisSoftMin": 0,
+              "fillOpacity": 80,
+              "gradientMode": "none",
+              "hideFrom": {
+                "legend": false,
+                "tooltip": false,
+                "viz": false
+              },
+              "lineWidth": 1
+            },
+            "mappings": [],
+            "thresholds": {
+              "mode": "absolute",
+              "steps": [
+                {
+                  "color": "green",
+                  "value": null
+                }
+              ]
+            },
+            "unit": "none"
+          },
+          "overrides": []
+        },
+        "gridPos": {
+          "h": 8,
+          "w": 12,
+          "x": 0,
+          "y": 17
+        },
+        "id": 11,
+        "options": {
+          "barWidth": 0.97,
+          "groupWidth": 0.7,
+          "legend": {
+            "calcs": [],
+            "displayMode": "list",
+            "placement": "bottom"
+          },
+          "orientation": "auto",
+          "showValue": "auto",
+          "stacking": "none",
+          "text": {
+            "valueSize": 12
+          },
+          "tooltip": {
+            "mode": "single"
+          },
+          "xTickLabelRotation": 0
+        },
+        "pluginVersion": "8.4.0-pre",
+        "targets": [
+          {
+            "datasource": {
+              "type": "simpod-json-datasource",
+              "uid": "json-api-long-term-trends"
+            },
+            "format": "table",
+            "group": [],
+            "hide": false,
+            "metricColumn": "none",
+            "payload": "{\n  \"fromTimestamp\": $dataFrom,\n  \"toTimestamp\": $dataTo,\n  \"antiClockwiseCountlines\": $anticlockwiseCountlines,\n  \"clockwiseCountlines\": $clockwiseCountlines,\n  \"classes\": $classes,\n  \"timeBucketHours\": $timeBucketHours,\n  \"timezone\": \"$timezone\",\n  \"countlineDirection\": \"$countlineDirection\",\n  \"shouldUseCollapsedClassNames\": false\n}",
+            "refId": "B",
+            "target": "all"
+          }
+        ],
+        "title": "Average counts per hour",
+        "type": "barchart"
+      },
+      {
+        "datasource": {
+          "type": "simpod-json-datasource",
+          "uid": "json-api-long-term-trends"
+        },
+        "description": "View average counts per hour on a day for the selected time period. Includes all classes selected.",
+        "fieldConfig": {
+          "defaults": {
+            "color": {
+              "mode": "thresholds"
+            },
+            "custom": {
+              "axisLabel": "",
+              "axisPlacement": "auto",
+              "axisSoftMin": 0,
+              "fillOpacity": 80,
+              "gradientMode": "none",
+              "hideFrom": {
+                "legend": false,
+                "tooltip": false,
+                "viz": false
+              },
+              "lineWidth": 1
+            },
+            "mappings": [],
+            "thresholds": {
+              "mode": "absolute",
+              "steps": [
+                {
+                  "color": "green",
+                  "value": null
+                }
+              ]
+            },
+            "unit": "none"
+          },
+          "overrides": []
+        },
+        "gridPos": {
+          "h": 8,
+          "w": 12,
+          "x": 12,
+          "y": 22
+        },
+        "id": 9,
+        "options": {
+          "barWidth": 0.97,
+          "groupWidth": 0.7,
+          "legend": {
+            "calcs": [],
+            "displayMode": "list",
+            "placement": "bottom"
+          },
+          "orientation": "auto",
+          "showValue": "auto",
+          "stacking": "none",
+          "text": {
+            "valueSize": 12
+          },
+          "tooltip": {
+            "mode": "single"
+          },
+          "xTickLabelRotation": 0
+        },
+        "pluginVersion": "8.4.0-pre",
+        "targets": [
+          {
+            "datasource": {
+              "type": "simpod-json-datasource",
+              "uid": "json-api-long-term-trends"
+            },
+            "format": "table",
+            "group": [],
+            "hide": false,
+            "metricColumn": "none",
+            "payload": "{\n  \"fromTimestamp\": $dataFrom,\n  \"toTimestamp\": $dataTo,\n  \"antiClockwiseCountlines\": $anticlockwiseCountlines,\n  \"clockwiseCountlines\": $clockwiseCountlines,\n  \"classes\": $collapsedClasses,\n  \"timeBucketHours\": $timeBucketHours,\n  \"timezone\": \"$timezone\",\n  \"countlineDirection\": \"$countlineDirection\",\n  \"shouldUseCollapsedClassNames\": true\n}",
+            "refId": "B",
+            "target": "all"
+          }
+        ],
+        "title": "Average counts per hour",
+        "type": "barchart"
+      }
+    ],
+    "refresh": "",
+    "schemaVersion": 34,
+    "style": "dark",
+    "tags": [],
+    "templating": {
+      "list": [
+        {
+          "current": {
+            "selected": false,
+            "text": [
+              "40055"
+            ],
+            "value": [
+              "40055"
+            ]
+          },
+          "datasource": {
+            "type": "postgres",
+            "uid": "timescale-db-staging"
+          },
+          "definition": "SELECT id FROM countlines_image_space WHERE deleted_at IS NULL ORDER BY id;",
+          "hide": 0,
+          "includeAll": false,
+          "label": "",
+          "multi": true,
+          "name": "clockwiseCountlines",
+          "options": [],
+          "query": "SELECT id FROM countlines_image_space WHERE deleted_at IS NULL ORDER BY id;",
+          "refresh": 1,
+          "regex": "",
+          "skipUrlSync": false,
+          "sort": 0,
+          "type": "query"
+        },
+        {
+          "current": {
+            "selected": false,
+            "text": [
+              "40055"
+            ],
+            "value": [
+              "40055"
+            ]
+          },
+          "datasource": {
+            "type": "postgres",
+            "uid": "timescale-db-staging"
+          },
+          "definition": "SELECT id FROM countlines_image_space WHERE deleted_at IS NULL ORDER BY id;",
+          "hide": 0,
+          "includeAll": false,
+          "label": "",
+          "multi": true,
+          "name": "anticlockwiseCountlines",
+          "options": [],
+          "query": "SELECT id FROM countlines_image_space WHERE deleted_at IS NULL ORDER BY id;",
+          "refresh": 1,
+          "regex": "",
+          "skipUrlSync": false,
+          "sort": 0,
+          "type": "query"
+        },
+        {
+          "current": {
+            "selected": false,
+            "text": "1",
+            "value": "1"
+          },
+          "hide": 0,
+          "includeAll": false,
+          "label": "Time Bucket Hours",
+          "multi": false,
+          "name": "timeBucketHours",
+          "options": [
+            {
+              "selected": true,
+              "text": "1",
+              "value": "1"
+            },
+            {
+              "selected": false,
+              "text": "24",
+              "value": "24"
+            }
+          ],
+          "query": "1,24",
+          "queryValue": "",
+          "skipUrlSync": false,
+          "type": "custom"
+        },
+        {
+          "current": {
+            "selected": false,
+            "text": [
+              "pedestrian",
+              "cyclist",
+              "motorbike",
+              "car",
+              "taxi",
+              "van",
+              "minibus",
+              "bus",
+              "rigid",
+              "truck",
+              "emergency_car",
+              "emergency_van",
+              "fire_engine",
+              "wheelchair",
+              "mobility_scooter",
+              "pushchair",
+              "jogger",
+              "escooter",
+              "push_scooter",
+              "rental_bicycle",
+              "cargo_bicycle",
+              "electric_hackney_cab",
+              "other_taxis",
+              "small_van",
+              "luton_van",
+              "private_bus",
+              "london_bus",
+              "towed_trailer",
+              "tractor",
+              "agricultural_vehicle",
+              "horse",
+              "dog"
+            ],
+            "value": [
+              "pedestrian",
+              "cyclist",
+              "motorbike",
+              "car",
+              "taxi",
+              "van",
+              "minibus",
+              "bus",
+              "rigid",
+              "truck",
+              "emergency_car",
+              "emergency_van",
+              "fire_engine",
+              "wheelchair",
+              "mobility_scooter",
+              "pushchair",
+              "jogger",
+              "escooter",
+              "push_scooter",
+              "rental_bicycle",
+              "cargo_bicycle",
+              "electric_hackney_cab",
+              "other_taxis",
+              "small_van",
+              "luton_van",
+              "private_bus",
+              "london_bus",
+              "towed_trailer",
+              "tractor",
+              "agricultural_vehicle",
+              "horse",
+              "dog"
+            ]
+          },
+          "datasource": {
+            "type": "postgres",
+            "uid": "timescale-db-staging"
+          },
+          "definition": "SELECT class_name FROM detection_classes_v2 WHERE id <= 32 ORDER BY id ASC;",
+          "hide": 0,
+          "includeAll": false,
+          "label": "Classes",
+          "multi": true,
+          "name": "classes",
+          "options": [],
+          "query": "SELECT class_name FROM detection_classes_v2 WHERE id <= 32 ORDER BY id ASC;",
+          "refresh": 1,
+          "regex": "",
+          "skipUrlSync": false,
+          "sort": 0,
+          "type": "query"
+        },
+        {
+          "current": {
+            "selected": false,
+            "text": [
+              "LGV",
+              "OGV1",
+              "Pedestrian",
+              "Cyclist",
+              "Bus",
+              "Motorbike",
+              "Car",
+              "OGV2"
+            ],
+            "value": [
+              "LGV",
+              "OGV1",
+              "Pedestrian",
+              "Cyclist",
+              "Bus",
+              "Motorbike",
+              "Car",
+              "OGV2"
+            ]
+          },
+          "datasource": {
+            "type": "postgres",
+            "uid": "timescale-db-staging"
+          },
+          "definition": "SELECT traffic_8_collapsed_class_name FROM detection_classes_v2 WHERE traffic_8_collapsed_class_name IS NOT NULL GROUP BY traffic_8_collapsed_class_name",
+          "hide": 0,
+          "includeAll": false,
+          "multi": true,
+          "name": "collapsedClasses",
+          "options": [],
+          "query": "SELECT traffic_8_collapsed_class_name FROM detection_classes_v2 WHERE traffic_8_collapsed_class_name IS NOT NULL GROUP BY traffic_8_collapsed_class_name",
+          "refresh": 1,
+          "regex": "",
+          "skipUrlSync": false,
+          "sort": 0,
+          "type": "query"
+        },
+        {
+          "current": {
+            "selected": false,
+            "text": "BOTH",
+            "value": "BOTH"
+          },
+          "hide": 0,
+          "includeAll": false,
+          "multi": false,
+          "name": "countlineDirection",
+          "options": [
+            {
+              "selected": false,
+              "text": "TRUE",
+              "value": "TRUE"
+            },
+            {
+              "selected": false,
+              "text": "FALSE",
+              "value": "FALSE"
+            },
+            {
+              "selected": true,
+              "text": "BOTH",
+              "value": "BOTH"
+            }
+          ],
+          "query": "TRUE, FALSE, BOTH",
+          "queryValue": "",
+          "skipUrlSync": false,
+          "type": "custom"
+        },
+        {
+          "current": {
+            "selected": false,
+            "text": "1668252306",
+            "value": "1668252306"
+          },
+          "hide": 0,
+          "name": "dataFrom",
+          "options": [
+            {
+              "selected": false,
+              "text": "1668252306",
+              "value": "1668252306"
+            }
+          ],
+          "query": "1668252306",
+          "skipUrlSync": false,
+          "type": "textbox"
+        },
+        {
+          "current": {
+            "selected": false,
+            "text": "1668426087",
+            "value": "1668426087"
+          },
+          "hide": 0,
+          "name": "dataTo",
+          "options": [
+            {
+              "selected": false,
+              "text": "1668426087",
+              "value": "1668426087"
+            }
+          ],
+          "query": "1668426087",
+          "skipUrlSync": false,
+          "type": "textbox"
+        },
+        {
+          "current": {
+            "selected": true,
+            "text": "UTC",
+            "value": "UTC"
+          },
+          "hide": 0,
+          "name": "timezone",
+          "options": [
+            {
+              "selected": true,
+              "text": "UTC",
+              "value": "UTC"
+            }
+          ],
+          "query": "UTC",
+          "skipUrlSync": false,
+          "type": "textbox"
+        }
+      ]
+    },
+    "time": {
+      "from": "now-7d",
+      "to": "now"
+    },
+    "timepicker": {},
+    "timezone": "utc",
+    "title": "Long Term Trends Graphs V7",
+    "uid": "LongTermTrendsGraphsV7",
+    "version": 1,
+    "weekStart": ""
+  }

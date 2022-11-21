@@ -281,3 +281,23 @@ datasources:
     access: proxy
     url: http://loki:3100
     editable: false
+
+  - name: JSON API - Long term trends
+    type: simpod-json-datasource
+    editable: true
+    url: http://0.0.0.0:8080/grafana/counts
+    uid: json-api-long-term-trends
+    access: server
+
+  - name: Timescale DB Staging
+    type: postgres
+    uid: timescale-db-staging
+    url: data-pipeline-staging-vivacity-labs.a.timescaledb.io:18927
+    database: postgres
+    user: audacity_dashboard_viewer
+    secureJsonData:
+      password: nth2rlf6p4n61bi4
+    jsonData:
+      sslmode: "disable"
+    editable: true
+  
