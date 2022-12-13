@@ -24,7 +24,7 @@
   "editable": true,
   "fiscalYearStartMonth": 0,
   "graphTooltip": 0,
-  "iteration": 1667990193827,
+  "iteration": 1670931497410,
   "links": [],
   "liveNow": false,
   "panels": [
@@ -97,7 +97,7 @@
           "placement": "bottom"
         },
         "tooltip": {
-          "mode": "single",
+          "mode": "multi",
           "sort": "none"
         }
       },
@@ -107,7 +107,7 @@
             "type": "simpod-json-datasource",
             "uid": "json-api-journey-times"
           },
-          "payload": "{\n  \"timeBucketMinutes\":              $timeBucketMinutes,\n  \"timezone\":                       \"$timezone\",\n  \"shouldQueryExtendedClasses\":     $shouldQueryExtendedClasses,\n  \"fromTimestamp\":                  $fromTimestamp,\n  \"toTimestamp\":                    $toTimestamp,\n  \"classes\":                        $classes,\n  \"originCountlineId\":              $originCountlineId,\n  \"destinationCountlineId\":         $destinationCountlineId,\n  \"originCountlineClockwise\":       $originCountlineClockwise,\n  \"destinationCountlineClockwise\":  $destinationCountlineClockwise,\n  \"journeyLengthBucketMinutes\":            2\n}",
+          "payload": "{\n  \"timeBucketMinutes\":              $timeBucketMinutes,\n  \"timezone\":                       \"$timezone\",\n  \"shouldQueryExtendedClasses\":     \"$shouldQueryExtendedClasses\",\n  \"fromTimestamp\":                  $fromTimestamp,\n  \"toTimestamp\":                    $toTimestamp,\n  \"classes\":                        $classes,\n  \"originCountlineId\":              $originCountlineId,\n  \"destinationCountlineId\":         $destinationCountlineId,\n  \"originCountlineClockwise\":       $originCountlineClockwise,\n  \"destinationCountlineClockwise\":  $destinationCountlineClockwise\n}",
           "refId": "A",
           "target": "all"
         }
@@ -184,7 +184,7 @@
           "placement": "bottom"
         },
         "tooltip": {
-          "mode": "single",
+          "mode": "multi",
           "sort": "none"
         }
       },
@@ -194,12 +194,12 @@
             "type": "simpod-json-datasource",
             "uid": "json-api-journey-times"
           },
-          "payload": "{\n  \"timeBucketMinutes\":              $timeBucketMinutes,\n  \"timezone\":                       \"$timezone\",\n  \"shouldQueryExtendedClasses\":     $shouldQueryExtendedClasses,\n  \"fromTimestamp\":                  $fromTimestamp,\n  \"toTimestamp\":                    $toTimestamp,\n  \"classes\":                        $classes,\n  \"originCountlineId\":              $originCountlineId,\n  \"destinationCountlineId\":         $destinationCountlineId,\n  \"originCountlineClockwise\":       $originCountlineClockwise,\n  \"destinationCountlineClockwise\":  $destinationCountlineClockwise,\n  \"journeyLengthBucketMinutes\":            2\n}",
+          "payload": "{\n  \"timeBucketMinutes\":              $timeBucketMinutes,\n  \"timezone\":                       \"$timezone\",\n  \"shouldQueryExtendedClasses\":     \"$shouldQueryExtendedClasses\",\n  \"fromTimestamp\":                  $fromTimestamp,\n  \"toTimestamp\":                    $toTimestamp,\n  \"classes\":                        $classes,\n  \"originCountlineId\":              $originCountlineId,\n  \"destinationCountlineId\":         $destinationCountlineId,\n  \"originCountlineClockwise\":       $originCountlineClockwise,\n  \"destinationCountlineClockwise\":  $destinationCountlineClockwise\n}",
           "refId": "A",
           "target": "all"
         }
       ],
-      "title": "Journey times by timebucket",
+      "title": "Journey times in minutes by timebucket",
       "type": "timeseries"
     },
     {
@@ -236,7 +236,7 @@
             "type": "simpod-json-datasource",
             "uid": "json-api-journey-times"
           },
-          "payload": "{\n  \"timeBucketMinutes\":              15,\n  \"timezone\":                       \"$timezone\",\n  \"shouldQueryExtendedClasses\":     $shouldQueryExtendedClasses,\n  \"fromTimestamp\":                  $fromTimestamp,\n  \"toTimestamp\":                    $toTimestamp,\n  \"classes\":                        $classes,\n  \"originCountlineId\":              $originCountlineId,\n  \"destinationCountlineId\":         $destinationCountlineId,\n  \"originCountlineClockwise\":       $originCountlineClockwise,\n  \"destinationCountlineClockwise\":  $destinationCountlineClockwise,\n  \"journeyLengthBucketMinutes\":            2\n}",
+          "payload": "{\n  \"timeBucketMinutes\":              $timeBucketMinutes,\n  \"timezone\":                       \"$timezone\",\n  \"shouldQueryExtendedClasses\":     \"$shouldQueryExtendedClasses\",\n  \"fromTimestamp\":                  $fromTimestamp,\n  \"toTimestamp\":                    $toTimestamp,\n  \"classes\":                        $classes,\n  \"originCountlineId\":              $originCountlineId,\n  \"destinationCountlineId\":         $destinationCountlineId,\n  \"originCountlineClockwise\":       $originCountlineClockwise,\n  \"destinationCountlineClockwise\":  $destinationCountlineClockwise,\n  \"journeyLengthBucketMinutes\":     2\n}",
           "refId": "A",
           "target": "all"
         }
@@ -269,8 +269,8 @@
       {
         "current": {
           "selected": false,
-          "text": "60",
-          "value": "60"
+          "text": "15",
+          "value": "15"
         },
         "hide": 0,
         "includeAll": false,
@@ -278,7 +278,7 @@
         "name": "timeBucketMinutes",
         "options": [
           {
-            "selected": false,
+            "selected": true,
             "text": "15",
             "value": "15"
           },
@@ -288,7 +288,7 @@
             "value": "30"
           },
           {
-            "selected": true,
+            "selected": false,
             "text": "60",
             "value": "60"
           }
@@ -319,9 +319,9 @@
       },
       {
         "current": {
-          "selected": true,
-          "text": "true",
-          "value": "true"
+          "selected": false,
+          "text": "TRUE",
+          "value": "TRUE"
         },
         "hide": 0,
         "includeAll": false,
@@ -330,16 +330,16 @@
         "options": [
           {
             "selected": true,
-            "text": "true",
-            "value": "true"
+            "text": "TRUE",
+            "value": "TRUE"
           },
           {
             "selected": false,
-            "text": "false",
-            "value": "false"
+            "text": "FALSE",
+            "value": "FALSE"
           }
         ],
-        "query": "true, false",
+        "query": "TRUE,FALSE",
         "queryValue": "",
         "skipUrlSync": false,
         "type": "custom"
@@ -384,26 +384,12 @@
       },
       {
         "current": {
-          "selected": true,
+          "selected": false,
           "text": [
-            "pedestrian",
-            "bus",
-            "Pedestrian",
-            "car",
-            "rigid",
-            "taxi",
-            "minibus",
-            "van"
+            "car"
           ],
           "value": [
-            "pedestrian",
-            "bus",
-            "Pedestrian",
-            "car",
-            "rigid",
-            "taxi",
-            "minibus",
-            "van"
+            "car"
           ]
         },
         "hide": 0,
@@ -412,17 +398,17 @@
         "name": "classes",
         "options": [
           {
-            "selected": true,
+            "selected": false,
             "text": "pedestrian",
             "value": "pedestrian"
           },
           {
-            "selected": true,
+            "selected": false,
             "text": "bus",
             "value": "bus"
           },
           {
-            "selected": true,
+            "selected": false,
             "text": "Pedestrian",
             "value": "Pedestrian"
           },
@@ -432,22 +418,22 @@
             "value": "car"
           },
           {
-            "selected": true,
+            "selected": false,
             "text": "rigid",
             "value": "rigid"
           },
           {
-            "selected": true,
+            "selected": false,
             "text": "taxi",
             "value": "taxi"
           },
           {
-            "selected": true,
+            "selected": false,
             "text": "minibus",
             "value": "minibus"
           },
           {
-            "selected": true,
+            "selected": false,
             "text": "van",
             "value": "van"
           }
@@ -499,10 +485,10 @@
         "current": {
           "selected": false,
           "text": [
-            "false"
+            "TRUE"
           ],
           "value": [
-            "false"
+            "TRUE"
           ]
         },
         "hide": 0,
@@ -511,17 +497,17 @@
         "name": "originCountlineClockwise",
         "options": [
           {
-            "selected": false,
-            "text": "true",
-            "value": "true"
+            "selected": true,
+            "text": "TRUE",
+            "value": "TRUE"
           },
           {
-            "selected": true,
-            "text": "false",
-            "value": "false"
+            "selected": false,
+            "text": "FALSE",
+            "value": "FALSE"
           }
         ],
-        "query": "true, false",
+        "query": "TRUE,FALSE",
         "queryValue": "",
         "skipUrlSync": false,
         "type": "custom"
@@ -530,12 +516,12 @@
         "current": {
           "selected": false,
           "text": [
-            "false",
-            ""
+            "TRUE",
+            "FALSE"
           ],
           "value": [
-            "false",
-            ""
+            "TRUE",
+            "FALSE"
           ]
         },
         "hide": 0,
@@ -544,31 +530,69 @@
         "name": "destinationCountlineClockwise",
         "options": [
           {
-            "selected": false,
-            "text": "true",
-            "value": "true"
+            "selected": true,
+            "text": "TRUE",
+            "value": "TRUE"
           },
           {
             "selected": true,
-            "text": "false",
-            "value": "false"
+            "text": "FALSE",
+            "value": "FALSE"
           }
         ],
-        "query": "true, false",
+        "query": "TRUE,FALSE",
         "queryValue": "",
         "skipUrlSync": false,
         "type": "custom"
+      },
+      {
+        "current": {
+          "selected": true,
+          "text": "0",
+          "value": "0"
+        },
+        "hide": 0,
+        "name": "minJourneyLengthMinutes",
+        "options": [
+          {
+            "selected": true,
+            "text": "0",
+            "value": "0"
+          }
+        ],
+        "query": "0",
+        "skipUrlSync": false,
+        "type": "textbox"
+      },
+      {
+        "current": {
+          "selected": true,
+          "text": "20",
+          "value": "20"
+        },
+        "hide": 0,
+        "name": "maxJourneyLengthMinutes",
+        "options": [
+          {
+            "selected": true,
+            "text": "20",
+            "value": "20"
+          }
+        ],
+        "query": "20",
+        "skipUrlSync": false,
+        "type": "textbox"
       }
     ]
   },
   "time": {
-    "from": "2022-09-03T23:00:00.000Z",
-    "to": "2022-09-06T22:59:59.000Z"
+    "from": "2022-09-04T00:00:00.000Z",
+    "to": "2022-09-04T23:59:59.000Z"
   },
   "timepicker": {},
-  "timezone": "Europe/London",
+  "timezone": "utc",
   "title": "Journey Times V1",
   "uid": "7la_VgHVk",
-  "version": 16,
+  "version": 1,
   "weekStart": ""
 }

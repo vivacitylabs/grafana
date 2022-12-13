@@ -15,6 +15,7 @@ import { StoreState } from 'app/types';
 import { PANEL_BORDER } from 'app/core/constants';
 import { isSoloRoute } from '../../../routes/utils';
 import { getPanelStateForModel } from 'app/features/panel/state/selectors';
+import { getDashboardSrv } from 'app/features/dashboard/services/DashboardSrv';
 
 interface OwnProps {
   panel: PanelModel;
@@ -66,6 +67,12 @@ export class PanelChromeAngularUnconnected extends PureComponent<Props, State> {
         timeRange: getDefaultTimeRange(),
       },
     };
+
+    window.addEventListener('message', (event) => {
+      if (event.data.get('postVariablesIdentifier')) {
+        this.onRecieveVariables(event);
+      }
+    });
   }
 
   componentDidMount() {
@@ -133,6 +140,14 @@ export class PanelChromeAngularUnconnected extends PureComponent<Props, State> {
 
     const chromePadding = plugin.noPadding ? 0 : theme.panelPadding;
     return width - chromePadding * 2 - PANEL_BORDER;
+  }
+
+  onRecieveVariables(message: any) {
+    const newVariables = message.data;
+    if (newVariables.get('timeRange')) {
+      getTimeSrv().updateTimeRangeFromDashboard(newVariables);
+    }
+    getDashboardSrv().refreshVariables(newVariables);
   }
 
   loadAngularPanel() {
